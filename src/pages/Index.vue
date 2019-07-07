@@ -34,9 +34,9 @@
 </style>
 
 <script>
-import hentaigana from '../../../svg/hentaigana.json'
-import katakana from '../../../svg/katakana.json'
-import manyouganaKatakana from '../../../svg/manyougana-katakana.json'
+import hentaigana from '../statics/svg/hentaigana.json'
+import katakana from '../statics/svg/katakana.json'
+import manyouganaKatakana from '../statics/svg/manyougana-katakana.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 
 export default {
