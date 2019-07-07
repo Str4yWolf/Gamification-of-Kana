@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'KATAKANA LETTER WI' (U+30F0)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M264.375 314.7188 L179.4375 314.7188 L179.4375 398.8125 L153.5625 398.8125 L153.5625 314.7188 L23.9062 314.7188 L23.9062 289.9688 L57.9375 289.9688 L57.9375 230.3438 L35.1562 230.3438 L35.1562 204.4688 L153.5625 204.4688 L153.5625 160.0312 L179.4375 160.0312 L179.4375 204.4688 L247.3594 204.4688 L247.3594 230.3438 L179.4375 230.3438 L179.4375 289.9688 L264.375 289.9688 L264.375 314.7188 ZM153.5625 289.9688 L153.5625 230.3438 L83.8125 230.3438 L83.8125 289.9688 L153.5625 289.9688 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

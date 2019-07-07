@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="katakana_letter_wo.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!--Unicode Character 'KATAKANA LETTER WO' (U+30F2)-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g7"
+     transform="matrix(0.43515262,0,0,0.40867894,-10.915424,-66.149986)">
+    <g
+       id="g5">
+      <path
+         d="m 248.4844,226.9688 q 0,62.5781 -36.5625,107.5781 -36.5625,45 -100.125,66.6562 L 93.375,377.2969 q 55.9688,-17.5781 84.0938,-42.8907 28.125,-25.3124 38.25,-67.2187 H 40.3594 v -25.875 h 180.5625 q 1.4062,-9.2813 1.4062,-30.5156 0,-11.3907 -0.2812,-15.8907 H 35.4375 v -25.875 H 239.625 l 8.8594,7.7344 z"
+         id="path3"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'KATAKANA LETTER VO' (U+30FA)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M272.6719 181.125 L252.8438 189.4219 Q247.6406 165.6562 239.0625 150.8906 L260.0156 142.1719 Q268.0312 157.9219 272.6719 181.125 ZM240.75 192.6562 L220.9219 200.9531 Q215.5781 177.0469 207.1406 162.4219 L228.0938 153.7031 Q236.1094 169.4531 240.75 192.6562 ZM203.0625 233.2969 Q203.0625 271.6875 195.1172 299.7422 Q187.1719 327.7969 162.1406 355.5 Q137.1094 383.2031 94.5 401.4844 L76.6406 378.4219 Q119.3906 363.9375 144.9141 336.2344 Q170.4375 308.5312 174.7969 273.5156 L35.7188 273.5156 L35.7188 247.6406 L177.1875 247.6406 L177.1875 204.75 L30.7969 204.75 L30.7969 178.7344 L203.0625 178.7344 L203.0625 233.2969 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

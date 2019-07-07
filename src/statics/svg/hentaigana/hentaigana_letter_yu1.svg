@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="hentaigana_letter_yu1.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!--Unicode Character 'HENTAIGANA LETTER YU-1' (U+1B0E3)-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g7"
+     transform="matrix(0.44504066,0,0,0.43701061,-13.941786,-58.751112)">
+    <g
+       id="g5">
+      <path
+         d="m 112.7812,139.5 q 26.4376,6.4688 26.4376,19.125 v 0.5625 q -4.7813,21.9375 -5.0626,42.75 4.5,0 19.6876,-9.5625 h 1.125 q 7.3124,1.6875 7.3124,7.3125 0,8.1563 -28.6874,16.3125 -1.125,29.8125 -1.125,34.875 h 1.125 q 76.5,-79.3125 81.5624,-79.3125 3.0938,-0.5625 4.5,-0.5625 19.125,5.0625 19.125,15.1875 -3.375,10.4063 -28.6874,41.625 -6.75,6.4687 -6.75,11.25 0,4.2187 10.6874,18.5625 l 9,-0.5625 q 32.0626,2.5313 32.0626,15.75 0,3.6563 -5.0626,4.5 Q 228.6562,270 219.0938,270 v 0.5625 q 3.375,16.3125 3.375,25.3125 0,41.625 -22.5,55.6875 l -5.625,1.6875 q -8.7188,0 -19.125,-27.5625 -16.3126,-28.4063 -16.3126,-36 0,-18.8437 42.75,-29.8125 v -0.5625 q -6.75,-15.75 -6.75,-19.125 0,-3.375 15.75,-28.6875 10.125,-20.5312 10.125,-25.3125 v -0.5625 q 0,-3.0938 -2.8124,-4.5 h -2.25 q -6.4688,0 -55.125,55.6875 -28.125,30.9375 -28.125,33.75 V 290.25 q 0,24.75 1.6874,47.8125 0,10.125 -11.8124,15.1875 h -2.25 q -2.25,-0.5625 -9.5626,-21.9375 -6.4687,-11.5313 -13.5,-19.6875 -6.75,5.625 -9,5.625 -6.4687,0 -7.3124,-16.875 V 297 q 0,-16.3125 3.9374,-16.3125 1.9688,0 2.8126,-0.5625 0.2812,1.125 1.125,1.125 l -0.5626,1.125 v 6.1875 q 0,4.2187 1.6876,4.5 h 0.5624 q 5.3438,0 29.8126,-28.6875 0.5624,-37.4062 1.125,-47.25 -24.4688,0 -36,-15.1875 1.9687,-4.5 2.8124,-4.5 13.5,7.875 27,7.875 h 5.625 q 1.125,0 1.125,-1.125 1.125,-28.125 1.125,-42.1875 v -1.125 q 0,-8.7188 -14.0624,-16.3125 V 144 q 1.9687,-4.5 3.9374,-4.5 z m -66.9374,12.9375 q 25.3124,14.0625 25.3124,28.125 v 0.5625 q 0,6.1875 -18,58.5 -7.875,28.125 -7.875,47.8125 v 15.1875 q 0,6.1875 1.125,10.6875 h 0.5626 q 0.8437,-0.2813 6.1874,-19.125 9.8438,-24.4687 14.0626,-30.375 1.9687,0 4.5,4.5 Q 55.4062,308.25 55.4062,326.25 l 1.125,13.5 q 0,5.0625 -7.875,8.4375 h -0.5624 q -10.6876,0 -14.0626,-33.1875 -0.5624,-3.9375 -1.125,-16.3125 0,-34.875 20.8126,-109.125 0.5624,-2.8125 0.5624,-7.3125 v -5.0625 q 0,-8.7187 -12.375,-19.6875 v -0.5625 q 1.9688,-4.5 3.9376,-4.5 z m 123.75,139.5 v 3.375 q 0,8.7187 23.625,39.375 h 2.8124 q 12.375,-10.9687 12.375,-37.125 v -3.375 q 0,-11.8125 -2.8124,-22.5 -36,6.75 -36,20.25 z M 101.5312,306 q 16.5938,19.6875 17.4376,19.6875 h 0.5624 V 285.75 h -1.125 q -9,9 -16.875,20.25 z"
+         id="path3"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

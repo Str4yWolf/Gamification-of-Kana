@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'KATAKANA LETTER SMALL TU' (U+30C3)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M156.0938 254.5312 L132.4688 264.0938 Q124.3125 227.3906 108.2812 203.3438 L131.9062 194.9062 Q148.6406 227.25 156.0938 254.5312 ZM216.5625 201.2344 Q212.0625 320.625 100.5469 368.2969 L82.9688 346.6406 Q136.5469 327.0938 163.8984 290.6016 Q191.25 254.1094 191.25 206.7188 Q191.25 199.8281 190.9688 196.5938 L216.5625 201.2344 ZM105.4688 268.3125 L81.8438 277.3125 Q71.0156 238.9219 54.4219 216.8438 L78.3281 207.5625 Q99.4219 241.875 105.4688 268.3125 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

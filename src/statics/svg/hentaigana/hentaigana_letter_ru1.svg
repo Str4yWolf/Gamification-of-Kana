@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="hentaigana_letter_ru1.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!--Unicode Character 'HENTAIGANA LETTER RU-1' (U+1B0F8)-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g7"
+     transform="matrix(0.44966482,0,0,0.43709774,-14.819531,-58.348849)">
+    <g
+       id="g5">
+      <path
+         d="m 51.75,144 q 20.8125,14.3438 20.8125,25.3125 0,2.25 -15.1875,50.0625 -9.5625,34.3125 -9.5625,59.625 v 8.4375 q 1.125,25.875 3.9375,25.875 l 21.375,-43.875 h 0.5625 q 1.9687,0 4.5,4.5 Q 61.875,311.3438 61.875,343.125 59.0625,348.75 54,348.75 q -12.9375,0 -18,-61.3125 0,-1.125 -0.5625,-10.125 0,-21.6563 18.5625,-100.125 0.5625,-3.6563 0.5625,-7.875 v -3.375 q 0,-10.4063 -7.3125,-18 4.5,-3.6563 4.5,-3.9375 z m 129.9375,1.6875 q 4.5,0 27,20.25 8.4375,4.7813 8.4375,10.125 0,14.3437 -46.6875,24.75 -14.0625,0.8437 -14.0625,3.9375 -3.9375,19.4062 -3.9375,28.125 0,1.6875 3.375,3.375 11.25,-1.6875 15.75,-1.6875 19.4063,0 26.4375,23.625 2.25,9.2813 2.25,19.6875 V 279 q 0,50.625 -33.1875,65.25 l -10.6875,2.25 -1.125,-0.5625 h -1.6875 q -20.25,0 -38.25,-27.5625 H 114.75 q -12.375,6.1875 -20.25,6.1875 -10.125,0 -10.125,-12.9375 0,-12.375 20.8125,-25.3125 2.8125,2.25 2.8125,2.8125 -7.875,8.4375 -7.875,14.0625 v 0.5625 q 0,5.0625 6.75,5.0625 11.5312,-0.8437 32.625,-12.375 h 1.125 q 1.125,0 2.25,4.5 -20.25,13.5 -20.25,14.0625 v 0.5625 q 12.9375,19.125 26.4375,19.125 h 2.8125 q 22.5,0 30.9375,-37.125 1.125,-6.1875 1.125,-12.9375 v -3.9375 q 0,-37.125 -12.9375,-37.125 h -3.9375 q -4.7813,0 -18.5625,4.5 -10.125,-3.9375 -10.125,-13.5 v -1.125 q 0,-8.1563 5.0625,-30.9375 h -0.5625 q -19.9688,0 -38.25,-12.9375 2.5312,-5.625 3.375,-5.625 14.3438,6.1875 34.3125,6.1875 h 2.8125 q 1.4062,-1.4062 5.0625,-12.375 17.7187,-32.0625 31.5,-32.0625 z M 160.875,187.875 q 0.5625,1.125 0.5625,1.6875 41.0625,-3.6563 41.0625,-15.1875 -1.4062,-6.75 -14.0625,-16.875 -3.375,-1.125 -5.625,-1.125 -8.4375,0 -18,21.375 z m 57.9375,84.375 q 33.75,15.75 33.75,38.8125 -1.9687,11.8125 -9.5625,11.8125 -7.875,0 -10.6875,-23.625 -3.375,-11.5312 -16.875,-22.5 1.9687,-4.2188 3.375,-4.5 z"
+         id="path3"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

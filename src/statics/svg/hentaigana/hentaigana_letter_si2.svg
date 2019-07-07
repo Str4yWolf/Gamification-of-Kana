@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'HENTAIGANA LETTER SI-2' (U+1B045)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M133.0312 127.6875 Q160.0312 143.7188 160.0312 163.6875 Q160.0312 172.6875 145.9688 225.5625 Q140.3438 255.9375 140.3438 277.875 Q140.3438 314.7188 163.9688 361.6875 Q163.9688 362.5312 159.4688 365.0625 L158.9062 365.0625 Q124.0312 319.7812 124.0312 276.75 Q124.0312 261 140.3438 182.25 Q141.1875 182.25 142.0312 158.0625 Q142.0312 143.1562 129.0938 132.75 L129.0938 132.1875 Q131.0625 128.8125 133.0312 127.6875 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

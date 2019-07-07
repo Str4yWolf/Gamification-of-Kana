@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'KATAKANA LETTER SE' (U+30BB)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M262.6875 359.7188 L259.4531 387.2812 L118.4062 387.2812 Q107.5781 387.2812 100.4766 379.3359 Q93.375 371.3906 93.375 359.4375 L93.375 260.2969 L27.7031 266.3438 L25.0312 240.1875 L93.375 233.8594 L93.375 159.4688 L119.25 159.4688 L119.25 231.1875 L234.9844 220.2188 L254.25 232.5938 Q229.7812 274.7812 194.9062 322.4531 L170.4375 309.2344 Q199.9688 273.7969 215.4375 247.6406 L119.25 258.0469 L119.25 352.6875 Q119.25 361.6875 128.6719 361.6875 Q221.7656 361.6875 262.6875 359.7188 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

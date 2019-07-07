@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg35"
+   sodipodi:docname="katakana_letter_be.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata39">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview37"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="16.101695"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg35" />
+  <!--Unicode Character 'KATAKANA LETTER BE' (U+30D9)-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g33"
+     transform="matrix(0.39301604,0,0,0.42584865,-6.1149274,-72.236104)">
+    <g
+       id="g31">
+      <path
+         d="m 237.375,227.5312 -19.9688,8.2969 q -5.2031,-23.9062 -13.7812,-38.5312 l 20.9531,-8.7188 q 8.0157,15.75 12.7969,38.9531 z m 32.4844,130.9219 -18.1406,20.5313 q -34.1719,-23.9063 -67.1485,-58.9922 -32.9765,-35.086 -74.3203,-85.2891 -1.5469,-1.9687 -3.6562,-4.0781 -36.4219,63.7031 -69.1876,99.7031 L 16.4531,312.4688 Q 39.0938,290.25 66.7266,246.2344 94.3594,202.2188 95.625,198.4219 h 20.1094 q 86.9062,116.0156 154.125,160.0312 z m -64.5469,-119.3906 -19.8281,8.2969 q -5.3438,-23.9063 -13.7813,-38.6719 l 20.9531,-8.5781 q 8.0157,15.75 12.6563,38.9531 z"
+         id="path29"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

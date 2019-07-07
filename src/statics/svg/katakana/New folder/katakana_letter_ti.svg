@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'KATAKANA LETTER TI' (U+30C1)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M265.2188 269.0156 L163.5469 269.0156 Q163.5469 371.5312 84.375 401.4844 L62.1562 378.4219 Q100.5469 367.7344 118.6172 343.2656 Q136.6875 318.7969 137.1094 269.0156 L25.0312 269.0156 L25.0312 243 L137.3906 243 L137.3906 204.1875 Q100.125 211.3594 52.4531 212.7656 L40.6406 183.0938 Q52.3125 184.7812 67.6406 184.7812 Q101.6719 184.7812 145.4766 175.1484 Q189.2812 165.5156 208.2656 151.7344 L227.5312 173.6719 Q200.3906 189.1406 163.2656 198.1406 L163.2656 243 L265.2188 243 L265.2188 269.0156 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

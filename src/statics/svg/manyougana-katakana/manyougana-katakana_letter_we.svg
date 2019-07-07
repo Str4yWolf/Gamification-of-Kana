@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="manyougana-katakana_letter_we.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="101.5168"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!--U+6075-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g7"
+     transform="matrix(0.37697962,0,0,0.39124294,-3.4536321,-55.131572)">
+    <g
+       id="g5">
+      <path
+         d="M 269.0156,186.3281 H 156.375 v 9.9844 h 76.6406 v 94.7813 H 58.5 v -94.7813 h 75.9375 v -9.9844 H 22.2188 v -20.8125 h 112.2187 v -23.3437 h 21.9375 v 23.3437 h 112.6406 z m -58.7812,46.9688 V 217.125 H 156.375 v 16.1719 z m -75.7969,0 V 217.125 H 80.2969 v 16.1719 z m 75.7969,36.8437 V 253.9688 H 156.375 v 16.1718 z m -75.7969,0 V 253.9688 H 80.2969 v 16.1718 z m 51.6094,75.0938 -18.7031,12.6562 q -2.9532,-11.8125 -7.875,-20.3906 -4.9219,-8.5781 -33.0469,-32.4844 l 20.8125,-10.125 Q 180,319.7812 186.0469,345.2344 Z m 85.2187,9.5625 -18.1406,13.2187 q -28.6875,-43.1718 -55.2656,-55.8281 l 16.4531,-12.375 q 30.375,12.7969 56.9531,54.9844 z m -187.1718,-36 Q 81,337.5 65.1094,356.625 49.2188,375.75 30.5156,382.6406 L 13.5,365.2031 q 20.8125,-6.1875 35.7188,-22.9922 14.9062,-16.8047 17.0156,-38.1797 z m 129.375,33.3281 q -5.2032,27.4219 -12.5157,34.5938 -7.3125,7.1718 -21.5156,7.1718 H 118.125 q -5.9062,0 -15.1875,-7.4531 -9.2813,-7.4531 -9.2813,-26.7187 v -52.4532 h 22.6407 V 364.5 q 0,3.9375 2.9531,6.1875 2.9531,2.25 4.3594,2.25 h 56.6718 q 7.4532,-1.8281 9.3516,-13.6406 1.8984,-11.8125 3.0234,-15.75 z"
+         id="path3"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>
