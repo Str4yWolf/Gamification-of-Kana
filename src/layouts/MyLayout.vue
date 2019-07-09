@@ -13,13 +13,23 @@
             <q-item-label>{{ username }}</q-item-label>
             <q-item-label caption></q-item-label>
           </q-item-section>
+           <q-menu auto-close>
+          <q-list style="min-width: 100px">
+            <q-item clickable>
+              <q-item-section>Info</q-item-section>
+            </q-item>
+            <q-item clickable>
+              <q-item-section>Settings</q-item-section>
+            </q-item>
+            <q-item @click="signOut" clickable>
+              <q-item-section>Log Out</q-item-section>
+            </q-item>
+          </q-list>
+        </q-menu>
         </q-item>
-        <q-item v-if="!showAvatar">
-          <q-btn color="green" label="Sign In" @click="show('signIn')" />
-        </q-item>
-        <q-item v-if="!showAvatar">
-          <q-btn color="purple" label="Register" @click="show('register')" />
-        </q-item>
+        <q-btn v-if="!showAvatar" color="green" label="Sign In" @click="show('signIn')" />
+        &nbsp;
+        <q-btn v-if="!showAvatar" color="purple" label="Register" @click="show('register')" />
         <!-- <q-toolbar-title>
           Kana Sensei
         </q-toolbar-title> -->
@@ -49,6 +59,11 @@ export default {
       console.log('Called signIn')
       this.showAvatar = true
       this.username = name
+    },
+    signOut: function (name) {
+      console.log('Called signOut')
+      this.showAvatar = false
+      this.username = ''
     },
     show: function (item) {
       console.log('Called show ' + item + ' from Layout')

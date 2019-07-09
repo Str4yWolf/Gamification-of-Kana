@@ -1,8 +1,18 @@
 <template>
   <q-page class="flex flex-center">
     <q-card class="signup">
+      <strong style="font-size: 100%;">Registration</strong>
       <p>
-      <q-input v-model="username" label="Your Name" />
+      <q-input v-model="username" label="Your Name">
+        <template v-slot:append>
+          <q-icon name="info" color="red">
+            <q-tooltip style="font-size: 200%;">
+              Upon registration, you will be able to save and track your progress. <br />
+              You can change your name or delete your account at any time.
+            </q-tooltip>
+          </q-icon>
+        </template>
+      </q-input>
       <br />
       <q-btn id="signup-enter" color="primary" label="Enter" @click="validateSignup()"/> &nbsp;
       <q-btn color="white" text-color="black" label="Cancel" @click="cancelSignup()"/>
