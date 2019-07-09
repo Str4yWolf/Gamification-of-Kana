@@ -1,7 +1,6 @@
 <template>
   <q-card>
   <div class="character-flashcard">
-    <!-- <object class="character-flashcard-character" type="image/svg+xml" v-bind:data="this.path"></object> -->
       <img id="character-flashcard-image" v-bind:src="this.currentImage" class="center"/>
       <q-btn id="test" color="primary" label="Test" @click="status" class="character-flashcard-btn" />
   </div>
@@ -16,7 +15,6 @@ export default {
       currentImage: ''
     }
   },
-  props: { 'path': String },
   created () {
     // listen to event calls from elsewhere
     this.$root.$on('updateView', this.updateView)

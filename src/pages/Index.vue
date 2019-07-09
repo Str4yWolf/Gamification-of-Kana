@@ -45,7 +45,7 @@ export default {
     CharacterFlashcard
   },
   created () {
-    this.$root.$on('showSignIn', this.showSignIn)
+    this.$root.$on('show', this.show)
   },
   data () {
     return {
@@ -60,8 +60,15 @@ export default {
     }
   },
   methods: {
-    showSignIn () {
-      this.signupVisible = true
+    show (item) {
+      console.log('showing ' + item)
+      if (item === 'signIn') {
+        // this.signupVisible = true
+        this.$router.push('/Register/')
+      } else if (item === 'register') {
+        // this.signupVisible = true
+        this.$router.push('/Register/')
+      }
     },
     validateSignup () {
       console.log('Logging validated signup: \'' + this.username + '\'')

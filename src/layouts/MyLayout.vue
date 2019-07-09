@@ -15,7 +15,10 @@
           </q-item-section>
         </q-item>
         <q-item v-if="!showAvatar">
-          <q-btn color="green" label="Sign In" @click="showSignIn()" />
+          <q-btn color="green" label="Sign In" @click="show('signIn')" />
+        </q-item>
+        <q-item v-if="!showAvatar">
+          <q-btn color="purple" label="Register" @click="show('register')" />
         </q-item>
         <!-- <q-toolbar-title>
           Kana Sensei
@@ -47,9 +50,9 @@ export default {
       this.showAvatar = true
       this.username = name
     },
-    showSignIn: function () {
-      console.log('Called showSignIn from Layout')
-      this.$root.$emit('showSignIn')
+    show: function (item) {
+      console.log('Called show ' + item + ' from Layout')
+      this.$root.$emit('show', item)
     }
   }
 }
