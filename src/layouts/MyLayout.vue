@@ -27,7 +27,9 @@
           </q-list>
         </q-menu>
         </q-item>
-        <q-btn v-if="!showAvatar" color="green" label="Sign In" @click="show('signIn')" />
+        <q-btn v-if="!showAvatar" color="green" label="Sign In" @click="unhideSignIn()" />
+        <q-input v-if="showSignIn" v-model="username" color="white" filled />
+        <q-btn v-if="showSignIn" @click="signIn()" label="Go" />
         &nbsp;
         <q-btn v-if="!showAvatar" color="purple" label="Register" @click="show('register')" />
         <!-- <q-toolbar-title>
@@ -51,14 +53,16 @@ export default {
   data () {
     return {
       showAvatar: false,
+      showSignIn: false,
       username: ''
     }
   },
   methods: {
-    signIn: function (name) {
+    signIn: function () {
       console.log('Called signIn')
       this.showAvatar = true
-      this.username = name
+      this.showSignIn = false
+      this.$router.push('../')
     },
     signOut: function (name) {
       console.log('Called signOut')
@@ -68,6 +72,9 @@ export default {
     show: function (item) {
       console.log('Called show ' + item + ' from Layout')
       this.$root.$emit('show', item)
+    },
+    unhideSignIn: function () {
+      this.showSignIn = true
     }
   }
 }
