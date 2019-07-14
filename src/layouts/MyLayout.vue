@@ -1,7 +1,9 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
+      <!-- info display at top -->
       <q-toolbar>
+        <!-- avatar -->
         <q-item v-if="showAvatar">
           <q-item-section side>
             <q-avatar square color="red" text-color="white" >
@@ -13,25 +15,30 @@
             <q-item-label>{{ username }}</q-item-label>
             <q-item-label caption></q-item-label>
           </q-item-section>
-           <q-menu auto-close>
-          <q-list style="min-width: 100px">
-            <q-item clickable>
-              <q-item-section>Info</q-item-section>
-            </q-item>
-            <q-item clickable>
-              <q-item-section>Settings</q-item-section>
-            </q-item>
-            <q-item @click="signOut" clickable>
-              <q-item-section>Log Out</q-item-section>
-            </q-item>
-          </q-list>
-        </q-menu>
+          <q-menu auto-close>
+            <q-list style="min-width: 100px">
+              <q-item @click="pushInformation()" clickable>
+                <q-item-section>Info</q-item-section>
+              </q-item>
+              <q-item @click="pushSettings()" clickable>
+                <q-item-section>Settings</q-item-section>
+              </q-item>
+              <q-item @click="logOut()" clickable>
+                <q-item-section>Log Out</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
         </q-item>
-        <q-btn v-if="!showAvatar" color="green" label="Sign In" @click="unhideSignIn()" />
-        <q-input v-if="showSignIn" v-model="username" color="white" filled />
-        <q-btn v-if="showSignIn" @click="signIn()" label="Go" />
+        <!-- sign in button -->
+        <q-btn v-if="showSignInBtn" color="green" label="Sign In" @click="unhideSignInField()" />
+        <!-- sign in field -->
+        <span>
+          <q-input v-if="showSignInField" v-model="username" color="white" filled />
+          <q-btn v-if="showSignInField" @click="signIn()" label="Go" />
+        </span>
         &nbsp;
-        <q-btn v-if="!showAvatar" color="purple" label="Register" @click="show('register')" />
+        <!-- register button -->
+        <q-btn v-if="showRegisterBtn" color="purple" label="Register" @click="pushRegister()" />
         <!-- <q-toolbar-title>
           Kana Sensei
         </q-toolbar-title> -->
@@ -48,34 +55,62 @@ export default {
   name: 'MyLayout',
   created () {
     // listen to event calls from elsewhere
-    this.$root.$on('signIn', this.signIn)
+    this.$root.$on('registerSignIn', this.registerSignIn)
   },
   data () {
     return {
       showAvatar: false,
-      showSignIn: false,
+      showSignInBtn: true,
+      showRegisterBtn: true,
+      showSignInField: false,
       username: ''
     }
   },
   methods: {
-    signIn: function () {
-      console.log('Called signIn')
-      this.showAvatar = true
-      this.showSignIn = false
-      this.$router.push('../')
+    unhideSignInField () {
+      console.log('Called showSignInField from Layout')
+      this.showSignInBtn = false
+      this.showSignInField = true
     },
-    signOut: function (name) {
-      console.log('Called signOut')
+    signIn () {
+      console.log('Called signIn from Layout')
+      this.showAvatar = true
+      this.showSignInField = false
+      this.showRegisterBtn = false
+    },
+    registerSignIn (name) {
+      console.log('Called registerSignIn from Layout')
+      this.showAvatar = true
+      this.showSignInBtn = false
+      this.showSignInField = false
+      this.showRegisterBtn = false
+      this.username = name
+    },
+    logOut () {
+      console.log('Called logOut')
       this.showAvatar = false
+      this.showSignInBtn = true
+      this.showRegisterBtn = true
       this.username = ''
     },
-    show: function (item) {
-      console.log('Called show ' + item + ' from Layout')
-      this.$root.$emit('show', item)
+    // A bunch of one-liner router pushers because generic method has no reactive router
+    pushRegister () {
+      console.log('Called pushRegister() from Layout')
+      this.$router.push('/Register/')
     },
-    unhideSignIn: function () {
-      this.showSignIn = true
+    pushInformation () {
+      console.log('Called pushInformation() from Layout')
+      this.$router.push('/Information/')
+    },
+    pushSettings () {
+      console.log('Called pushSettings() from Layout')
+      this.$router.push('/Settings/')
     }
+    /**
+    openPage: function (url) {
+      this.$root.$emit('openPage', url)
+    }
+    **/
   }
 }
 </script>

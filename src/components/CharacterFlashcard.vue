@@ -2,7 +2,6 @@
   <q-card>
   <div class="character-flashcard">
       <img id="character-flashcard-image" v-bind:src="this.currentImage" class="center"/>
-      <q-btn id="test" color="primary" label="Test" @click="status" class="character-flashcard-btn" />
   </div>
   </q-card>
 </template>
@@ -20,9 +19,6 @@ export default {
     this.$root.$on('updateView', this.updateView)
   },
   methods: {
-    status: function () {
-      alert('hi')
-    },
     updateView: function (image) {
       document.getElementById('character-flashcard-image').src = image
     }
