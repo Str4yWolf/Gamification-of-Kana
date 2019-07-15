@@ -32,10 +32,11 @@
         <!-- sign in button -->
         <q-btn v-if="showSignInBtn" color="green" label="Sign In" @click="unhideSignInField()" />
         <!-- sign in field -->
-        <span>
-          <q-input v-if="showSignInField" v-model="username" color="white" filled />
-          <q-btn v-if="showSignInField" @click="signIn()" label="Go" />
-        </span>
+        <q-input v-if="showSignInField" v-model="username" color="white" filled>
+          <template v-slot:append>
+            <q-btn round dense flat icon="send" @click="signIn()" />
+          </template>
+        </q-input>
         &nbsp;
         <!-- register button -->
         <q-btn v-if="showRegisterBtn" color="purple" label="Register" @click="pushRegister()" />
@@ -77,6 +78,7 @@ export default {
       this.showAvatar = true
       this.showSignInField = false
       this.showRegisterBtn = false
+      this.$router.push('/')
     },
     registerSignIn (name) {
       console.log('Called registerSignIn from Layout')
