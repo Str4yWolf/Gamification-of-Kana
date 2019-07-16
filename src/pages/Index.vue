@@ -2,9 +2,9 @@
   <q-page class="flex flex-center">
     <q-card style="padding: 15px;">
       <!-- logging some information -->
-      <q-label>
+      <q-item-label>
         Showing Script{{ this.flipped + 1 }}
-      </q-label>
+      </q-item-label>
       <!-- script display graphics -->
       <character-flashcard path="this.currentLetters1[0]">
       </character-flashcard>

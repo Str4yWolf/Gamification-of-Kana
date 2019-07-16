@@ -57,6 +57,8 @@ export default {
   created () {
     // listen to event calls from elsewhere
     this.$root.$on('registerSignIn', this.registerSignIn)
+    this.$root.$on('changeName', this.changeName)
+    this.$root.$on('logOut', this.logOut)
   },
   data () {
     return {
@@ -99,6 +101,11 @@ export default {
       this.showSignInBtn = true
       this.showRegisterBtn = true
       this.username = ''
+      this.$router.push('/')
+    },
+    changeName (name) {
+      console.log('Called changeName(' + name + ') from Layout')
+      this.username = name
     },
     // A bunch of one-liner router pushers because generic method has no reactive router
     pushRegister () {

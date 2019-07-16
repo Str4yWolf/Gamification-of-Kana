@@ -1,11 +1,47 @@
 <template>
-  <q-page padding>
-    <div>
-      Change name
-      <q-input v-model="username" label="Change name" @click="emit" />
-      <q-btn color="primary" label="Reset Account" @click="resetAccount"/>
-      <q-btn color="primary" label="Delete Account" @click="deleteAccount" />
-    </div>
+  <q-page class="flex flex-center">
+    <q-card style="width: 300px; padding: 30px;">
+      <!-- header -->
+      <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
+      &nbsp;
+      <strong style="font-size: 120%;">Settings</strong>
+      <!-- content -->
+      <q-item-section>
+        <!-- change name -->
+        <q-input v-model="username" label="Change name" v-on:keyup.enter="changeName()" style="margin: 2px;">
+          <template v-slot:append>
+            <q-btn round dense flat icon="send" @click="changeName()" />
+          </template>
+        </q-input>
+        <!-- reset account -->
+        <span class="row">
+          <span>
+            <q-btn color="primary" label="Reset Account" @click="resetAccount" style="margin: 2px; width:200px;" />
+          </span>
+          <span>
+            <q-icon name="info" color="red" style="left:9px; top:7px;">
+              <q-tooltip style="font-size: 200%;">
+                Resets your level, achievements, progress tracking, and preferences.
+              </q-tooltip>
+            </q-icon>
+          </span>
+        </span>
+        <!-- delete account -->
+        <span class="row">
+          <span>
+            <q-btn color="primary" label="Delete Account" @click="deleteAccount" style="margin: 2px; width:200px;" />
+          </span>
+          <span>
+            <q-icon name="info" color="red" style="left:9px; top:7px;">
+              <q-tooltip style="font-size: 200%;">
+                Permanently removes your account and associated data from the database. <br />
+                Your username will become available for registration again.
+              </q-tooltip>
+            </q-icon>
+          </span>
+        </span>
+      </q-item-section>
+    </q-card>
   </q-page>
 </template>
 
@@ -18,19 +54,30 @@ export default {
     }
   },
   methods: {
+    changeName () {
+      console.log('Emitted changeName() from Settings')
+      this.$root.$emit('changeName', this.username)
+    },
     resetAccount () {
-      // confirm thingy
-      var confirmation = 0
+      console.log('Called resetAccount() from Settings')
+      var confirmation = confirm('Are you sure you want to reset your account? It cannot be undone!')
       if (confirmation) {
-        // code to reset your progress
+        // reset stuff in DB
+        console.log('resetAccount confirmed')
       }
     },
-    delecteAccount () {
-      // confirm thingy
-      var confirmation = 0
+    deleteAccount () {
+      console.log('Called deleteAccount() from Settings')
+      var confirmation = confirm('Are you sure you want to delete your account? It cannot be undone!')
       if (confirmation) {
-        // code to reset your progress
+        // reset stuff in DB
+        console.log('deleteAccount confirmed')
+        this.$root.$emit('logOut')
       }
+    },
+    goUp () {
+      console.log('called goUp() from Settings')
+      this.$router.push('/')
     }
   }
 }
