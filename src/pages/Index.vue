@@ -1,18 +1,22 @@
 <template>
   <q-page class="flex flex-center">
-    <!-- script display data -->
-    <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script1" />
-    <q-select v-model="script2" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script2" />
-    <q-input v-model="letter" @input="updateFlashcard()" label="Current Letter" />
-    <q-btn class="top-left" id="flip" color="primary" label="Flip" @click="flipCard()" />
-    <!-- script display graphics -->
-    <character-flashcard path="this.currentLetters1[0]">
-    </character-flashcard>
-    <!-- logging some information -->
-    <q-card>
-      Showing Script {{ this.flipped + 1 }}
-      <q-tab-panel>
-      </q-tab-panel>
+    <q-card style="padding: 15px;">
+      <!-- logging some information -->
+      <q-label>
+        Showing Script{{ this.flipped + 1 }}
+      </q-label>
+      <!-- script display graphics -->
+      <character-flashcard path="this.currentLetters1[0]">
+      </character-flashcard>
+      <!-- script display data -->
+      <q-item-section v-on:keyup.enter="flipCard()">
+        <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script1" />
+        <q-select v-model="script2" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script2" />
+      </q-item-section>
+      <q-item-section>
+        <q-input v-model="letter" @input="updateFlashcard()" v-on:keyup.enter="flipCard()" label="Current Letter" />
+        <q-btn class="top-left" id="flip" style="margin: 5px 0px 5px 0px;" color="primary" label="Flip" @click="flipCard()" />
+      </q-item-section>
     </q-card>
   </q-page>
 </template>

@@ -38,7 +38,7 @@ div .character-flashcard {
   height: 50%;
   position: relative;
   top: 42px;
-  left: 5px;
+  left: 17px;
 }
 .character-flashcard-btn {
   position: relative;

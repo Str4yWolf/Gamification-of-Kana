@@ -32,7 +32,7 @@
         <!-- sign in button -->
         <q-btn v-if="showSignInBtn" color="green" label="Sign In" @click="unhideSignInField()" />
         <!-- sign in field -->
-        <q-input v-if="showSignInField" v-model="username" color="white" filled>
+        <q-input v-if="showSignInField" v-model="username" color="white" @blur="hideSignInField()" v-on:keyup.enter="signIn()" filled>
           <template v-slot:append>
             <q-btn round dense flat icon="send" @click="signIn()" />
           </template>
@@ -69,9 +69,14 @@ export default {
   },
   methods: {
     unhideSignInField () {
-      console.log('Called showSignInField from Layout')
+      console.log('Called unhideSignInField from Layout')
       this.showSignInBtn = false
       this.showSignInField = true
+    },
+    hideSignInField () {
+      console.log('Called hideSignInField from Layout')
+      this.showSignInBtn = true
+      this.showSignInField = false
     },
     signIn () {
       console.log('Called signIn from Layout')

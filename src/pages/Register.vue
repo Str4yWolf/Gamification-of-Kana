@@ -6,7 +6,7 @@
       <strong style="font-size: 100%;">Registration</strong>
       <p>
         <!-- username register panel -->
-        <q-input v-model="username" label="Your Name">
+        <q-input v-model="username" label="Your Name" v-on:keyup.enter="validateRegistration()" >
           <!-- containing field -->
           <template v-slot:append>
             <q-icon name="info" color="red">
