@@ -77,7 +77,7 @@ export default {
     },
     goUp () {
       console.log('called goUp() from Settings')
-      this.$router.push('/')
+      this.$router.push('../')
     }
   }
 }

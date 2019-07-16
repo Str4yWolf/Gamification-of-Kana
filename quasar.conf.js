@@ -49,7 +49,8 @@ module.exports = function (ctx) {
         'QSpace',
         'QTooltip',
         'QMenu',
-        'QTabPanel'
+        'QTabPanel',
+        'QExpansionItem'
       ],
 
       directives: [
