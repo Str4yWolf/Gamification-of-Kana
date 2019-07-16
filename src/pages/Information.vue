@@ -59,7 +59,7 @@
           <q-card>
             <q-card-section>
               <strong>Functions</strong><br />
-              As of 7/16/2018, you can use a simple flashcard function.<br />
+              As of 7/17/2018, you can use a simple flashcard function and a multiple choice quiz.<br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
               Hentaigana, Katakana, Man'yougana-Katakana<br />
@@ -94,7 +94,6 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Multiple choice quiz<br />
               Progress tracking/User-DB entry<br />
               Varying Hentaigana<br />
               Learning theory/Spaced Repetition<br />

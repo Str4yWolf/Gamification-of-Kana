@@ -23,6 +23,9 @@
               <q-item @click="pushSettings()" clickable>
                 <q-item-section>Settings</q-item-section>
               </q-item>
+              <q-item @click="pushMultipleChoice()" clickable>
+                <q-item-section>Multiple Choice</q-item-section>
+              </q-item>
               <q-item @click="logOut()" clickable>
                 <q-item-section>Log Out</q-item-section>
               </q-item>
@@ -107,7 +110,7 @@ export default {
       console.log('Called changeName(' + name + ') from Layout')
       this.username = name
     },
-    // A bunch of one-liner router pushers because generic method has no reactive router
+    // A bunch of mostly one-liner router pushers because generic method has no reactive router
     pushRegister () {
       console.log('Called pushRegister() from Layout')
       this.$router.push('/Register/')
@@ -119,6 +122,10 @@ export default {
     pushSettings () {
       console.log('Called pushSettings() from Layout')
       this.$router.push('/Settings/')
+    },
+    pushMultipleChoice () {
+      console.log('Called pushMultipleChoice() from Layout')
+      this.$router.push('/MultipleChoice/')
     }
     /**
     openPage: function (url) {

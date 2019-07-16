@@ -1,7 +1,7 @@
 <template>
   <q-card>
   <div class="character-flashcard">
-      <img id="character-flashcard-image" v-bind:src="this.currentImage" class="center"/>
+      <img id="character-flashcard-image" v-bind:src="this.currentImage" class="center" />
   </div>
   </q-card>
 </template>
@@ -16,11 +16,15 @@ export default {
   },
   created () {
     // listen to event calls from elsewhere
-    this.$root.$on('updateView', this.updateView)
+    this.$root.$on('updateView1', this.updateView1)
+    this.$root.$on('updateView2', this.updateView2)
   },
   methods: {
-    updateView: function (image) {
+    updateView1: function (image) {
       document.getElementById('character-flashcard-image').src = image
+    },
+    updateView2: function (image, id) {
+      document.getElementById(id).children[0].children[0].src = image
     }
   }
 }
@@ -30,6 +34,7 @@ export default {
 div .character-flashcard {
   height: 150px;
   width: 150px;
+  position: relative;
 }
 .center {
   display: block;
@@ -38,7 +43,6 @@ div .character-flashcard {
   height: 50%;
   position: relative;
   top: 42px;
-  left: 17px;
 }
 .character-flashcard-btn {
   position: relative;

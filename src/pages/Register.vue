@@ -56,7 +56,6 @@ export default {
     },
     cancelRegistration () {
       console.log('Called cancelRegistration from Register')
-      alert('Registration cancelled. Your progress will not be tracked.')
       this.username = ''
       this.$router.push('../')
     }

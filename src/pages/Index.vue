@@ -6,8 +6,7 @@
         Showing Script{{ this.flipped + 1 }}
       </q-item-label>
       <!-- script display graphics -->
-      <character-flashcard path="this.currentLetters1[0]">
-      </character-flashcard>
+      <character-flashcard style="left:15px;" />
       <!-- script display data -->
       <q-item-section v-on:keyup.enter="flipCard()">
         <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script1" />
@@ -22,9 +21,6 @@
 </template>
 
 <style>
-.signup {
-  padding: 10px;
-}
 </style>
 
 <script>
@@ -69,16 +65,16 @@ export default {
       this.currentLetters1 = this.getLetters(this.letter, this.script1)
       this.currentLetters2 = this.getLetters(this.letter, this.script2)
       if (this.flipped) {
-        this.emit('updateView', this.currentLetters2[0])
+        this.emit('updateView1', this.currentLetters2[0])
       } else {
-        this.emit('updateView', this.currentLetters1[0])
+        this.emit('updateView1', this.currentLetters1[0])
       }
     },
     flipCard () {
       if (this.flipped) {
-        this.emit('updateView', this.currentLetters1[0])
+        this.emit('updateView1', this.currentLetters1[0])
       } else {
-        this.emit('updateView', this.currentLetters2[0])
+        this.emit('updateView1', this.currentLetters2[0])
       }
       this.flipped = !this.flipped
     },
