@@ -198,6 +198,8 @@ export default {
       this.started = false
       this.continued = false
       this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.questionsAnswered + ' in this quiz!'
+      this.questionsAnswered = 0
+      this.questionsAnsweredCorrectly = 0
     },
     goUp () {
       console.log('called goUp() from Settings')
