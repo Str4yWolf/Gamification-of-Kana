@@ -85,18 +85,29 @@ export default {
     },
     signIn () {
       console.log('Called signIn from Layout')
-      this.showAvatar = true
-      this.showSignInField = false
-      this.showRegisterBtn = false
-      this.$router.push('/')
+      if (localStorage.getItem(this.username) !== null) {
+        this.showAvatar = true
+        this.showSignInField = false
+        this.showRegisterBtn = false
+        this.$router.push('/')
+      } else {
+        alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
+      }
     },
     registerSignIn (name) {
       console.log('Called registerSignIn from Layout')
-      this.showAvatar = true
-      this.showSignInBtn = false
-      this.showSignInField = false
-      this.showRegisterBtn = false
-      this.username = name
+      if (localStorage.getItem(name) !== null) {
+        alert('The name ' + name + ' has already been registered. Please try a different name.')
+      } else {
+        alert('Registration successful.')
+        localStorage.setItem(name, 'Level: 0')
+        this.showAvatar = true
+        this.showSignInBtn = false
+        this.showSignInField = false
+        this.showRegisterBtn = false
+        this.username = name
+        this.$router.push('../')
+      }
     },
     logOut () {
       console.log('Called logOut')
@@ -108,7 +119,15 @@ export default {
     },
     changeName (name) {
       console.log('Called changeName(' + name + ') from Layout')
-      this.username = name
+      if (localStorage.getItem(name) !== null) {
+        alert('The name ' + name + ' already exists. Please try a different name.')
+      } else {
+        var userData = localStorage.getItem(this.username)
+        localStorage.removeItem(this.username)
+        localStorage.setItem(name, userData)
+        this.username = name
+        alert('Successfully changed name to ' + name + '.')
+      }
     }
   }
 }

@@ -49,9 +49,7 @@ export default {
       if (this.username === '') {
         alert('Please enter a name or click "Cancel" to proceed without registration.')
       } else {
-        alert('Registration successful')
         this.$root.$emit('registerSignIn', this.username)
-        this.$router.push('../')
       }
     },
     cancelRegistration () {

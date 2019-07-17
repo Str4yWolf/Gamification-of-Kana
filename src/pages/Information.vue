@@ -60,6 +60,7 @@
             <q-card-section>
               <strong>Functions</strong><br />
               As of 7/17/2018, you can use a simple flashcard function and a multiple choice quiz.<br />
+              User DB Registration basics also work. <br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
               Hentaigana, Katakana, Man'yougana-Katakana<br />
@@ -94,7 +95,7 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Progress tracking/User-DB entry<br />
+              Progress tracking<br />
               Learning theory/Spaced Repetition<br />
               Colourful Manyougana<br />
               Practical tests (e.g., reading hentaigana)<br />
