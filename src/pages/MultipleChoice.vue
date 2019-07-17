@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="demo">
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
       <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
@@ -33,27 +33,27 @@
         </span>
       </span>
       <!-- question -->
-      <span class="row" style="padding: 20px 0px 20px 50px;" v-on:keyup.49="validateOption(1)"  v-on:keyup.50="validateOption(2)" v-on:keyup.51="validateOption(3)" v-on:keyup.52="validateOption(4)">
-        <character-flashcard id="multiple-choice-question" />
+      <span class="row" style="padding: 20px 0px 20px 50px;">
+        <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" />
         <span v-if="!answered" style="position:relative; top:68px; left:30px;">What is this {{script1}}'s equivalent in {{script2}}?</span>
         <span v-if="answered" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          <character-flashcard id="multiple-choice-option-1" />
+          <character-flashcard :imgSrc="option1Image" />
           <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" />
         </span>
         <span>
-          <character-flashcard id="multiple-choice-option-2" />
+          <character-flashcard :imgSrc="option2Image" />
           <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" />
         </span>
         <span>
-          <character-flashcard id="multiple-choice-option-3" />
+          <character-flashcard :imgSrc="option3Image" />
           <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" />
         </span>
         <span>
-          <character-flashcard id="multiple-choice-option-4" />
+          <character-flashcard :imgSrc="option4Image" />
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" />
         </span>
       </span>
@@ -83,10 +83,21 @@ export default {
       correctAnswer: -1,
       answered: false,
       continued: false,
-      feedbackMessage: ''
+      feedbackMessage: '',
+      questionImage: '',
+      option1Image: '',
+      option2Image: '',
+      option3Image: '',
+      option4Image: ''
     }
   },
+  mounted () {
+    this.$refs.modal.$el.focus()
+  },
   methods: {
+    demo: function (event) {
+      console.log(event)
+    },
     getLetters (letter, script) {
       console.log('called getLetters(' + letter + ', ' + script + ') from MultipleChoice')
       var suffixes = []
@@ -148,35 +159,26 @@ export default {
       var keys = Object.keys(dataset)
       var randomIndex = Math.floor(Math.random() * keys.length)
       var key = keys[randomIndex]
-      var question = this.getLetters(key, this.script1)[0]
-      var option1 = this.generateOption(key, this.script2)[0]
-      var option2 = this.generateOption(key, this.script2)[0]
-      var option3 = this.generateOption(key, this.script2)[0]
-      var option4 = this.generateOption(key, this.script2)[0]
+      this.questionImage = this.getLetters(key, this.script1)[0]
+      this.option1Image = this.generateOption(key, this.script2)[0]
+      this.option2Image = this.generateOption(key, this.script2)[0]
+      this.option3Image = this.generateOption(key, this.script2)[0]
+      this.option4Image = this.generateOption(key, this.script2)[0]
       this.correctAnswer = Math.floor(Math.random() * 4)
       switch (this.correctAnswer) {
         case 0:
-          option1 = this.getLetters(key, this.script2)[0]
+          this.option1Image = this.getLetters(key, this.script2)[0]
           break
         case 1:
-          option2 = this.getLetters(key, this.script2)[0]
+          this.option2Image = this.getLetters(key, this.script2)[0]
           break
         case 2:
-          option3 = this.getLetters(key, this.script2)[0]
+          this.option3Image = this.getLetters(key, this.script2)[0]
           break
         case 3:
-          option4 = this.getLetters(key, this.script2)[0]
+          this.option4Image = this.getLetters(key, this.script2)[0]
           break
       }
-      this.$root.$emit('updateView2', question, 'multiple-choice-question')
-      this.$root.$emit('updateView2', option1, 'multiple-choice-option-1')
-      this.$root.$emit('updateView2', option2, 'multiple-choice-option-2')
-      this.$root.$emit('updateView2', option3, 'multiple-choice-option-3')
-      this.$root.$emit('updateView2', option4, 'multiple-choice-option-4')
-      console.log(option1)
-      console.log(option2)
-      console.log(option3)
-      console.log(option4)
     },
     validateOption (event) {
       console.log('called validateOption from MultipleChoice')

@@ -1,7 +1,7 @@
 <template>
   <q-card>
   <div class="character-flashcard">
-      <img id="character-flashcard-image" v-bind:src="this.currentImage" class="center" />
+      <img id="character-flashcard-image" v-bind:src="imgSrc" class="center" />
   </div>
   </q-card>
 </template>
@@ -9,23 +9,8 @@
 <script>
 export default {
   // name: 'CharacterFlashcard',
-  data () {
-    return {
-      currentImage: ''
-    }
-  },
-  created () {
-    // listen to event calls from elsewhere
-    this.$root.$on('updateView1', this.updateView1)
-    this.$root.$on('updateView2', this.updateView2)
-  },
-  methods: {
-    updateView1: function (image) {
-      document.getElementById('character-flashcard-image').src = image
-    },
-    updateView2: function (image, id) {
-      document.getElementById(id).children[0].children[0].src = image
-    }
+  props: {
+    imgSrc: String
   }
 }
 </script>

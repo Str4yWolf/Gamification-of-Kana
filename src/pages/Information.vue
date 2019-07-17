@@ -95,11 +95,13 @@
           <q-card-section>
             <strong>Functions</strong><br />
               Progress tracking/User-DB entry<br />
-              Varying Hentaigana<br />
               Learning theory/Spaced Repetition<br />
+              Colourful Manyougana<br />
               Practical tests (e.g., reading hentaigana)<br />
               Gaining XP, levelling up, and getting rewards<br />
+              Final (exam)<br />
               (Story mode)<br />
+              (Varying Hentaigana)<br />
               <br />
             <strong>Scripts (48 glyphs)</strong><br />
               Hiragana, Man'yougana-Hiragana, (kanbun)<br />

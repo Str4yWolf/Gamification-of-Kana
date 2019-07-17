@@ -6,7 +6,7 @@
         Showing Script{{ this.flipped + 1 }}
       </q-item-label>
       <!-- script display graphics -->
-      <character-flashcard style="left:15px;" />
+      <character-flashcard :img-src="currentImage" style="left:15px;" />
       <!-- script display data -->
       <q-item-section v-on:keyup.enter="flipCard()">
         <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script1" />
@@ -41,6 +41,7 @@ export default {
       currentLetters2: ['../statics/svg/katakana/katakana_letter_a.svg'],
       script1: 'manyougana-katakana',
       script2: 'katakana',
+      currentImage: 'asf',
       flipped: false
     }
   },
@@ -65,24 +66,19 @@ export default {
       this.currentLetters1 = this.getLetters(this.letter, this.script1)
       this.currentLetters2 = this.getLetters(this.letter, this.script2)
       if (this.flipped) {
-        this.emit('updateView1', this.currentLetters2[0])
+        this.currentImage = this.currentLetters2[0]
       } else {
-        this.emit('updateView1', this.currentLetters1[0])
+        this.currentImage = this.currentLetters1[0]
       }
     },
     flipCard () {
       if (this.flipped) {
-        this.emit('updateView1', this.currentLetters1[0])
+        this.currentImage = this.currentLetters1[0]
       } else {
-        this.emit('updateView1', this.currentLetters2[0])
+        this.currentImage = this.currentLetters2[0]
       }
       this.flipped = !this.flipped
     },
-    /**
-    openPage (url) {
-      this.$router.push(url)
-    },
-    **/
     emit (arg1, arg2) {
       console.log('called emit(' + arg1 + ', ' + arg2 + ')')
       this.$root.$emit(arg1, arg2)
