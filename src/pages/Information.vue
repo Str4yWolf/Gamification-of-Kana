@@ -60,7 +60,7 @@
             <q-card-section>
               <strong>Functions</strong><br />
               As of 7/17/2018, you can use a simple flashcard function and a multiple choice quiz.<br />
-              User DB Registration basics also work. <br />
+              User DB Registration basics also work. You can gain experience points.<br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
               Hentaigana, Katakana, Man'yougana-Katakana<br />
@@ -99,7 +99,7 @@
               Learning theory/Spaced Repetition<br />
               Colourful Manyougana<br />
               Practical tests (e.g., reading hentaigana)<br />
-              Gaining XP, levelling up, and getting rewards<br />
+              getting rewards<br />
               Final (exam)<br />
               (Story mode)<br />
               (Varying Hentaigana)<br />

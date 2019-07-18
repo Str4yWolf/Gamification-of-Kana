@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="demo">
+  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
       <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
@@ -95,8 +95,27 @@ export default {
     this.$refs.modal.$el.focus()
   },
   methods: {
-    demo: function (event) {
-      console.log(event)
+    validateKeyInput (event) {
+      switch (event.keyCode) {
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+          console.log('called validateKeyInput with 1-4')
+          this.validateOption(event.keyCode - 48)
+          break
+        case 13:
+          console.log('pressed enter in validateKeyInput')
+          if (this.answered) {
+            this.continueQuiz()
+          }
+          break
+        default:
+          console.log('called validateKeyInput with key')
+          console.log(event.key)
+          console.log('and keyCode')
+          console.log(event.keyCode)
+      }
     },
     getLetters (letter, script) {
       console.log('called getLetters(' + letter + ', ' + script + ') from MultipleChoice')
@@ -184,7 +203,12 @@ export default {
       console.log('called validateOption from MultipleChoice')
       this.answered = true
       this.continued = true
-      var userAnswer = parseInt(event.target.id.split('-')[4]) - 1
+      var userAnswer
+      if (event.target !== undefined) {
+        userAnswer = parseInt(event.target.id.split('-')[4]) - 1
+      } else {
+        userAnswer = parseInt(event) - 1
+      }
       console.log('userAnswer: ' + userAnswer)
       console.log('correctAnswer: ' + this.correctAnswer)
       if (userAnswer === this.correctAnswer) {
