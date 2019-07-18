@@ -190,6 +190,7 @@ export default {
       if (userAnswer === this.correctAnswer) {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was correct. Great job!'
         this.questionsAnsweredCorrectly += 1
+        this.$root.$emit('addExp', 1)
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
       }

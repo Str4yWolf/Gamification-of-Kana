@@ -8,12 +8,15 @@
           <q-item-section side>
             <q-avatar square color="red" text-color="white" >
               {{ username[0] }}
-              <q-badge floating color="teal">LV 0</q-badge>
+              <q-badge floating color="teal">LV {{userObj.lvl}}</q-badge>
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{ username }}</q-item-label>
-            <q-item-label caption></q-item-label>
+            <q-item-label><strong>{{ username }}</strong> &nbsp; &nbsp; &nbsp; &nbsp;
+             Exp: {{userObj.exp}}/{{lvlThreshold[userObj.lvl]}}</q-item-label>
+            <q-item-label caption>
+              <q-linear-progress stripe rounded style="height: 20px" :value="lvlProgress" color="secondary" />
+            </q-item-label>
           </q-item-section>
           <q-menu auto-close>
             <q-list style="min-width: 100px">
@@ -62,6 +65,7 @@ export default {
     this.$root.$on('registerSignIn', this.registerSignIn)
     this.$root.$on('changeName', this.changeName)
     this.$root.$on('logOut', this.logOut)
+    this.$root.$on('addExp', this.addExp)
   },
   data () {
     return {
@@ -69,7 +73,20 @@ export default {
       showSignInBtn: true,
       showRegisterBtn: true,
       showSignInField: false,
-      username: ''
+      lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1000000 },
+      username: '',
+      userObj: { lvl: 0, exp: 0 }
+    }
+  },
+  computed: {
+    lvlProgress () {
+      var value = 0
+      if (this.userObj.lvl !== 0) {
+        value = (this.userObj.exp - this.lvlThreshold[this.userObj.lvl - 1]) / (this.lvlThreshold[this.userObj.lvl] - this.lvlThreshold[this.userObj.lvl - 1])
+      } else {
+        value = this.userObj.exp / 5
+      }
+      return value
     }
   },
   methods: {
@@ -86,6 +103,7 @@ export default {
     signIn () {
       console.log('Called signIn from Layout')
       if (localStorage.getItem(this.username) !== null) {
+        this.userObj = JSON.parse(localStorage.getItem(this.username))
         this.showAvatar = true
         this.showSignInField = false
         this.showRegisterBtn = false
@@ -100,7 +118,7 @@ export default {
         alert('The name ' + name + ' has already been registered. Please try a different name.')
       } else {
         alert('Registration successful.')
-        localStorage.setItem(name, 'Level: 0')
+        localStorage.setItem(name, JSON.stringify({ lvl: 0, exp: 0 }))
         this.showAvatar = true
         this.showSignInBtn = false
         this.showSignInField = false
@@ -127,6 +145,22 @@ export default {
         localStorage.setItem(name, userData)
         this.username = name
         alert('Successfully changed name to ' + name + '.')
+      }
+    },
+    addExp (n) {
+      this.userObj.exp += n
+      this.updateLvl()
+      localStorage.setItem(this.username, JSON.stringify(this.userObj))
+    },
+    updateLvl () {
+      if (this.userObj.lvl === 12) {
+        return
+      }
+      var threshold = this.lvlThreshold[this.userObj.lvl]
+      if (this.userObj.exp >= threshold) {
+        this.userObj.lvl += 1
+        alert('Congratulations. You have reached level ' + this.userObj.lvl + '!')
+        this.updateLvl()
       }
     }
   }

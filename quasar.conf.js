@@ -51,7 +51,8 @@ module.exports = function (ctx) {
         'QMenu',
         'QTabPanel',
         'QExpansionItem',
-        'QSlider'
+        'QSlider',
+        'QLinearProgress'
       ],
 
       directives: [
