@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE svg PUBLIC '-//W3C//DTD SVG 1.0//EN' 'http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd'>
+<svg fill-opacity="1" xmlns:xlink="http://www.w3.org/1999/xlink" color-rendering="auto" color-interpolation="auto" text-rendering="auto" stroke="black" stroke-linecap="square" stroke-miterlimit="10" shape-rendering="auto" stroke-opacity="1" fill="black" stroke-dasharray="none" font-weight="normal" stroke-width="1" xmlns="http://www.w3.org/2000/svg" font-family="&apos;Dialog&apos;" font-style="normal" stroke-linejoin="miter" font-size="12" stroke-dashoffset="0" image-rendering="auto">
+  <!--Unicode Character 'HENTAIGANA LETTER TU-2' (U+1B06A)-->
+  <defs id="genericDefs" />
+  <g>
+    <g>
+      <path d="M211.2188 176.0625 Q236.25 176.0625 244.4062 200.8125 Q246.0938 205.3125 246.0938 210.375 L246.0938 214.875 Q246.0938 261 185.9062 298.6875 Q165.375 311.3438 149.9062 316.6875 Q146.5312 313.5938 146.5312 311.0625 Q228.6562 269.1562 228.6562 212.625 L228.6562 212.0625 Q228.6562 184.5 210.6562 184.5 L207.2812 184.5 Q189.2812 184.5 161.1562 214.875 Q155.25 225 147.6562 225 Q137.8125 224.7188 117.2812 193.5 Q116.4375 192.9375 115.0312 192.9375 L112.7812 192.9375 Q96.1875 198.5625 76.7812 223.875 Q73.125 240.75 69.4688 240.75 Q68.625 241.3125 66.0938 241.3125 Q49.5 241.3125 44.1562 204.75 Q41.9062 183.6562 41.9062 181.6875 Q41.9062 179.1562 48.0938 178.875 Q57.375 217.125 63.2812 217.125 L64.4062 217.125 Q66.9375 217.125 89.1562 197.4375 Q107.4375 183.9375 116.7188 183.9375 Q126.8438 183.9375 138.6562 199.6875 Q145.6875 206.4375 148.7812 206.4375 L149.9062 206.4375 Q155.25 206.4375 178.0312 187.875 Q198.2812 176.0625 211.2188 176.0625 Z" stroke="none" />
+    </g>
+  </g>
+</svg>

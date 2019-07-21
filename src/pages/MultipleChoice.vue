@@ -77,6 +77,10 @@ export default {
       started: false,
       script1: 'katakana',
       script2: 'manyougana-katakana',
+      scriptIndex: { 'hentaigana': '1',
+        'katakana': '3',
+        'manyougana-katakana': '5' },
+      currentKey: '',
       questions: 3,
       questionsAnswered: 0,
       questionsAnsweredCorrectly: 0,
@@ -179,6 +183,7 @@ export default {
       var randomIndex = Math.floor(Math.random() * keys.length)
       var key = keys[randomIndex]
       this.questionImage = this.getLetters(key, this.script1)[0]
+      this.currentKey = key
       this.option1Image = this.generateOption(key, this.script2)[0]
       this.option2Image = this.generateOption(key, this.script2)[0]
       this.option3Image = this.generateOption(key, this.script2)[0]
@@ -215,8 +220,10 @@ export default {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was correct. Great job!'
         this.questionsAnsweredCorrectly += 1
         this.$root.$emit('addExp', 1)
+        this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
+        this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
       }
       this.questionsAnswered += 1
     },

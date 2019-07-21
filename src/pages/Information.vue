@@ -61,12 +61,13 @@
               <strong>Functions</strong><br />
               As of 7/17/2018, you can use a simple flashcard function and a multiple choice quiz.<br />
               User DB Registration basics also work. You can gain experience points.<br />
+              Progress tracking of character in question and target scripts included.<br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
               Hentaigana, Katakana, Man'yougana-Katakana<br />
               <br />
               <strong>Text input</strong><br />
-              Latin alphabet (Romaji) only, in linguistic script (not Hepburn)
+              Latin alphabet (Romaji) only, in both linguistic and Hepburn script
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -95,7 +96,6 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Progress tracking<br />
               Learning theory/Spaced Repetition<br />
               Colourful Manyougana<br />
               Practical tests (e.g., reading hentaigana)<br />
@@ -108,7 +108,7 @@
               Hiragana, Man'yougana-Hiragana, (kanbun)<br />
               <br />
             <strong>Text input</strong><br />
-              Hepburn, (Japanese/Chinese input)
+              (Japanese/Chinese input)
             </q-card-section>
           </q-card>
         </q-expansion-item>

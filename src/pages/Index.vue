@@ -24,9 +24,10 @@
 </style>
 
 <script>
-import hentaigana from '../statics/svg/hentaigana.json'
-import katakana from '../statics/svg/katakana.json'
-import manyouganaKatakana from '../statics/svg/manyougana-katakana.json'
+// allow for hepburn input as well
+import hentaigana from '../statics/svg/hentaigana_hep.json'
+import katakana from '../statics/svg/katakana_hep.json'
+import manyouganaKatakana from '../statics/svg/manyougana-katakana_hep.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 
 export default {

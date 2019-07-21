@@ -58,6 +58,8 @@
 </template>
 
 <script>
+import userTracking from '../statics/svg/user_tracking.json'
+
 export default {
   name: 'MyLayout',
   created () {
@@ -66,6 +68,7 @@ export default {
     this.$root.$on('changeName', this.changeName)
     this.$root.$on('logOut', this.logOut)
     this.$root.$on('addExp', this.addExp)
+    this.$root.$on('incrementTracking', this.incrementTracking)
   },
   data () {
     return {
@@ -75,7 +78,7 @@ export default {
       showSignInField: false,
       lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1000000 },
       username: '',
-      userObj: { lvl: 0, exp: 0 }
+      userObj: { lvl: 0, exp: 0, tracking: 0 }
     }
   },
   computed: {
@@ -104,6 +107,7 @@ export default {
       console.log('Called signIn from Layout')
       if (localStorage.getItem(this.username) !== null) {
         this.userObj = JSON.parse(localStorage.getItem(this.username))
+        console.log(this.userObj)
         this.showAvatar = true
         this.showSignInField = false
         this.showRegisterBtn = false
@@ -118,7 +122,7 @@ export default {
         alert('The name ' + name + ' has already been registered. Please try a different name.')
       } else {
         alert('Registration successful.')
-        localStorage.setItem(name, JSON.stringify({ lvl: 0, exp: 0 }))
+        localStorage.setItem(name, JSON.stringify({ lvl: 0, exp: 0, tracking: userTracking }))
         this.showAvatar = true
         this.showSignInBtn = false
         this.showSignInField = false
@@ -150,7 +154,7 @@ export default {
     addExp (n) {
       this.userObj.exp += n
       this.updateLvl()
-      localStorage.setItem(this.username, JSON.stringify(this.userObj))
+      this.updateDatabase()
     },
     updateLvl () {
       if (this.userObj.lvl === 12) {
@@ -162,6 +166,20 @@ export default {
         alert('Congratulations. You have reached level ' + this.userObj.lvl + '!')
         this.updateLvl()
       }
+    },
+    incrementTracking (prefix, s1, s2, correct) {
+      console.log('updateTracking with prefix: ' + prefix + ', scripts ' + s1 + ' ' + s2 + ' and increment of correct words count of ' + correct + '.')
+      var key = prefix + '_' + s1 + s2
+      var val = this.userObj['tracking'][key]
+      if (correct) {
+        val[0] += 1
+      }
+      val[1] += 1
+      this.userObj['tracking'].prefix = val
+      this.updateDatabase()
+    },
+    updateDatabase () {
+      localStorage.setItem(this.username, JSON.stringify(this.userObj))
     }
   }
 }
