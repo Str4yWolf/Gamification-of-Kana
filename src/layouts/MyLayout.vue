@@ -178,12 +178,25 @@ export default {
         this.updateLvl()
       }
     },
+    /**
+    @params
+    prefix: letter in question
+    s1: source script (question)
+    s2: target script (answer)
+    correct: whether user has answered correctly
+    **/
     incrementTracking (prefix, s1, s2, correct) {
       console.log('updateTracking with prefix: ' + prefix + ', scripts ' + s1 + ' ' + s2 + ' and increment of correct words count of ' + correct + '.')
       var key = prefix + '_' + s1 + s2
+      // val := [s1, s2, mastery, time_last_seen]
       var val = this.userObj['tracking'][key]
+      val[3] = Date.now()
       if (correct) {
         val[0] += 1
+        val[2] += 1
+      } else {
+        // penalty for answering wrong
+        val[2] = Math.ceiling(val[2] / 5)
       }
       val[1] += 1
       this.userObj['tracking'].prefix = val

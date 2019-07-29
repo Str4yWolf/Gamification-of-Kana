@@ -67,6 +67,7 @@ import hiragana from '../statics/svg/hiragana.json'
 import katakana from '../statics/svg/katakana.json'
 import manyouganaKatakana from '../statics/svg/manyougana-katakana.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
+import userTracking from '../statics/svg/user_tracking.json'
 
 export default {
   // name: 'PageName',
@@ -190,6 +191,14 @@ export default {
       var keys = Object.keys(dataset)
       var randomIndex = Math.floor(Math.random() * keys.length)
       var key = keys[randomIndex]
+      console.log(userTracking)
+      // var d = Date.now()
+      // // need to use userTracking filtered by keys with suffix _s1s2
+      // dataset.forEach(function(el)) {
+      //   var diff = d - el[3]
+      //   var priority = diff / (el[2] ** 2)
+      // }
+      // need to sort by priorty, assign probability accordingly, and sample according to probabilities
       this.questionImage = this.getLetters(key, this.script1)[0]
       this.currentKey = key
       this.option1Image = this.generateOption(key, this.script2)[0]
