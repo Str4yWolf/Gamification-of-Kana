@@ -66,6 +66,8 @@ export default {
     // listen to event calls from elsewhere
     this.$root.$on('registerSignIn', this.registerSignIn)
     this.$root.$on('changeName', this.changeName)
+    this.$root.$on('resetAccount', this.resetAccount)
+    this.$root.$on('deleteAccount', this.deleteAccount)
     this.$root.$on('logOut', this.logOut)
     this.$root.$on('addExp', this.addExp)
     this.$root.$on('incrementTracking', this.incrementTracking)
@@ -150,6 +152,15 @@ export default {
         this.username = name
         alert('Successfully changed name to ' + name + '.')
       }
+    },
+    resetAccount () {
+      localStorage.setItem(this.username, JSON.stringify({ lvl: 0, exp: 0, tracking: userTracking }))
+      this.userObj = JSON.parse(localStorage.getItem(this.username))
+    },
+    deleteAccount () {
+      localStorage.removeItem(this.username)
+      this.userObj = { lvl: 0, exp: 0, tracking: userTracking }
+      this.logOut()
     },
     addExp (n) {
       this.userObj.exp += n

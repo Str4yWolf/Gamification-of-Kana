@@ -64,7 +64,7 @@
               Progress tracking of character in question and target scripts included.<br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
-              Hentaigana, Katakana, Man'yougana-Katakana<br />
+              Hentaigana, Hiragana, Katakana, Man'yougana-Katakana<br />
               <br />
               <strong>Text input</strong><br />
               Latin alphabet (Romaji) only, in both linguistic and Hepburn script
@@ -105,7 +105,7 @@
               (Varying Hentaigana)<br />
               <br />
             <strong>Scripts (48 glyphs)</strong><br />
-              Hiragana, Man'yougana-Hiragana, (kanbun)<br />
+              Man'yougana-Hiragana, (kanbun)<br />
               <br />
             <strong>Text input</strong><br />
               (Japanese/Chinese input)

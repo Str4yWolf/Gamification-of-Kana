@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   fill-opacity="1"
+   color-rendering="auto"
+   color-interpolation="auto"
+   text-rendering="auto"
+   stroke="black"
+   stroke-linecap="square"
+   stroke-miterlimit="10"
+   shape-rendering="auto"
+   stroke-opacity="1"
+   fill="black"
+   stroke-dasharray="none"
+   font-weight="normal"
+   stroke-width="1"
+   font-family="'Dialog'"
+   font-style="normal"
+   stroke-linejoin="miter"
+   font-size="12"
+   stroke-dashoffset="0"
+   image-rendering="auto"
+   version="1.1"
+   id="svg9"
+   sodipodi:docname="hiragana_letter_ka.svg"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+  <metadata
+     id="metadata13">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="986"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="2.36"
+     inkscape:cx="50"
+     inkscape:cy="50"
+     inkscape:window-x="-11"
+     inkscape:window-y="-11"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg9" />
+  <!--Unicode Character 'HIRAGANA LETTER KA' (U+304B)-->
+  <defs
+     id="genericDefs" />
+  <g
+     id="g7"
+     transform="matrix(0.40046799,0,0,0.40052796,-3.546175,-59.977935)">
+    <g
+       id="g5">
+      <path
+         d="m 128.6719,215.1562 q 10.9687,0 21.7265,1.6876 10.7578,1.6874 20.5313,7.664 9.7734,5.9766 13.9922,14.6953 4.2187,8.7188 5.1328,16.7344 0.9141,8.0156 0.9141,19.6875 0,38.9531 -6.6094,69.8906 -6.6094,30.9375 -18.4922,40.0782 -11.8828,9.1406 -31.4297,9.1406 -11.5313,0 -31.6406,-4.7813 l 4.0781,-27.1406 q 17.7188,6.3281 28.2656,6.3281 9.1406,0 15.4688,-6.2578 6.3281,-6.2578 10.4062,-29.5312 4.0782,-23.2735 4.0782,-58.711 0,-13.6406 -2.25,-20.3906 -2.25,-6.75 -11.0391,-9.9844 -8.7891,-3.2344 -18.7735,-3.2344 H 120.375 Q 96.4688,306 79.4531,335.8828 62.4375,365.7656 47.8125,382.6406 l -24.75,-14.625 q 37.125,-33.75 69.3281,-125.5781 -22.7812,2.1094 -45.1406,6.8906 l -2.6719,-27.8437 q 36,-4.6406 56.8125,-5.2032 13.9219,-43.7343 15.8906,-62.5781 l 25.875,6.6094 q -7.5937,32.2031 -14.4843,54.8437 z m 118.125,52.3126 -27.2813,9.2812 q -1.9687,-45.2812 -34.0312,-86.7656 l 25.875,-10.5469 q 32.9062,44.7187 35.4375,88.0313 z"
+         id="path3"
+         inkscape:connector-curvature="0"
+         style="stroke:none" />
+    </g>
+  </g>
+</svg>

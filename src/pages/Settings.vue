@@ -62,8 +62,8 @@ export default {
       console.log('Called resetAccount() from Settings')
       var confirmation = confirm('Are you sure you want to reset your account? It cannot be undone!')
       if (confirmation) {
-        // localStorage.setItem(username) = 'Level: 0'
         console.log('resetAccount confirmed')
+        this.$root.$emit('resetAccount')
       }
     },
     deleteAccount () {
@@ -72,7 +72,7 @@ export default {
       if (confirmation) {
         // localStorage.removeItem(username)
         console.log('deleteAccount confirmed')
-        this.$root.$emit('logOut')
+        this.$root.$emit('deleteAccount')
       }
     },
     goUp () {

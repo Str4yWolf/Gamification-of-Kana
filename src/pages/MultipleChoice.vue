@@ -8,10 +8,10 @@
       <!-- parameters panel -->
       <span class="row">
         <span>
-          <q-select v-model="script1" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
+          <q-select v-model="script1" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
         </span>
         <span>
-          <q-select v-model="script2" :options="['hentaigana', 'katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
+          <q-select v-model="script2" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
         </span>
         <span style="padding:10px;">
           <strong>Questions: </strong>
@@ -63,6 +63,7 @@
 
 <script>
 import hentaigana from '../statics/svg/hentaigana.json'
+import hiragana from '../statics/svg/hiragana.json'
 import katakana from '../statics/svg/katakana.json'
 import manyouganaKatakana from '../statics/svg/manyougana-katakana.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
@@ -78,6 +79,7 @@ export default {
       script1: 'katakana',
       script2: 'manyougana-katakana',
       scriptIndex: { 'hentaigana': '1',
+        'hiragana': '2',
         'katakana': '3',
         'manyougana-katakana': '5' },
       currentKey: '',
@@ -126,6 +128,8 @@ export default {
       var suffixes = []
       if (script === 'hentaigana') {
         suffixes = hentaigana[letter]
+      } else if (script === 'hiragana') {
+        suffixes = hiragana[letter]
       } else if (script === 'katakana') {
         suffixes = katakana[letter]
       } else if (script === 'manyougana-katakana') {
@@ -143,6 +147,8 @@ export default {
       var dataset = {}
       if (script === 'hentaigana') {
         dataset = hentaigana
+      } else if (script === 'hiragana') {
+        dataset = hiragana
       } else if (script === 'katakana') {
         dataset = katakana
       } else if (script === 'manyougana-katakana') {
@@ -171,6 +177,8 @@ export default {
       var dataset = {}
       if (this.script1 === 'hentaigana') {
         dataset = hentaigana
+      } else if (this.script1 === 'hiragana') {
+        dataset = hiragana
       } else if (this.script1 === 'katakana') {
         dataset = katakana
       } else if (this.script1 === 'manyougana-katakana') {
