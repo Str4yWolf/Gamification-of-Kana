@@ -175,6 +175,7 @@ export default {
       this.started = true
       this.answered = false
       this.continued = false
+      /**
       var dataset = {}
       if (this.script1 === 'hentaigana') {
         dataset = hentaigana
@@ -188,16 +189,45 @@ export default {
         alert('invalid script input')
         return undefined
       }
-      var keys = Object.keys(dataset)
-      var randomIndex = Math.floor(Math.random() * keys.length)
-      var key = keys[randomIndex]
-      console.log(userTracking)
-      // var d = Date.now()
-      // // need to use userTracking filtered by keys with suffix _s1s2
-      // dataset.forEach(function(el)) {
-      //   var diff = d - el[3]
-      //   var priority = diff / (el[2] ** 2)
-      // }
+      **/
+      // var keys = Object.keys(dataset)
+      // var randomIndex = Math.floor(Math.random() * keys.length)
+      // var key = keys[randomIndex]
+      var d = Date.now()
+      var regex = new RegExp('_' + this.scriptIndex[this.script1] + this.scriptIndex[this.script2] + '$')
+      var keys = Object.keys(userTracking).filter(akey => regex.test(akey))
+      console.log('logging filtered keys in MultipleChoice: ' + keys + ', length: ' + keys.length)
+      var priorities = {}
+      // need to use userTracking filtered by keys with suffix _s1s2
+      var sumPriorities = 0
+      keys.forEach(function (el) {
+        var entry = userTracking[el]
+        var diff = d - entry[3] // how long ago it is a letter of mapping s1s2 has been asked
+        var priority = diff / (entry[2] ** 2)
+        priorities[el] = priority
+        sumPriorities += priority
+      })
+      // keys.forEach(function (el) {
+      //   priorities[el] /= sumPriorities
+      // })
+      var randomThreshold = Math.floor(Math.random() * sumPriorities)
+      var key = ''
+      var counter = 0
+      for (var el in priorities) {
+        counter += priorities[el]
+        if (counter >= randomThreshold) {
+          key = el
+          break
+        }
+      }
+      console.log('sumPriorities: ' + sumPriorities)
+      console.log('randomThreshold: ' + randomThreshold)
+      console.log('counter: ' + counter)
+      key = key.substring(0, key.length - 3)
+      console.log('key: ' + key)
+      Object.keys(priorities).forEach(function (p) {
+        console.log('priority of ' + p + ': ' + priorities[p])
+      })
       // need to sort by priorty, assign probability accordingly, and sample according to probabilities
       this.questionImage = this.getLetters(key, this.script1)[0]
       this.currentKey = key
