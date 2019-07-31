@@ -217,7 +217,8 @@ export default {
       databaseKeys.forEach(function (key2) {
         var entry = database[key2] // entry := [_,_,mastery,time_last_seen]
         var diff = d - entry[3] // how long ago it is a question with given letter of mapping s1s2 has been asked
-        var priority = diff / (entry[2] ** 2) // priority as diff scaled by quadratically significant mastery
+        // try to optimize power term somehow
+        var priority = diff / (entry[2] ** 1.7) // priority as diff scaled by power-fold significant mastery
         priorities[key2] = priority // key: priority map
         sumPriorities += priority
       })

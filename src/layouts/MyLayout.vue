@@ -28,7 +28,7 @@
               <q-item @click="$router.push('/Settings/')" clickable>
                 <q-item-section>Settings</q-item-section>
               </q-item>
-              <q-item @click="$router.push('/MultipleChoice/')" clickable>
+              <q-item @click="$router.push('../')" clickable>
                 <q-item-section>Multiple Choice</q-item-section>
               </q-item>
               <q-item @click="logOut()" clickable>
@@ -54,16 +54,21 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <router-view />
+      <!-- <router-view /> -->
+      <multiple-choice-quiz :userObj="userObj" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import userTracking from '../statics/svg/user_tracking.json'
+import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 
 export default {
   name: 'MyLayout',
+  components: {
+    MultipleChoiceQuiz
+  },
   created () {
     // listen to event calls from elsewhere
     this.$root.$on('registerSignIn', this.registerSignIn)
@@ -133,6 +138,19 @@ export default {
       }
     },
     /**
+    Returns an initialized userObj with current time stamp
+    **/
+    initializeUserObj () {
+      var tmpObj = { lvl: 0, exp: 0, tracking: userTracking }
+      var trackingKeys = Object.keys(tmpObj.tracking)
+      var currentDate = Date.now()
+      // initialize time stamp to current time for all user tracking maps
+      trackingKeys.forEach(function (trackingKey) {
+        tmpObj.tracking[trackingKey] = [0, 0, 1, currentDate]
+      })
+      return tmpObj
+    },
+    /**
     Registers a username (creates a new database entry) and adjusts display if the username is not already given.
      Else prompts the user to try a different name.
     **/
@@ -142,13 +160,14 @@ export default {
         alert('The name ' + name + ' has already been registered. Please try a different name.')
       } else {
         alert('Registration successful.')
-        localStorage.setItem(name, JSON.stringify({ lvl: 0, exp: 0, tracking: userTracking }))
         this.showAvatar = true
         this.showSignInBtn = false
         this.showSignInField = false
         this.showRegisterBtn = false
         this.username = name
+        this.userObj = this.initializeUserObj()
         this.$router.push('../')
+        this.updateDatabase()
       }
     },
     /**
@@ -183,7 +202,7 @@ export default {
     Resets user data and reloads that data to current display.
     **/
     resetAccount () {
-      localStorage.setItem(this.username, JSON.stringify({ lvl: 0, exp: 0, tracking: userTracking }))
+      localStorage.setItem(this.username, JSON.stringify(this.initializeUserObj()))
       this.userObj = JSON.parse(localStorage.getItem(this.username))
     },
     /**
