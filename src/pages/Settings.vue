@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <q-card style="width: 300px; padding: 30px;">
       <!-- header -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
       <strong style="font-size: 120%;">Settings</strong>
       <!-- content -->
@@ -74,10 +74,6 @@ export default {
         console.log('deleteAccount confirmed')
         this.$root.$emit('deleteAccount')
       }
-    },
-    goUp () {
-      console.log('called goUp() from Settings')
-      this.$router.push('../')
     }
   }
 }

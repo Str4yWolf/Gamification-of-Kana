@@ -11,6 +11,7 @@
               <q-badge floating color="teal">LV {{userObj.lvl}}</q-badge>
             </q-avatar>
           </q-item-section>
+          <!-- User progress display -->
           <q-item-section>
             <q-item-label><strong>{{ username }}</strong> &nbsp; &nbsp; &nbsp; &nbsp;
              Exp: {{userObj.exp}}/{{lvlThreshold[userObj.lvl]}}</q-item-label>
@@ -18,6 +19,7 @@
               <q-linear-progress stripe rounded style="height: 20px" :value="lvlProgress" color="secondary" />
             </q-item-label>
           </q-item-section>
+          <!-- menu (pages) -->
           <q-menu auto-close>
             <q-list style="min-width: 100px">
               <q-item @click="$router.push('/Information/')" clickable>
@@ -74,16 +76,24 @@ export default {
   },
   data () {
     return {
+      // display control
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
       showSignInField: false,
+      // level control
       lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1000000 },
+      // user data
       username: '',
       userObj: { lvl: 0, exp: 0, tracking: 0 }
     }
   },
   computed: {
+    /**
+    lvlProgress is fraction of how many experience points a user has within the current level,
+     bounded by the threshold for the next level.
+     Once the user hits a new level, the lvlProgress will be set to 0 again.
+    **/
     lvlProgress () {
       var value = 0
       if (this.userObj.lvl !== 0) {
@@ -105,6 +115,10 @@ export default {
       this.showSignInBtn = true
       this.showSignInField = false
     },
+    /**
+    Signs in a registered user by loading user data and setting display elements.
+     Unregistered names will be prompted to the user.
+    **/
     signIn () {
       console.log('Called signIn from Layout')
       if (localStorage.getItem(this.username) !== null) {
@@ -118,6 +132,10 @@ export default {
         alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
       }
     },
+    /**
+    Registers a username (creates a new database entry) and adjusts display if the username is not already given.
+     Else prompts the user to try a different name.
+    **/
     registerSignIn (name) {
       console.log('Called registerSignIn from Layout')
       if (localStorage.getItem(name) !== null) {
@@ -133,6 +151,9 @@ export default {
         this.$router.push('../')
       }
     },
+    /**
+    Logs out a user by adjusting display and resetting currently loaded user data.
+    **/
     logOut () {
       console.log('Called logOut')
       this.showAvatar = false
@@ -140,68 +161,88 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.$router.push('/')
+      this.userObj = { lvl: 0, exp: 0, tracking: userTracking }
     },
+    /**
+    Changes username to a new name if the new name doesn't already exists.
+     Technically, the user data will be bound to a new key (new username).
+    **/
     changeName (name) {
       console.log('Called changeName(' + name + ') from Layout')
       if (localStorage.getItem(name) !== null) {
         alert('The name ' + name + ' already exists. Please try a different name.')
       } else {
-        var userData = localStorage.getItem(this.username)
-        localStorage.removeItem(this.username)
-        localStorage.setItem(name, userData)
+        var userData = localStorage.getItem(this.username) // old data backup
+        localStorage.removeItem(this.username) // remove database entry of old name
+        localStorage.setItem(name, userData) // create database entry with new name and data backup
         this.username = name
         alert('Successfully changed name to ' + name + '.')
       }
     },
+    /**
+    Resets user data and reloads that data to current display.
+    **/
     resetAccount () {
       localStorage.setItem(this.username, JSON.stringify({ lvl: 0, exp: 0, tracking: userTracking }))
       this.userObj = JSON.parse(localStorage.getItem(this.username))
     },
+    /**
+    Permanently removes the username and data associated with it and proceeds with the logout procedure.
+    **/
     deleteAccount () {
       localStorage.removeItem(this.username)
-      this.userObj = { lvl: 0, exp: 0, tracking: userTracking }
       this.logOut()
     },
+    /**
+    Adds user experience and calls relevant functions to make changes effective.
+    **/
     addExp (n) {
       this.userObj.exp += n
       this.updateLvl()
       this.updateDatabase()
     },
+    /**
+    Recursive function to check for level-ups which are governed by lvlThreshold object.
+     Maximum reachable level is 12.
+    **/
     updateLvl () {
       if (this.userObj.lvl === 12) {
         return
       }
-      var threshold = this.lvlThreshold[this.userObj.lvl]
+      var threshold = this.lvlThreshold[this.userObj.lvl] // get threshold associated with current user level
       if (this.userObj.exp >= threshold) {
-        this.userObj.lvl += 1
+        this.userObj.lvl += 1 // increment level upon hitting threshold
         alert('Congratulations. You have reached level ' + this.userObj.lvl + '!')
-        this.updateLvl()
+        this.updateLvl() // check whether more levels have been hit
       }
     },
     /**
+    Increment user tracking by adjusting counters, mastery, and time_last_seen
+    ---
     @params
     prefix: letter in question
     s1: source script (question)
     s2: target script (answer)
-    correct: whether user has answered correctly
+    correctlyAnswered: whether user has answered correctly
     **/
-    incrementTracking (prefix, s1, s2, correct) {
-      console.log('updateTracking with prefix: ' + prefix + ', scripts ' + s1 + ' ' + s2 + ' and increment of correct words count of ' + correct + '.')
-      var key = prefix + '_' + s1 + s2
-      // val := [s1, s2, mastery, time_last_seen]
-      var val = this.userObj['tracking'][key]
-      val[3] = Date.now()
-      if (correct) {
-        val[0] += 1
-        val[2] += 1
+    incrementTracking (prefix, s1, s2, correctlyAnswered) {
+      console.log('updateTracking with prefix: ' + prefix + ', scripts ' + s1 + ' ' + s2 + ' and increment of correct words count of ' + correctlyAnswered + '.')
+      var key = prefix + '_' + s1 + s2 // format used in user tracking
+      var val = this.userObj['tracking'][key] // val := [times_correctly_answered, times_seen, mastery, time_last_seen]
+      val[3] = Date.now() // update time_last_seen
+      if (correctlyAnswered) {
+        val[0] += 1 // increase correct answer count
+        val[2] += 1 // increase mastery
       } else {
-        // penalty for answering wrong
-        val[2] = Math.ceil(val[2] / 5)
+        val[2] = Math.ceil(val[2] / 5) // penalty on mastery for answering wrong
       }
-      val[1] += 1
-      this.userObj['tracking'].prefix = val
+      val[1] += 1 // increase total times seen count
+      this.userObj['tracking'][key] = val // update map
       this.updateDatabase()
     },
+    /**
+    Writes current userObj of user onto database
+    **/
     updateDatabase () {
       localStorage.setItem(this.username, JSON.stringify(this.userObj))
     }

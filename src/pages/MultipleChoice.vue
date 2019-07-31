@@ -2,9 +2,9 @@
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
-      <strong style="font-size: 120%;">Multiple Choice ({{questionsAnswered}}/{{quizLength}})</strong>
+      <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
       <!-- parameters panel -->
       <span class="row">
         <!-- script selection -->
@@ -94,7 +94,7 @@ export default {
         'manyougana-katakana': '5' },
       // quiz controllers
       quizLength: 3,
-      questionsAnswered: 0,
+      numberQuestionsAnswered: 0,
       questionsAnsweredCorrectly: 0,
       correctAnswer: -1,
       // user feedback after each time answered
@@ -111,8 +111,12 @@ export default {
     this.$refs.modal.$el.focus()
   },
   methods: {
+    /**
+    Validate user keyboard input
+    **/
     validateKeyInput (event) {
       switch (event.keyCode) {
+        // keyboard numbers 1 - 4
         case 49:
         case 50:
         case 51:
@@ -124,12 +128,14 @@ export default {
             console.log('Validation is in progress. Options unusable.')
           }
           break
+        // keyboard Enter key
         case 13:
           console.log('pressed enter in validateKeyInput')
           if (this.hasAnsweredQuestion) {
             this.continueQuiz()
           }
           break
+        // log all other keys
         default:
           console.log('called validateKeyInput with key')
           console.log(event.key)
@@ -137,169 +143,172 @@ export default {
           console.log(event.keyCode)
       }
     },
-    getLetters (letter, script) {
-      console.log('called getLetters(' + letter + ', ' + script + ') from MultipleChoice')
-      var suffixes = []
+    /**
+    Return the correct database given a script
+    **/
+    scriptToData (script) {
+      var database = {}
       if (script === 'hentaigana') {
-        suffixes = hentaigana[letter]
+        database = hentaigana
       } else if (script === 'hiragana') {
-        suffixes = hiragana[letter]
+        database = hiragana
       } else if (script === 'katakana') {
-        suffixes = katakana[letter]
+        database = katakana
       } else if (script === 'manyougana-katakana') {
-        suffixes = manyouganaKatakana[letter]
+        database = manyouganaKatakana
       } else {
         alert('invalid script input')
-        return undefined
+        database = undefined
       }
+      return database
+    },
+    /**
+    Get an array of svg image paths of given letter and script
+    **/
+    getLetters (letter, script) {
+      console.log('called getLetters(' + letter + ', ' + script + ') from MultipleChoice')
+      var suffixes = this.scriptToData(script)[letter] // get suffixes of given letter and script
       var paths = []
+      // construct an svg image path from each suffix
       suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + '.svg'))
       return paths
     },
-    generateOption (letter, script) {
-      console.log('called generateOption(' + letter + ', ' + script + ') from MultipleChoice')
-      var dataset = {}
-      if (script === 'hentaigana') {
-        dataset = hentaigana
-      } else if (script === 'hiragana') {
-        dataset = hiragana
-      } else if (script === 'katakana') {
-        dataset = katakana
-      } else if (script === 'manyougana-katakana') {
-        dataset = manyouganaKatakana
-      } else {
-        alert('invalid script input')
-        return undefined
+    /**
+    Randomly generate an option (get image letter paths) which must not be forbiddenLetter but of given script
+    **/
+    generateOption (forbiddenLetter, script) {
+      console.log('called generateOption(' + forbiddenLetter + ', ' + script + ') from MultipleChoice')
+      // dataset and its keys
+      var dataset = this.scriptToData(script)
+      var datasetKeys = Object.keys(dataset)
+      // initialize loop
+      var randomKey = ''
+      var isSameKey = true
+      // loop until randomKey != forbiddenLetter; never gets randomKey which is forbiddenLetter
+      while (isSameKey) {
+        var randomIndex = Math.floor(Math.random() * datasetKeys.length)
+        randomKey = datasetKeys[randomIndex]
+        isSameKey = (randomKey === forbiddenLetter) // is the randomKey we get the forbiddenLetter
       }
-      var key = ''
-      var sameKey = true
-      // loop until key != letter; never gets key which is letter
-      while (sameKey) {
-        var keys = Object.keys(dataset)
-        var randomIndex = Math.floor(Math.random() * keys.length)
-        key = keys[randomIndex]
-        sameKey = (key === letter)
-      }
-      return this.getLetters(key, script)
+      return this.getLetters(randomKey, script) // get an option not the forbiddenLetter above but of given script
     },
+    /**
+    **/
     continueQuiz () {
-      if (this.questionsAnswered === this.quizLength) {
+      // end quiz when given number of questions have been answered
+      if (this.numberQuestionsAnswered === this.quizLength) {
         return this.endQuiz()
       }
+      // adjust display controls
       this.quizHasStarted = true
       this.hasAnsweredQuestion = false
       this.validationInProgress = false
-      /**
-      var dataset = {}
-      if (this.script1 === 'hentaigana') {
-        dataset = hentaigana
-      } else if (this.script1 === 'hiragana') {
-        dataset = hiragana
-      } else if (this.script1 === 'katakana') {
-        dataset = katakana
-      } else if (this.script1 === 'manyougana-katakana') {
-        dataset = manyouganaKatakana
-      } else {
-        alert('invalid script input')
-        return undefined
-      }
-      **/
-      // var keys = Object.keys(dataset)
-      // var randomIndex = Math.floor(Math.random() * keys.length)
-      // var key = keys[randomIndex]
-      var d = Date.now()
+      var d = Date.now() // current time stamp
+      // generate regular expression to filter letters of correct script mapping (ending on _s1s2)
       var regex = new RegExp('_' + this.scriptIndex[this.script1] + this.scriptIndex[this.script2] + '$')
-      var keys = Object.keys(userTracking).filter(akey => regex.test(akey))
-      console.log('logging filtered keys in MultipleChoice: ' + keys + ', length: ' + keys.length)
+      // filter keys by given script mapping
+      var database = userTracking
+      var databaseKeys = Object.keys(database).filter(key1 => regex.test(key1))
+      console.log('logging filtered keys in MultipleChoice: ' + databaseKeys + ', length: ' + databaseKeys.length)
+      // initialize key selection loop (1)
       var priorities = {}
-      // need to use userTracking filtered by keys with suffix _s1s2
       var sumPriorities = 0
-      keys.forEach(function (el) {
-        var entry = userTracking[el]
-        var diff = d - entry[3] // how long ago it is a letter of mapping s1s2 has been asked
-        var priority = diff / (entry[2] ** 2)
-        priorities[el] = priority
+      // calculate priority for each key
+      databaseKeys.forEach(function (key2) {
+        var entry = database[key2] // entry := [_,_,mastery,time_last_seen]
+        var diff = d - entry[3] // how long ago it is a question with given letter of mapping s1s2 has been asked
+        var priority = diff / (entry[2] ** 2) // priority as diff scaled by quadratically significant mastery
+        priorities[key2] = priority // key: priority map
         sumPriorities += priority
       })
-      // keys.forEach(function (el) {
-      //   priorities[el] /= sumPriorities
-      // })
+      // initialize key selection loop (2)
       var randomThreshold = Math.floor(Math.random() * sumPriorities)
-      var key = ''
-      var counter = 0
-      for (var el in priorities) {
-        counter += priorities[el]
-        if (counter >= randomThreshold) {
-          key = el
+      var randomKey = ''
+      var currentSum = 0
+      // loop until threshold has been reached; randomly select key proportional to the priorities (unnormalized distribution)
+      for (var key3 in priorities) {
+        currentSum += priorities[key3]
+        if (currentSum >= randomThreshold) {
+          randomKey = key3.substring(0, randomKey.length - 3) // select key and remove script mapping suffix
           break
         }
       }
+      this.currentKey = randomKey // make current key visible outside method
+      // temporary logs
       console.log('sumPriorities: ' + sumPriorities)
       console.log('randomThreshold: ' + randomThreshold)
-      console.log('counter: ' + counter)
-      key = key.substring(0, key.length - 3)
-      console.log('key: ' + key)
-      Object.keys(priorities).forEach(function (p) {
-        console.log('priority of ' + p + ': ' + priorities[p])
+      console.log('counter: ' + currentSum)
+      console.log('randomKey: ' + randomKey)
+      Object.keys(priorities).forEach(function (key4) {
+        console.log('priority of ' + key4 + ': ' + priorities[key4])
       })
-      // need to sort by priorty, assign probability accordingly, and sample according to probabilities
-      this.questionImage = this.getLetters(key, this.script1)[0]
-      this.currentKey = key
-      // generate an option of script2 which is NOT equal to the letter passed as argument key
-      this.option1Image = this.generateOption(key, this.script2)[0]
-      this.option2Image = this.generateOption(key, this.script2)[0]
-      this.option3Image = this.generateOption(key, this.script2)[0]
-      this.option4Image = this.generateOption(key, this.script2)[0]
-      this.correctAnswer = Math.floor(Math.random() * 4)
+      // get question image
+      this.questionImage = this.getLetters(randomKey, this.script1)[0]
+      // generate options of target script2 which is NOT equal to the letter passed as randomKey
+      this.option1Image = this.generateOption(randomKey, this.script2)[0]
+      this.option2Image = this.generateOption(randomKey, this.script2)[0]
+      this.option3Image = this.generateOption(randomKey, this.script2)[0]
+      this.option4Image = this.generateOption(randomKey, this.script2)[0]
+      this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
+      // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {
         case 0:
-          this.option1Image = this.getLetters(key, this.script2)[0]
+          this.option1Image = this.getLetters(randomKey, this.script2)[0]
           break
         case 1:
-          this.option2Image = this.getLetters(key, this.script2)[0]
+          this.option2Image = this.getLetters(randomKey, this.script2)[0]
           break
         case 2:
-          this.option3Image = this.getLetters(key, this.script2)[0]
+          this.option3Image = this.getLetters(randomKey, this.script2)[0]
           break
         case 3:
-          this.option4Image = this.getLetters(key, this.script2)[0]
+          this.option4Image = this.getLetters(randomKey, this.script2)[0]
           break
       }
     },
+    /**
+    validate option event triggered by user input
+    **/
     validateOption (event) {
       console.log('called validateOption from MultipleChoice')
+      // adjust controls
       this.hasAnsweredQuestion = true
       this.validationInProgress = true
+      // get user answer
       var userAnswer
       if (event.target !== undefined) {
-        userAnswer = parseInt(event.target.id.split('-')[4]) - 1
+        userAnswer = parseInt(event.target.id.split('-')[4]) - 1 // from button
       } else {
-        userAnswer = parseInt(event) - 1
+        userAnswer = parseInt(event) - 1 // from keyboard
       }
       console.log('userAnswer: ' + userAnswer)
       console.log('correctAnswer: ' + this.correctAnswer)
+      // display feedback,
+      // adjust quiz controls, and
+      // log progress in user tracking (to affect future questions in spaced repetition)
+      // depending on answer
       if (userAnswer === this.correctAnswer) {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was correct. Great job!'
         this.questionsAnsweredCorrectly += 1
+        // reward with exp (perhaps level-ups)
         this.$root.$emit('addExp', 1)
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
       }
-      this.questionsAnswered += 1
+      this.numberQuestionsAnswered += 1
     },
+    /**
+    End quiz by intializing quiz controls and displaying feedback to user
+    **/
     endQuiz () {
       console.log('called endQuiz from MultipleChoice')
       this.quizHasStarted = false
       this.validationInProgress = false
-      this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.questionsAnswered + ' in this quiz!'
-      this.questionsAnswered = 0
+      this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.numberQuestionsAnswered + ' in this quiz!'
       this.questionsAnsweredCorrectly = 0
-    },
-    goUp () {
-      console.log('called goUp() from Settings')
-      this.$router.push('../')
+      this.numberQuestionsAnswered = 0
     }
   }
 }
