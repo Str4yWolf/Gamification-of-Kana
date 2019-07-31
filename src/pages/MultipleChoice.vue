@@ -193,16 +193,10 @@ export default {
       return this.getLetters(randomKey, script) // get an option not the forbiddenLetter above but of given script
     },
     /**
+      sets a random new currentKey while taking the past user progress into account
+       (spaced repetition with emphasis on less mastered questions)
     **/
-    continueQuiz () {
-      // end quiz when given number of questions have been answered
-      if (this.numberQuestionsAnswered === this.quizLength) {
-        return this.endQuiz()
-      }
-      // adjust display controls
-      this.quizHasStarted = true
-      this.hasAnsweredQuestion = false
-      this.validationInProgress = false
+    randomizeCurrentKey () {
       var d = Date.now() // current time stamp
       // generate regular expression to filter letters of correct script mapping (ending on _s1s2)
       var regex = new RegExp('_' + this.scriptIndex[this.script1] + this.scriptIndex[this.script2] + '$')
@@ -229,7 +223,7 @@ export default {
       for (var key3 in priorities) {
         currentSum += priorities[key3]
         if (currentSum >= randomThreshold) {
-          randomKey = key3.substring(0, randomKey.length - 3) // select key and remove script mapping suffix
+          randomKey = key3.substring(0, key3.length - 3) // select key and remove script mapping suffix
           break
         }
       }
@@ -242,27 +236,42 @@ export default {
       Object.keys(priorities).forEach(function (key4) {
         console.log('priority of ' + key4 + ': ' + priorities[key4])
       })
+    },
+    /**
+    Generate next options and display them accordingly
+    **/
+    continueQuiz () {
+      // end quiz when given number of questions have been answered
+      if (this.numberQuestionsAnswered === this.quizLength) {
+        return this.endQuiz()
+      }
+      // adjust display controls
+      this.quizHasStarted = true
+      this.hasAnsweredQuestion = false
+      this.validationInProgress = false
+      // set a random new currentKey which yet employs spaced repetition and emphasis on less mastered questions
+      this.randomizeCurrentKey()
       // get question image
-      this.questionImage = this.getLetters(randomKey, this.script1)[0]
+      this.questionImage = this.getLetters(this.currentKey, this.script1)[0]
       // generate options of target script2 which is NOT equal to the letter passed as randomKey
-      this.option1Image = this.generateOption(randomKey, this.script2)[0]
-      this.option2Image = this.generateOption(randomKey, this.script2)[0]
-      this.option3Image = this.generateOption(randomKey, this.script2)[0]
-      this.option4Image = this.generateOption(randomKey, this.script2)[0]
+      this.option1Image = this.generateOption(this.currentKey, this.script2)[0]
+      this.option2Image = this.generateOption(this.currentKey, this.script2)[0]
+      this.option3Image = this.generateOption(this.currentKey, this.script2)[0]
+      this.option4Image = this.generateOption(this.currentKey, this.script2)[0]
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {
         case 0:
-          this.option1Image = this.getLetters(randomKey, this.script2)[0]
+          this.option1Image = this.getLetters(this.currentKey, this.script2)[0]
           break
         case 1:
-          this.option2Image = this.getLetters(randomKey, this.script2)[0]
+          this.option2Image = this.getLetters(this.currentKey, this.script2)[0]
           break
         case 2:
-          this.option3Image = this.getLetters(randomKey, this.script2)[0]
+          this.option3Image = this.getLetters(this.currentKey, this.script2)[0]
           break
         case 3:
-          this.option4Image = this.getLetters(randomKey, this.script2)[0]
+          this.option4Image = this.getLetters(this.currentKey, this.script2)[0]
           break
       }
     },
