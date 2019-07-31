@@ -111,13 +111,13 @@ export default {
       return value
     },
     showMultipleChoiceQuizPage () {
-      return (window.location.pathname === '/' && this.showMultipleChoiceQuiz)
+      return (this.$route.path === '/' && this.showMultipleChoiceQuiz)
     }
   },
   methods: {
     unhideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = true
-      this.$router.$push('/')
+      this.$router.push('/')
     },
     hideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = false
