@@ -2,17 +2,19 @@
   <q-page class="flex flex-center">
     <q-card style="width: 750px; padding: 30px;">
       <!-- header -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
       <strong style="font-size: 120%;">Information</strong>
       <!-- content -->
       <q-list bordered class="rounded-borders">
+        <!-- General (Index 1) -->
         <q-expansion-item
           expand-separator
           icon="book"
           label="General"
           group="information"
       >
+        <!-- How to use (Index 1-1) -->
         <q-expansion-item
           :header-inset-level="0.5"
           :content-inset-level="1"
@@ -28,6 +30,7 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+        <!-- Progress and learning (Index 1-2) -->
         <q-expansion-item
           :header-inset-level="0.5"
           :content-inset-level="1"
@@ -43,12 +46,14 @@
           </q-card>
         </q-expansion-item>
       </q-expansion-item>
+      <!-- Details (Index 2) -->
       <q-expansion-item
           expand-separator
           icon="book"
           label="Details"
           group="information"
       >
+        <!-- supported actions (Index 2-1) -->
         <q-expansion-item
           :header-inset-level="0.5"
           :content-inset-level="1"
@@ -71,6 +76,7 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+        <!-- Technical (Index 2-2) -->
         <q-expansion-item
           :header-inset-level="0.5"
           :content-inset-level="1"
@@ -86,6 +92,7 @@
           </q-card>
         </q-expansion-item>
       </q-expansion-item>
+      <!-- ToDo (Index 3) -->
       <q-expansion-item
           :content-inset-level="1"
           expand-separator
@@ -96,10 +103,11 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Learning theory/Spaced Repetition<br />
+              Finalize Spaced Repetition<br />
               Colourful Manyougana<br />
               Practical tests (e.g., reading hentaigana)<br />
               getting rewards<br />
+              Additional gamification elements (e.g., timer)<br />
               Final (exam)<br />
               (Story mode)<br />
               (Varying Hentaigana)<br />
@@ -122,12 +130,6 @@ export default {
   // name: 'PageName',
   data () {
     return {
-    }
-  },
-  methods: {
-    goUp () {
-      console.log('called goUp() from Settings')
-      this.$router.push('../')
     }
   }
 }

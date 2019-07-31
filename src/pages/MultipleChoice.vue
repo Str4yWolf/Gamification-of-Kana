@@ -4,21 +4,23 @@
       <!-- header -->
       <q-btn round dense flat icon="keyboard_backspace" @click="goUp()" />
       &nbsp;
-      <strong style="font-size: 120%;">Multiple Choice ({{questionsAnswered}}/{{questions}})</strong>
+      <strong style="font-size: 120%;">Multiple Choice ({{questionsAnswered}}/{{quizLength}})</strong>
       <!-- parameters panel -->
       <span class="row">
+        <!-- script selection -->
         <span>
           <q-select v-model="script1" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
         </span>
         <span>
           <q-select v-model="script2" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
         </span>
-        <span style="padding:10px;">
+        <!-- number of questions slider -->
+        <span style="padding:10px;" v-if="!quizHasStarted">
           <strong>Questions: </strong>
         </span>
-        <span>
+        <span v-if="!quizHasStarted">
           <q-slider
-            v-model="questions"
+            v-model="quizLength"
             :min="3"
             :max="20"
             :step="1"
@@ -27,34 +29,35 @@
             style="width: 120px;"
           />
         </span>
+        <!-- context dependent button -->
         <span style="padding-left:10px;">
-          <q-btn v-if="!started" color="green" label="Start" @click="continueQuiz()" />
-          <q-btn v-if="continued" color="green" label="Continue" @click="continueQuiz()" />
+          <q-btn v-if="!quizHasStarted" color="green" label="Start" @click="continueQuiz()" />
+          <q-btn v-if="validationInProgress" color="green" label="Continue" @click="continueQuiz()" />
         </span>
       </span>
       <!-- question -->
       <span class="row" style="padding: 20px 0px 20px 50px;">
         <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" />
-        <span v-if="!answered" style="position:relative; top:68px; left:30px;">What is this {{script1}}'s equivalent in {{script2}}?</span>
-        <span v-if="answered" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
+        <span v-if="!hasAnsweredQuestion" style="position:relative; top:68px; left:30px;">What is this {{script1}}'s equivalent in {{script2}}?</span>
+        <span v-if="hasAnsweredQuestion" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
           <character-flashcard :imgSrc="option1Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" />
+          <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
         </span>
         <span>
           <character-flashcard :imgSrc="option2Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" />
+          <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
         </span>
         <span>
           <character-flashcard :imgSrc="option3Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" />
+          <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
         </span>
         <span>
           <character-flashcard :imgSrc="option4Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" />
+          <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
         </span>
       </span>
     </q-card>
@@ -76,21 +79,27 @@ export default {
   },
   data () {
     return {
-      started: false,
+      // Boolean process and button display controllors
+      quizHasStarted: false,
+      hasAnsweredQuestion: false,
+      validationInProgress: false,
+      // script-related
       script1: 'katakana',
       script2: 'manyougana-katakana',
+      currentKey: '',
+      // convert script to its number code as used in script-to-script maps
       scriptIndex: { 'hentaigana': '1',
         'hiragana': '2',
         'katakana': '3',
         'manyougana-katakana': '5' },
-      currentKey: '',
-      questions: 3,
+      // quiz controllers
+      quizLength: 3,
       questionsAnswered: 0,
       questionsAnsweredCorrectly: 0,
       correctAnswer: -1,
-      answered: false,
-      continued: false,
+      // user feedback after each time answered
       feedbackMessage: '',
+      // image paths
       questionImage: '',
       option1Image: '',
       option2Image: '',
@@ -108,12 +117,16 @@ export default {
         case 50:
         case 51:
         case 52:
-          console.log('called validateKeyInput with 1-4')
-          this.validateOption(event.keyCode - 48)
+          if (!this.validationInProgress) {
+            console.log('called validateKeyInput with 1-4')
+            this.validateOption(event.keyCode - 48)
+          } else {
+            console.log('Validation is in progress. Options unusable.')
+          }
           break
         case 13:
           console.log('pressed enter in validateKeyInput')
-          if (this.answered) {
+          if (this.hasAnsweredQuestion) {
             this.continueQuiz()
           }
           break
@@ -160,6 +173,7 @@ export default {
       }
       var key = ''
       var sameKey = true
+      // loop until key != letter; never gets key which is letter
       while (sameKey) {
         var keys = Object.keys(dataset)
         var randomIndex = Math.floor(Math.random() * keys.length)
@@ -169,12 +183,12 @@ export default {
       return this.getLetters(key, script)
     },
     continueQuiz () {
-      if (this.questionsAnswered === this.questions) {
+      if (this.questionsAnswered === this.quizLength) {
         return this.endQuiz()
       }
-      this.started = true
-      this.answered = false
-      this.continued = false
+      this.quizHasStarted = true
+      this.hasAnsweredQuestion = false
+      this.validationInProgress = false
       /**
       var dataset = {}
       if (this.script1 === 'hentaigana') {
@@ -231,6 +245,7 @@ export default {
       // need to sort by priorty, assign probability accordingly, and sample according to probabilities
       this.questionImage = this.getLetters(key, this.script1)[0]
       this.currentKey = key
+      // generate an option of script2 which is NOT equal to the letter passed as argument key
       this.option1Image = this.generateOption(key, this.script2)[0]
       this.option2Image = this.generateOption(key, this.script2)[0]
       this.option3Image = this.generateOption(key, this.script2)[0]
@@ -253,8 +268,8 @@ export default {
     },
     validateOption (event) {
       console.log('called validateOption from MultipleChoice')
-      this.answered = true
-      this.continued = true
+      this.hasAnsweredQuestion = true
+      this.validationInProgress = true
       var userAnswer
       if (event.target !== undefined) {
         userAnswer = parseInt(event.target.id.split('-')[4]) - 1
@@ -276,8 +291,8 @@ export default {
     },
     endQuiz () {
       console.log('called endQuiz from MultipleChoice')
-      this.started = false
-      this.continued = false
+      this.quizHasStarted = false
+      this.validationInProgress = false
       this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.questionsAnswered + ' in this quiz!'
       this.questionsAnswered = 0
       this.questionsAnsweredCorrectly = 0

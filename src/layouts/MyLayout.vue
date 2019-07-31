@@ -196,7 +196,7 @@ export default {
         val[2] += 1
       } else {
         // penalty for answering wrong
-        val[2] = Math.ceiling(val[2] / 5)
+        val[2] = Math.ceil(val[2] / 5)
       }
       val[1] += 1
       this.userObj['tracking'].prefix = val
