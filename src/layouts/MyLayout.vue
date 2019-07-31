@@ -28,7 +28,7 @@
               <q-item @click="$router.push('/Settings/')" clickable>
                 <q-item-section>Settings</q-item-section>
               </q-item>
-              <q-item @click="$router.push('../')" clickable>
+              <q-item @click="unhideMultipleChoiceQuiz()" clickable>
                 <q-item-section>Multiple Choice</q-item-section>
               </q-item>
               <q-item @click="logOut()" clickable>
@@ -54,8 +54,8 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <!-- <router-view /> -->
-      <multiple-choice-quiz :userObj="userObj" />
+      <router-view v-if="!showMultipleChoiceQuizPage" />
+      <multiple-choice-quiz :userObj="userObj" v-if="showMultipleChoiceQuizPage" />
     </q-page-container>
   </q-layout>
 </template>
@@ -78,10 +78,12 @@ export default {
     this.$root.$on('logOut', this.logOut)
     this.$root.$on('addExp', this.addExp)
     this.$root.$on('incrementTracking', this.incrementTracking)
+    this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
   },
   data () {
     return {
       // display control
+      showMultipleChoiceQuiz: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -107,9 +109,19 @@ export default {
         value = this.userObj.exp / 5
       }
       return value
+    },
+    showMultipleChoiceQuizPage () {
+      return (window.location.pathname === '/' && this.showMultipleChoiceQuiz)
     }
   },
   methods: {
+    unhideMultipleChoiceQuiz () {
+      this.showMultipleChoiceQuiz = true
+      this.$router.$push('/')
+    },
+    hideMultipleChoiceQuiz () {
+      this.showMultipleChoiceQuiz = false
+    },
     unhideSignInField () {
       console.log('Called unhideSignInField from Layout')
       this.showSignInBtn = false

@@ -2,7 +2,7 @@
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideMultipleChoiceQuiz')" />
       &nbsp;
       <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
       <!-- parameters panel -->
@@ -45,19 +45,19 @@
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
           <character-flashcard :imgSrc="option1Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
+          <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
           <character-flashcard :imgSrc="option2Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
+          <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
           <character-flashcard :imgSrc="option3Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
+          <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
           <character-flashcard :imgSrc="option4Image" />
-          <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="validationInProgress" />
+          <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
     </q-card>
@@ -115,6 +115,11 @@ export default {
   mounted () {
     this.$refs.modal.$el.focus()
   },
+  computed: {
+    disableOptions () {
+      return (!this.quizHasStarted || this.validationInProgress)
+    }
+  },
   methods: {
     /**
     Validate user keyboard input
@@ -126,7 +131,7 @@ export default {
         case 50:
         case 51:
         case 52:
-          if (!this.validationInProgress) {
+          if (!this.disableOptions) {
             console.log('called validateKeyInput with 1-4')
             this.validateOption(event.keyCode - 48)
           } else {
