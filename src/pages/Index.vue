@@ -9,8 +9,8 @@
       <character-flashcard :img-src="currentImage" style="left:15px;" />
       <!-- script display data -->
       <q-item-section v-on:keyup.enter="flipCard()">
-        <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script1" />
-        <q-select v-model="script2" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script2" />
+        <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script1" />
+        <q-select v-model="script2" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script2" />
       </q-item-section>
       <q-item-section>
         <q-input v-model="letter" @input="updateFlashcard()" v-on:keyup.enter="flipCard()" label="Current Letter" />
@@ -29,6 +29,7 @@ import hentaigana from '../statics/svg/hentaigana_hep.json'
 import hiragana from '../statics/svg/hiragana_hep.json'
 import katakana from '../statics/svg/katakana_hep.json'
 import manyouganaKatakana from '../statics/svg/manyougana-katakana_hep.json'
+import manyouganaKatakanaC from '../statics/svg/manyougana-katakana-c_hep.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 
 export default {
@@ -58,6 +59,8 @@ export default {
         suffixes = katakana[letter]
       } else if (script === 'manyougana-katakana') {
         suffixes = manyouganaKatakana[letter]
+      } else if (script === 'manyougana-katakana-c') {
+        suffixes = manyouganaKatakanaC[letter]
       } else {
         alert('invalid script input')
         return undefined

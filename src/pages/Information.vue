@@ -64,12 +64,13 @@
           <q-card>
             <q-card-section>
               <strong>Functions</strong><br />
-              As of 7/17/2018, you can use a simple flashcard function and a multiple choice quiz.<br />
-              User DB Registration basics also work. You can gain experience points.<br />
+              As of 7/31/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
+              Spaced repitition works, although parameters need some trial-and-error tuning.
+              User database interaction works. You can gain experience points and hit levels.<br />
               Progress tracking of character in question and target scripts included.<br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
-              Hentaigana, Hiragana, Katakana, Man'yougana-Katakana<br />
+              Hentaigana, Hiragana, Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
               <br />
               <strong>Text input</strong><br />
               Latin alphabet (Romaji) only, in both linguistic and Hepburn script
@@ -87,7 +88,7 @@
           <q-card>
             <q-card-section>
               <strong>User account</strong><br />
-              For each user account, a database entry will be created in your computer's local storage. The name serves as the key (identification); hence a name can be taken only once.
+              For each user account, a database entry will be created in your computer's local storage. The name serves as the key (identification); hence a name can be taken only once. This app counts the number of times you see a question on a letter and with a script map between two scripts. It will also count how successful you are in answering questions, assigning mastery gradings to each such map. Time stamps help with spaced repetition.
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -103,8 +104,7 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Finalize Spaced Repetition<br />
-              Colourful Manyougana<br />
+              Reference as to what characters are in Romaji<br />
               Practical tests (e.g., reading hentaigana)<br />
               getting rewards<br />
               Additional gamification elements (e.g., timer)<br />
