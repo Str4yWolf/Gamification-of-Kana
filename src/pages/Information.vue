@@ -64,7 +64,8 @@
           <q-card>
             <q-card-section>
               <strong>Functions</strong><br />
-              As of 7/31/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
+              As of 8/1/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
+              There is also a WordCreator game to help you practice writing with Japanese scripts. <br />
               Spaced repitition works, although parameters need some trial-and-error tuning.
               User database interaction works. You can gain experience points and hit levels.<br />
               Progress tracking of character in question and target scripts included.<br />

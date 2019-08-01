@@ -131,6 +131,7 @@ export default {
   methods: {
     unhideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = true
+      this.showWordCreator = false
       this.$router.push('/')
     },
     hideMultipleChoiceQuiz () {
@@ -138,6 +139,7 @@ export default {
     },
     unhideWordCreator () {
       this.showWordCreator = true
+      this.showMultipleChoiceQuiz = false
       this.$router.push('/')
     },
     hideWordCreator () {

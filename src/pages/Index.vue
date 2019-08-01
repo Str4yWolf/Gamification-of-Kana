@@ -17,6 +17,7 @@
         <q-btn class="top-left" id="flip" style="margin: 5px 0px 5px 0px;" color="primary" label="Flip" @click="flipCard()" />
       </q-item-section>
     </q-card>
+    <letter-operations ref="IndexOps" />
   </q-page>
 </template>
 
@@ -24,18 +25,14 @@
 </style>
 
 <script>
-// allow for hepburn input as well
-import hentaigana from '../statics/svg/hentaigana_hep.json'
-import hiragana from '../statics/svg/hiragana_hep.json'
-import katakana from '../statics/svg/katakana_hep.json'
-import manyouganaKatakana from '../statics/svg/manyougana-katakana_hep.json'
-import manyouganaKatakanaC from '../statics/svg/manyougana-katakana-c_hep.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
+import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
   name: 'PageIndex',
   components: {
-    CharacterFlashcard
+    CharacterFlashcard,
+    LetterOperations
   },
   data () {
     return {
@@ -49,29 +46,9 @@ export default {
     }
   },
   methods: {
-    getLetters (letter, script) {
-      var suffixes = []
-      if (script === 'hentaigana') {
-        suffixes = hentaigana[letter]
-      } else if (script === 'hiragana') {
-        suffixes = hiragana[letter]
-      } else if (script === 'katakana') {
-        suffixes = katakana[letter]
-      } else if (script === 'manyougana-katakana') {
-        suffixes = manyouganaKatakana[letter]
-      } else if (script === 'manyougana-katakana-c') {
-        suffixes = manyouganaKatakanaC[letter]
-      } else {
-        alert('invalid script input')
-        return undefined
-      }
-      var paths = []
-      suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + '.svg'))
-      return paths
-    },
     updateFlashcard () {
-      this.currentLetters1 = this.getLetters(this.letter, this.script1)
-      this.currentLetters2 = this.getLetters(this.letter, this.script2)
+      this.currentLetters1 = this.$refs.IndexOps.getLetters(this.letter, this.script1)
+      this.currentLetters2 = this.$refs.IndexOps.getLetters(this.letter, this.script2)
       if (this.flipped) {
         this.currentImage = this.currentLetters2[0]
       } else {
@@ -85,10 +62,6 @@ export default {
         this.currentImage = this.currentLetters2[0]
       }
       this.flipped = !this.flipped
-    },
-    emit (arg1, arg2) {
-      console.log('called emit(' + arg1 + ', ' + arg2 + ')')
-      this.$root.$emit(arg1, arg2)
     }
   }
 }
