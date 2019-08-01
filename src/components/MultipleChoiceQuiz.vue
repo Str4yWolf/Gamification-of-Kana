@@ -60,21 +60,20 @@
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
+    <letter-operations ref="MCQOps" />
     </q-card>
   </q-page>
 </template>
 
 <script>
-import hentaigana from '../statics/svg/hentaigana.json'
-import hiragana from '../statics/svg/hiragana.json'
-import katakana from '../statics/svg/katakana.json'
-import manyouganaKatakana from '../statics/svg/manyougana-katakana.json'
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
+import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
   // name: 'PageName',
   components: {
-    CharacterFlashcard
+    CharacterFlashcard,
+    LetterOperations
   },
   data () {
     return {
@@ -108,9 +107,6 @@ export default {
   },
   props: {
     userObj: Object
-  },
-  created () {
-    this.$root.$on('receiveUserObj', this.receiveUserObj)
   },
   mounted () {
     this.$refs.modal.$el.focus()
@@ -152,55 +148,6 @@ export default {
           console.log('and keyCode')
           console.log(event.keyCode)
       }
-    },
-    /**
-    Return the correct database given a script
-    **/
-    scriptToData (script) {
-      var database = {}
-      if (script === 'hentaigana') {
-        database = hentaigana
-      } else if (script === 'hiragana') {
-        database = hiragana
-      } else if (script === 'katakana') {
-        database = katakana
-      } else if (script === 'manyougana-katakana') {
-        database = manyouganaKatakana
-      } else {
-        alert('invalid script input')
-        database = undefined
-      }
-      return database
-    },
-    /**
-    Get an array of svg image paths of given letter and script
-    **/
-    getLetters (letter, script) {
-      console.log('called getLetters(' + letter + ', ' + script + ') from MultipleChoice')
-      var suffixes = this.scriptToData(script)[letter] // get suffixes of given letter and script
-      var paths = []
-      // construct an svg image path from each suffix
-      suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + '.svg'))
-      return paths
-    },
-    /**
-    Randomly generate an option (get image letter paths) which must not be forbiddenLetter but of given script
-    **/
-    generateOption (forbiddenLetter, script) {
-      console.log('called generateOption(' + forbiddenLetter + ', ' + script + ') from MultipleChoice')
-      // dataset and its keys
-      var dataset = this.scriptToData(script)
-      var datasetKeys = Object.keys(dataset)
-      // initialize loop
-      var randomKey = ''
-      var isSameKey = true
-      // loop until randomKey != forbiddenLetter; never gets randomKey which is forbiddenLetter
-      while (isSameKey) {
-        var randomIndex = Math.floor(Math.random() * datasetKeys.length)
-        randomKey = datasetKeys[randomIndex]
-        isSameKey = (randomKey === forbiddenLetter) // is the randomKey we get the forbiddenLetter
-      }
-      return this.getLetters(randomKey, script) // get an option not the forbiddenLetter above but of given script
     },
     /**
       sets a random new currentKey while taking the past user progress into account
@@ -266,26 +213,26 @@ export default {
       // set a random new currentKey which yet employs spaced repetition and emphasis on less mastered questions
       this.randomizeCurrentKey()
       // get question image
-      this.questionImage = this.getLetters(this.currentKey, this.script1)[0]
+      this.questionImage = this.$refs.MCQOps.getLetters(this.currentKey, this.script1)[0]
       // generate options of target script2 which is NOT equal to the letter passed as randomKey
-      this.option1Image = this.generateOption(this.currentKey, this.script2)[0]
-      this.option2Image = this.generateOption(this.currentKey, this.script2)[0]
-      this.option3Image = this.generateOption(this.currentKey, this.script2)[0]
-      this.option4Image = this.generateOption(this.currentKey, this.script2)[0]
+      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
+      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
+      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
+      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {
         case 0:
-          this.option1Image = this.getLetters(this.currentKey, this.script2)[0]
+          this.option1Image = this.$refs.MCQOps.getLetters(this.currentKey, this.script2)[0]
           break
         case 1:
-          this.option2Image = this.getLetters(this.currentKey, this.script2)[0]
+          this.option2Image = this.$refs.MCQOps.getLetters(this.currentKey, this.script2)[0]
           break
         case 2:
-          this.option3Image = this.getLetters(this.currentKey, this.script2)[0]
+          this.option3Image = this.$refs.MCQOps.getLetters(this.currentKey, this.script2)[0]
           break
         case 3:
-          this.option4Image = this.getLetters(this.currentKey, this.script2)[0]
+          this.option4Image = this.$refs.MCQOps.getLetters(this.currentKey, this.script2)[0]
           break
       }
     },

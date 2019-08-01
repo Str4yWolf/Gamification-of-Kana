@@ -31,6 +31,9 @@
               <q-item @click="unhideMultipleChoiceQuiz()" clickable>
                 <q-item-section>Multiple Choice</q-item-section>
               </q-item>
+              <q-item @click="unhideWordCreator()" clickable>
+                <q-item-section>Word Creator</q-item-section>
+              </q-item>
               <q-item @click="logOut()" clickable>
                 <q-item-section>Log Out</q-item-section>
               </q-item>
@@ -54,8 +57,9 @@
       </q-toolbar>
     </q-header>
     <q-page-container>
-      <router-view v-if="!showMultipleChoiceQuizPage" />
+      <router-view v-if="showRouterPage" />
       <multiple-choice-quiz :userObj="userObj" v-if="showMultipleChoiceQuizPage" />
+      <word-creator v-if="showWordCreatorPage" />
     </q-page-container>
   </q-layout>
 </template>
@@ -63,11 +67,13 @@
 <script>
 import userTracking from '../statics/svg/user_tracking.json'
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
+import WordCreator from '../components/WordCreator.vue'
 
 export default {
   name: 'MyLayout',
   components: {
-    MultipleChoiceQuiz
+    MultipleChoiceQuiz,
+    WordCreator
   },
   created () {
     // listen to event calls from elsewhere
@@ -79,11 +85,13 @@ export default {
     this.$root.$on('addExp', this.addExp)
     this.$root.$on('incrementTracking', this.incrementTracking)
     this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
+    this.$root.$on('hideWordCreator', this.hideWordCreator)
   },
   data () {
     return {
       // display control
       showMultipleChoiceQuiz: false,
+      showWordCreator: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -112,6 +120,12 @@ export default {
     },
     showMultipleChoiceQuizPage () {
       return (this.$route.path === '/' && this.showMultipleChoiceQuiz)
+    },
+    showWordCreatorPage () {
+      return (this.$route.path === '/' && this.showWordCreator)
+    },
+    showRouterPage () {
+      return !(this.showMultipleChoiceQuizPage || this.showWordCreatorPage)
     }
   },
   methods: {
@@ -121,6 +135,13 @@ export default {
     },
     hideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = false
+    },
+    unhideWordCreator () {
+      this.showWordCreator = true
+      this.$router.push('/')
+    },
+    hideWordCreator () {
+      this.showWordCreator = false
     },
     unhideSignInField () {
       console.log('Called unhideSignInField from Layout')
