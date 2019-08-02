@@ -6,7 +6,7 @@
         Showing Script{{ this.flipped + 1 }}
       </q-item-label>
       <!-- script display graphics -->
-      <character-flashcard :img-src="currentImage" style="left:15px;" />
+      <character-flashcard :img-src="currentImage" :showTitle="true" style="left:15px;" />
       <!-- script display data -->
       <q-item-section v-on:keyup.enter="flipCard()">
         <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script1" />

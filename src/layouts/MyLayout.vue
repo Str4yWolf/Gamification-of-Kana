@@ -19,6 +19,8 @@
               <q-linear-progress stripe rounded style="height: 20px" :value="lvlProgress" color="secondary" />
             </q-item-label>
           </q-item-section>
+          &nbsp; &nbsp; &nbsp;
+          <strong>Inkblots: &nbsp; </strong> {{userObj.inkblots}}
           <!-- menu (pages) -->
           <q-menu auto-close>
             <q-list style="min-width: 100px">
@@ -100,7 +102,7 @@ export default {
       lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1000000 },
       // user data
       username: '',
-      userObj: { lvl: 0, exp: 0, tracking: 0 }
+      userObj: { lvl: 0, exp: 0, inkblots: 0, tracking: 0 }
     }
   },
   computed: {
@@ -176,7 +178,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, tracking: userTracking }
+      var tmpObj = { lvl: 0, exp: 0, inkblots: 0, tracking: userTracking }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -215,7 +217,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.$router.push('/')
-      this.userObj = { lvl: 0, exp: 0, tracking: userTracking }
+      this.userObj = { lvl: 0, exp: 0, inkblots: 0, tracking: userTracking }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.
@@ -266,6 +268,7 @@ export default {
       var threshold = this.lvlThreshold[this.userObj.lvl] // get threshold associated with current user level
       if (this.userObj.exp >= threshold) {
         this.userObj.lvl += 1 // increment level upon hitting threshold
+        this.userObj.inkblots += this.userObj.lvl // get inkblots as rewards
         alert('Congratulations. You have reached level ' + this.userObj.lvl + '!')
         this.updateLvl() // check whether more levels have been hit
       }

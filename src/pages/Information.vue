@@ -64,11 +64,13 @@
           <q-card>
             <q-card-section>
               <strong>Functions</strong><br />
-              As of 8/1/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
+              As of 8/2/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
               There is also a WordCreator game to help you practice writing with Japanese scripts. <br />
               Spaced repitition works, although parameters need some trial-and-error tuning.
               User database interaction works. You can gain experience points and hit levels.<br />
               Progress tracking of character in question and target scripts included.<br />
+              Inkblots serve as prospective in-game currency to help beat the prospective final game (exam) <br />
+              Reference as to what characters are in Romaji is given as tooltips by hovering over images (only when answer to question has been revealed in relevant cases). <br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
               Hentaigana, Hiragana, Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
@@ -105,7 +107,7 @@
         <q-card>
           <q-card-section>
             <strong>Functions</strong><br />
-              Reference as to what characters are in Romaji<br />
+              Custom words in word creator.
               Practical tests (e.g., reading hentaigana)<br />
               getting rewards<br />
               Additional gamification elements (e.g., timer)<br />

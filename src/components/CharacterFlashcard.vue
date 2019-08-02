@@ -1,7 +1,7 @@
 <template>
   <q-card>
   <div class="character-flashcard">
-      <img id="character-flashcard-image" v-bind:src="imgSrc" class="center" />
+      <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
   </div>
   </q-card>
 </template>
@@ -10,7 +10,17 @@
 export default {
   // name: 'CharacterFlashcard',
   props: {
-    imgSrc: String
+    imgSrc: String,
+    showTitle: Boolean
+  },
+  computed: {
+    imgLetter () {
+      if (this.showTitle) {
+        return this.imgSrc.split('/').reverse()[0].split('_letter_')[1]
+      } else {
+        return 'No cheating allowed'
+      }
+    }
   }
 }
 </script>

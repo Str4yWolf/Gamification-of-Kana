@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card style="width: 820px; padding: 30px;">
       <span class="row">
         <span>
@@ -10,13 +10,13 @@
         </span>
         <!-- script selection -->
         <span style="padding: 0px 20px 0px 40px;">
-          <q-select v-model="script" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script" style="width:200px;" />
+          <q-select v-model="script" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script" style="width:200px;" />
         </span>
         <!-- Control buttons -->
         <span style="padding: 15px;">
-          <q-btn color="green" label="New Word" @click="setNewCreation()" />
-          <q-btn color="green" label="Enter" @click="endCreation()" :disabled="showFeedbackMessage" />
-          <q-btn color="green" label="Show Japanese" @click="showJapanese()" :disabled="showFeedbackMessage" />
+          <q-btn color="green" label="New Word" title="Get a new word (n)" @click="setNewCreation()" />
+          <q-btn color="green" label="Enter" title="Enter answers (Enter)" @click="endCreation()" :disabled="showFeedbackMessage" />
+          <q-btn color="green" label="Show Japanese" title="Show Japanese word (j)" @click="showJapanese()" :disabled="showFeedbackMessage" />
         </span>
       </span>
       <br />
@@ -27,55 +27,55 @@
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          <character-flashcard :imgSrc="slot1Image" />
+          <character-flashcard :imgSrc="slot1Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot2Image" />
+          <character-flashcard :imgSrc="slot2Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot3Image" />
+          <character-flashcard :imgSrc="slot3Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot4Image" />
+          <character-flashcard :imgSrc="slot4Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot5Image" />
+          <character-flashcard :imgSrc="slot5Image" :showTitle="showFeedbackMessage" />
         </span>
       </span>
       <!-- actual answer slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;" v-if="showFeedbackMessage">
         <span>
-          <character-flashcard :imgSrc="answer1Image" />
+          <character-flashcard :imgSrc="answer1Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="answer2Image" />
+          <character-flashcard :imgSrc="answer2Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="answer3Image" />
+          <character-flashcard :imgSrc="answer3Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="answer4Image" />
+          <character-flashcard :imgSrc="answer4Image" :showTitle="showFeedbackMessage" />
         </span>
         <span>
-          <character-flashcard :imgSrc="answer5Image" />
+          <character-flashcard :imgSrc="answer5Image" :showTitle="showFeedbackMessage" />
         </span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;" v-if="!showFeedbackMessage">
         <span>
-          <character-flashcard :imgSrc="option1Image" />
+          <character-flashcard :imgSrc="option1Image" :showTitle="showFeedbackMessage" />
           <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option2Image" />
+          <character-flashcard :imgSrc="option2Image" :showTitle="showFeedbackMessage" />
           <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option3Image" />
+          <character-flashcard :imgSrc="option3Image" :showTitle="showFeedbackMessage" />
           <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option4Image" />
+          <character-flashcard :imgSrc="option4Image" :showTitle="showFeedbackMessage" />
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
@@ -134,6 +134,9 @@ export default {
   },
   created () {
   },
+  mounted () {
+    this.$refs.modal.$el.focus()
+  },
   computed: {
     currentWordJap () {
       return words[this.currentWordEng]
@@ -153,6 +156,50 @@ export default {
     }
   },
   methods: {
+    /**
+    Validate user keyboard input
+    **/
+    validateKeyInput (event) {
+      switch (event.keyCode) {
+        // keyboard numbers 1 - 4
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+          if (!this.disableOptions) {
+            console.log('called validateKeyInput with 1-4')
+            this.validateOption(event.keyCode - 48)
+          } else {
+            console.log('Validation is in progress. Options unusable.')
+          }
+          break
+        // keyboard Enter key
+        case 13:
+          console.log('pressed enter in validateKeyInput')
+          if (!this.showFeedbackMessage) {
+            this.endCreation()
+          }
+          break
+        // show tip
+        case 74:
+          console.log('pressed j in validateKeyInput')
+          if (!this.showFeedbackMessage) {
+            this.showJapanese()
+          }
+          break
+        // new word
+        case 78:
+          console.log('pressed n in validateKeyInput')
+          this.setNewCreation()
+          break
+        // log all other keys
+        default:
+          console.log('called validateKeyInput with key')
+          console.log(event.key)
+          console.log('and keyCode')
+          console.log(event.keyCode)
+      }
+    },
     isEqualLetters (obj1, obj2) {
       console.log('called isEqualLetters from WordCreator')
       var keys1 = Object.keys(obj1)
@@ -237,7 +284,7 @@ export default {
       var tempLetter = ''
       for (var i = 0; i < this.currentWordLength; i++) {
         tempLetter = this.currentWordJap[i]
-        tempImage = this.$refs.WCOps.getLetters(tempLetter, this.script)
+        tempImage = this.$refs.WCOps.getLetters(tempLetter, this.script)[0]
         switch (i) {
           case 0:
             this.answer1Image = tempImage

@@ -37,26 +37,26 @@
       </span>
       <!-- question -->
       <span class="row" style="padding: 20px 0px 20px 50px;">
-        <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" />
+        <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" :showTitle="validationInProgress" />
         <span v-if="!hasAnsweredQuestion" style="position:relative; top:68px; left:30px;">What is this {{script1}}'s equivalent in {{script2}}?</span>
         <span v-if="hasAnsweredQuestion" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          <character-flashcard :imgSrc="option1Image" />
+          <character-flashcard :imgSrc="option1Image" :showTitle="validationInProgress" />
           <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option2Image" />
+          <character-flashcard :imgSrc="option2Image" :showTitle="validationInProgress" />
           <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option3Image" />
+          <character-flashcard :imgSrc="option3Image" :showTitle="validationInProgress" />
           <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option4Image" />
+          <character-flashcard :imgSrc="option4Image" :showTitle="validationInProgress" />
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
