@@ -52,7 +52,8 @@ module.exports = function (ctx) {
         'QTabPanel',
         'QExpansionItem',
         'QSlider',
-        'QLinearProgress'
+        'QLinearProgress',
+        'QToggle'
       ],
 
       directives: [

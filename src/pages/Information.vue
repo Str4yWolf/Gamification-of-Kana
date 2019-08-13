@@ -73,7 +73,7 @@
               Reference as to what characters are in Romaji is given as tooltips by hovering over images (only when answer to question has been revealed in relevant cases). <br />
               <br />
               <strong>Scripts (48 glyphs)</strong><br />
-              Hentaigana, Hiragana, Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
+              [Hentaigana, Hiragana,] Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
               <br />
               <strong>Text input</strong><br />
               Latin alphabet (Romaji) only, in both linguistic and Hepburn script
@@ -106,6 +106,19 @@
       >
         <q-card>
           <q-card-section>
+            AGREEMENT FORM<br />
+            <strong>Requirements (8/20/2019)</strong><br />
+            teaching mapping<br />
+            improve user flow (fewer clicks)<br />
+            reduce number of options<br />
+            buttons for hints<br />
+            vary between different options/games<br />
+            <br />
+            tutorials<br />
+            <br />
+            gamification/final game<br />
+            BA task, spaced repetition <br />
+            design<br />
             <strong>Functions</strong><br />
               Custom words in word creator.
               Practical tests (e.g., reading hentaigana)<br />
@@ -115,6 +128,7 @@
               (Story mode)<br />
               (Varying Hentaigana)<br />
               <br />
+              refactor code -- mixin<br />
             <strong>Scripts (48 glyphs)</strong><br />
               Man'yougana-Hiragana, (kanbun)<br />
               <br />

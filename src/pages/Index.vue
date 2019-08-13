@@ -8,9 +8,11 @@
       <!-- script display graphics -->
       <character-flashcard :img-src="currentImage" :showTitle="true" style="left:15px;" />
       <!-- script display data -->
+      <!-- flow simplification -->
+      <!-- enabled: scripts: katakana, manyougana-katakana disabled scripts: hentaigana, hiragana -->
       <q-item-section v-on:keyup.enter="flipCard()">
-        <q-select v-model="script1" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script1" />
-        <q-select v-model="script2" @input="updateFlashcard()" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script2" />
+        <q-select v-model="script1" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script1" />
+        <q-select v-model="script2" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script2" />
       </q-item-section>
       <q-item-section>
         <q-input v-model="letter" @input="updateFlashcard()" v-on:keyup.enter="flipCard()" label="Current Letter" />

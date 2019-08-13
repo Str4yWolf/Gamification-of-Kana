@@ -2,17 +2,30 @@
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
+      <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideMultipleChoiceQuiz')" />
       &nbsp;
       <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <!-- manyougana highlight toggle -->
+      <q-toggle
+        v-model="highlightManyougana"
+        color="red"
+        label="Highlight Manyougana"
+        @input="updateHighlight()"
+      />
+      {{highlightManyougana}}
       <!-- parameters panel -->
       <span class="row">
         <!-- script selection -->
         <span>
-          <q-select v-model="script1" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
+          <q-select v-model="script1" :options="['katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
         </span>
         <span>
-          <q-select v-model="script2" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
+          <q-select v-model="script2" :options="['katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
         </span>
         <!-- number of questions slider -->
         <span style="padding:10px;" v-if="!quizHasStarted">
@@ -60,7 +73,7 @@
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
-    <letter-operations ref="MCQOps" />
+    <letter-operations :highlight="highlightManyougana" ref="MCQOps" />
     </q-card>
   </q-page>
 </template>
@@ -81,6 +94,7 @@ export default {
       quizHasStarted: false,
       hasAnsweredQuestion: false,
       validationInProgress: false,
+      highlightManyougana: false,
       // script-related
       script1: 'katakana',
       script2: 'manyougana-katakana',
@@ -89,7 +103,8 @@ export default {
       scriptIndex: { 'hentaigana': '1',
         'hiragana': '2',
         'katakana': '3',
-        'manyougana-katakana': '5' },
+        'manyougana-katakana': '5',
+        'manyougana-katakana-c': '5' },
       // quiz controllers
       quizLength: 3,
       numberQuestionsAnswered: 0,
@@ -147,6 +162,37 @@ export default {
           console.log(event.key)
           console.log('and keyCode')
           console.log(event.keyCode)
+      }
+    },
+    /**
+    Get the letter of an image path
+    **/
+    getLetterFromPath (path) {
+      console.log('called getLetterFromPath(' + path + ')')
+      var temp = path.split('/').reverse()[0].split('_letter_')[1].split('.')[0]
+      console.log('temp: ' + temp)
+      if (temp.length === 1) {
+        return temp
+      } else {
+        return temp.substring(0, 2) // crop numeral suffix if it exists
+      }
+    },
+    /**
+    Highlight or unhighlight the image according to the highlightManyougana state
+    **/
+    updateHighlight () {
+      console.log('called updateHighlight() from MultipleChoiceQuiz')
+      this.$refs.MCQOps.toggleHighlight()
+      if (this.script1 === 'manyougana-katakana') {
+        this.questionImage = this.$refs.MCQOps.getLetters(this.currentKey, 'manyougana-katakana')[0]
+      } else {
+        console.log(this.option1Image)
+        console.log(this.getLetterFromPath(this.option1Image))
+        this.option1Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option1Image), 'manyougana-katakana')[0]
+        console.log(this.option1Image)
+        this.option2Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option2Image), 'manyougana-katakana')[0]
+        this.option3Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option3Image), 'manyougana-katakana')[0]
+        this.option4Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option4Image), 'manyougana-katakana')[0]
       }
     },
     /**
@@ -253,6 +299,7 @@ export default {
       }
       console.log('userAnswer: ' + userAnswer)
       console.log('correctAnswer: ' + this.correctAnswer)
+      this.numberQuestionsAnswered += 1
       // display feedback,
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
@@ -263,11 +310,11 @@ export default {
         // reward with exp (perhaps level-ups)
         this.$root.$emit('addExp', 1)
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
+        this.continueQuiz()
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
       }
-      this.numberQuestionsAnswered += 1
     },
     /**
     End quiz by intializing quiz controls and displaying feedback to user

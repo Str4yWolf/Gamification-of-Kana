@@ -14,12 +14,16 @@ export default {
   data () {
     return {}
   },
+  props: {
+    highlight: Boolean
+  },
   methods: {
     /**
     Return the correct database given a script
     **/
     scriptToData (script) {
       var database = {}
+      console.log('highlight: ' + this.highlight)
       if (script === 'hentaigana') {
         database = hentaigana
       } else if (script === 'hiragana') {
@@ -27,21 +31,29 @@ export default {
       } else if (script === 'katakana') {
         database = katakana
       } else if (script === 'manyougana-katakana') {
-        database = manyouganaKatakana
-      } else if (script === 'manyougana-katakana-c') {
-        database = manyouganaKatakanaC
+        if (this.highlight) {
+          console.log('database: manyouganaKatakanaC')
+          database = manyouganaKatakanaC
+        } else {
+          console.log('database: manyouganaKatakana')
+          database = manyouganaKatakana
+        }
       } else {
         alert('invalid script input')
         database = undefined
       }
       return database
     },
+    toggleHighlight () {
+      this.highlight = !this.highlight
+    },
     /**
     Get an array of svg image paths of given letter and script
     **/
-    getLetters (letter, script) {
+    getLetters (letter, scriptIn) {
+      var script = (this.highlight && scriptIn === 'manyougana-katakana') ? (scriptIn + '-c') : scriptIn
       console.log('called getLetters(' + letter + ', ' + script + ') from LetterOperations')
-      var suffixes = this.scriptToData(script)[letter] // get suffixes of given letter and script
+      var suffixes = this.scriptToData(scriptIn)[letter] // get suffixes of given letter and script
       var paths = []
       // construct an svg image path from each suffix
       suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + '.svg'))
