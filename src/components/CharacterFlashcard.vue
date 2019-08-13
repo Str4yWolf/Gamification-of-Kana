@@ -1,7 +1,8 @@
 <template>
-  <q-card>
+  <q-card :style="background">
   <div class="character-flashcard">
       <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
+      <span v-if="showTitle" style="position: relative; top: 50px; left: 63px;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
   </div>
   </q-card>
 </template>
@@ -11,7 +12,8 @@ export default {
   // name: 'CharacterFlashcard',
   props: {
     imgSrc: String,
-    showTitle: Boolean
+    showTitle: Boolean,
+    background: String
   },
   computed: {
     imgLetter () {

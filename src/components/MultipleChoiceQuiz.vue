@@ -57,19 +57,19 @@
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          <character-flashcard :imgSrc="option1Image" :showTitle="validationInProgress" />
+          <character-flashcard :imgSrc="option1Image" :showTitle="validationInProgress" :background="option1ImageBackground" />
           <q-btn color="primary" id="multiple-choice-option-btn-1" label="Option 1" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option2Image" :showTitle="validationInProgress" />
+          <character-flashcard :imgSrc="option2Image" :showTitle="validationInProgress" :background="option2ImageBackground" />
           <q-btn color="primary" id="multiple-choice-option-btn-2" label="Option 2" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option3Image" :showTitle="validationInProgress" />
+          <character-flashcard :imgSrc="option3Image" :showTitle="validationInProgress" :background="option3ImageBackground" />
           <q-btn color="primary" id="multiple-choice-option-btn-3" label="Option 3" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
         <span>
-          <character-flashcard :imgSrc="option4Image" :showTitle="validationInProgress" />
+          <character-flashcard :imgSrc="option4Image" :showTitle="validationInProgress" :background="option4ImageBackground" />
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
@@ -111,6 +111,7 @@ export default {
       numberQuestionsAnswered: 0,
       questionsAnsweredCorrectly: 0,
       correctAnswer: -1,
+      userAnswer: -1,
       // user feedback after each time answered
       feedbackMessage: '',
       // image paths
@@ -130,6 +131,42 @@ export default {
   computed: {
     disableOptions () {
       return (!this.quizHasStarted || this.validationInProgress)
+    },
+    option1ImageBackground () {
+      if (this.correctAnswer === 0 && this.disableOptions) {
+        return 'background-color: #00ff00;'
+      } else if (this.userAnswer === 0 && this.disableOptions) {
+        return 'background-color: #ff0000;'
+      } else {
+        return 'background-color: #ffffff'
+      }
+    },
+    option2ImageBackground () {
+      if (this.correctAnswer === 1 && this.disableOptions) {
+        return 'background-color: #00ff00;'
+      } else if (this.userAnswer === 1 && this.disableOptions) {
+        return 'background-color: #ff0000;'
+      } else {
+        return 'background-color: #ffffff'
+      }
+    },
+    option3ImageBackground () {
+      if (this.correctAnswer === 2 && this.disableOptions) {
+        return 'background-color: #00ff00;'
+      } else if (this.userAnswer === 2 && this.disableOptions) {
+        return 'background-color: #ff0000;'
+      } else {
+        return 'background-color: #ffffff'
+      }
+    },
+    option4ImageBackground () {
+      if (this.correctAnswer === 3 && this.disableOptions) {
+        return 'background-color: #00ff00;'
+      } else if (this.userAnswer === 3 && this.disableOptions) {
+        return 'background-color: #ff0000;'
+      } else {
+        return 'background-color: #ffffff'
+      }
     }
   },
   methods: {
@@ -300,28 +337,27 @@ export default {
       this.hasAnsweredQuestion = true
       this.validationInProgress = true
       // get user answer
-      var userAnswer
       if (event.target !== undefined) {
-        userAnswer = parseInt(event.target.id.split('-')[4]) - 1 // from button
+        this.userAnswer = parseInt(event.target.id.split('-')[4]) - 1 // from button
       } else {
-        userAnswer = parseInt(event) - 1 // from keyboard
+        this.userAnswer = parseInt(event) - 1 // from keyboard
       }
-      console.log('userAnswer: ' + userAnswer)
+      console.log('userAnswer: ' + this.userAnswer)
       console.log('correctAnswer: ' + this.correctAnswer)
       this.numberQuestionsAnswered += 1
       // display feedback,
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
       // depending on answer
-      if (userAnswer === this.correctAnswer) {
-        this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was correct. Great job!'
+      if (this.userAnswer === this.correctAnswer) {
+        this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was correct. Great job!'
         this.questionsAnsweredCorrectly += 1
         // reward with exp (perhaps level-ups)
         this.$root.$emit('addExp', 1)
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
         this.continueQuiz()
       } else {
-        this.feedbackMessage = 'Your answer (Option ' + (userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
+        this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
       }
     },

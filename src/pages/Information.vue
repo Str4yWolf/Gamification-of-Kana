@@ -106,10 +106,14 @@
       >
         <q-card>
           <q-card-section>
+            Make background colours of character flashcards less strong<br />
             AGREEMENT FORM<br />
             <strong>Requirements (8/20/2019)</strong><br />
             teaching mapping<br />
             improve user flow (fewer clicks)<br />
+            colour feedback<br />
+            immersive/attractive feedback whatsoever<br />
+            animations<br />
             reduce number of options<br />
             buttons for hints<br />
             vary between different options/games<br />

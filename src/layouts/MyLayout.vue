@@ -27,17 +27,20 @@
           <!-- menu (pages) -->
           <q-menu auto-close>
             <q-list style="min-width: 100px">
-              <q-item @click="$router.push('/Information/')" clickable>
-                <q-item-section>Info</q-item-section>
-              </q-item>
-              <q-item @click="$router.push('/Settings/')" clickable>
-                <q-item-section>Settings</q-item-section>
+              <q-item @click="$router.push('/Learn/')" clickable>
+                <q-item-section>Learn</q-item-section>
               </q-item>
               <q-item @click="unhideMultipleChoiceQuiz()" clickable>
                 <q-item-section>Multiple Choice</q-item-section>
               </q-item>
               <q-item @click="unhideWordCreator()" clickable>
                 <q-item-section>Word Creator</q-item-section>
+              </q-item>
+              <q-item @click="$router.push('/Information/')" clickable>
+                <q-item-section>App Info</q-item-section>
+              </q-item>
+              <q-item @click="$router.push('/Settings/')" clickable>
+                <q-item-section>Settings</q-item-section>
               </q-item>
               <q-item @click="logOut()" clickable>
                 <q-item-section>Log Out</q-item-section>
