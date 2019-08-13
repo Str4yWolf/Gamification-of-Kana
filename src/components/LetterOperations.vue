@@ -8,14 +8,18 @@ import hiragana from '../statics/svg/hiragana_hep.json'
 import katakana from '../statics/svg/katakana_hep.json'
 import manyouganaKatakana from '../statics/svg/manyougana-katakana_hep.json'
 import manyouganaKatakanaC from '../statics/svg/manyougana-katakana-c_hep.json'
+import skillLevelDatabaseKeys from '../statics/svg/skill_level_database_keys.json'
 
 export default {
   // name: 'CharacterFlashcard',
   data () {
-    return {}
+    return {
+      skillLevelKeys: skillLevelDatabaseKeys
+    }
   },
   props: {
-    highlight: Boolean
+    highlight: Boolean,
+    skillLevel: Number
   },
   methods: {
     /**
@@ -38,6 +42,8 @@ export default {
           console.log('database: manyouganaKatakana')
           database = manyouganaKatakana
         }
+      } else if (script === 'manyougana-katakana-c') {
+        database = manyouganaKatakanaC
       } else {
         alert('invalid script input')
         database = undefined
@@ -60,13 +66,20 @@ export default {
       return paths
     },
     /**
-    Randomly generate an option (get image letter paths) which must not be forbiddenLetter but of given script
+    Randomly generate an option (get image letter paths) which must not be forbiddenLetter but of given script.
+    restricted parameter reduces available options according to current skill level.
     **/
-    generateOption (forbiddenLetter, script) {
+    generateOption (forbiddenLetter, script, restricted) {
       console.log('called generateOption(' + forbiddenLetter + ', ' + script + ') from LetterOperations')
-      // dataset and its keys
-      var dataset = this.scriptToData(script)
-      var datasetKeys = Object.keys(dataset)
+      var datasetKeys = []
+      if (restricted) {
+        // restricted keys of dataset
+        datasetKeys = this.skillLevelKeys[this.skillLevel.toString()]
+      } else {
+        // dataset and its keys
+        var dataset = this.scriptToData(script)
+        datasetKeys = Object.keys(dataset)
+      }
       // initialize loop
       var randomKey = ''
       var isSameKey = true

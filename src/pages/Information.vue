@@ -76,7 +76,7 @@
               [Hentaigana, Hiragana,] Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
               <br />
               <strong>Text input</strong><br />
-              Latin alphabet (Romaji) only, in both linguistic and Hepburn script
+              Latin alphabet (Romaji) in Hepburn script
             </q-card-section>
           </q-card>
         </q-expansion-item>

@@ -73,7 +73,7 @@
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
-    <letter-operations :highlight="highlightManyougana" ref="MCQOps" />
+    <letter-operations :highlight="highlightManyougana" :skillLevel="userObj['skillLvl']" ref="MCQOps" />
     </q-card>
   </q-page>
 </template>
@@ -81,6 +81,7 @@
 <script>
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 import LetterOperations from '../components/LetterOperations.vue'
+import skillLevelDatabaseKeys from '../statics/svg/skill_level_database_keys.json'
 
 export default {
   // name: 'PageName',
@@ -206,7 +207,15 @@ export default {
       var regex = new RegExp('_' + this.scriptIndex[this.script1] + this.scriptIndex[this.script2] + '$')
       // filter keys by given script mapping
       var database = this.userObj.tracking
-      var databaseKeys = Object.keys(database).filter(key1 => regex.test(key1))
+      var databaseKeysRaw = Object.keys(database).filter(key1 => regex.test(key1))
+      // filter according to skill level
+      var skillLvlKeys = skillLevelDatabaseKeys[this.userObj.skillLvl]
+      var databaseKeys = []
+      databaseKeysRaw.forEach(function (k) {
+        if (skillLvlKeys.includes(k.split('_')[0])) {
+          databaseKeys.push(k)
+        }
+      })
       console.log('logging filtered keys in MultipleChoice: ' + databaseKeys + ', length: ' + databaseKeys.length)
       // initialize key selection loop (1)
       var priorities = {}
@@ -261,10 +270,10 @@ export default {
       // get question image
       this.questionImage = this.$refs.MCQOps.getLetters(this.currentKey, this.script1)[0]
       // generate options of target script2 which is NOT equal to the letter passed as randomKey
-      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
-      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
-      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
-      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2)[0]
+      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
+      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
+      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
+      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {

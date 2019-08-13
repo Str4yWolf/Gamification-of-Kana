@@ -19,7 +19,7 @@
         <q-btn class="top-left" id="flip" style="margin: 5px 0px 5px 0px;" color="primary" label="Flip" @click="flipCard()" />
       </q-item-section>
     </q-card>
-    <letter-operations ref="IndexOps" />
+    <letter-operations :highlight="false" :skillLevel="9" ref="IndexOps" />
   </q-page>
 </template>
 
@@ -49,8 +49,8 @@ export default {
   },
   methods: {
     updateFlashcard () {
-      this.currentLetters1 = this.$refs.IndexOps.getLetters(this.letter, this.script1)
-      this.currentLetters2 = this.$refs.IndexOps.getLetters(this.letter, this.script2)
+      this.currentLetters1 = this.$refs.IndexOps.getLetters(this.letter, this.script1, false)
+      this.currentLetters2 = this.$refs.IndexOps.getLetters(this.letter, this.script2, false)
       if (this.flipped) {
         this.currentImage = this.currentLetters2[0]
       } else {

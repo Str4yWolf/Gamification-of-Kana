@@ -80,7 +80,7 @@
         </span>
       </span>
     </q-card>
-    <letter-operations ref="WCOps" />
+    <letter-operations :highlight="false" :skillLevel="userObj['skillLvl']" ref="WCOps" />
   </q-page>
 </template>
 
@@ -131,6 +131,7 @@ export default {
     }
   },
   props: {
+    userObj: Object
   },
   created () {
   },
@@ -327,10 +328,10 @@ export default {
       this.continueCreation()
     },
     continueCreation () {
-      this.option1Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script)[0]
-      this.option2Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script)[0]
-      this.option3Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script)[0]
-      this.option4Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script)[0]
+      this.option1Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
+      this.option2Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
+      this.option3Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
+      this.option4Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       if (this.currentIndex < this.currentWordLength) {
         this.correctWordIndices[this.currentIndex] = this.correctAnswer
