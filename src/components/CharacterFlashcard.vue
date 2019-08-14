@@ -2,7 +2,7 @@
   <q-card :style="background">
   <div class="character-flashcard">
       <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
-      <span v-if="showTitle" style="position: relative; top: 50px; left: 63px;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
+      <span v-if="showTitle" style="position: relative; top: 50px; left: 64px;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
   </div>
   </q-card>
 </template>
@@ -18,7 +18,11 @@ export default {
   computed: {
     imgLetter () {
       if (this.showTitle) {
-        return this.imgSrc.split('/').reverse()[0].split('_letter_')[1]
+        if (this.imgSrc === '../statics/grey.png') { // no letter input
+          return ''
+        } else {
+          return this.imgSrc.split('/').reverse()[0].split('_letter_')[1]
+        }
       } else {
         return 'No cheating allowed'
       }

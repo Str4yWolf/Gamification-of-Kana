@@ -134,36 +134,36 @@ export default {
     },
     option1ImageBackground () {
       if (this.correctAnswer === 0 && this.disableOptions) {
-        return 'background-color: #00ff00;'
+        return 'background-color: #d1fb9c;'
       } else if (this.userAnswer === 0 && this.disableOptions) {
-        return 'background-color: #ff0000;'
+        return 'background-color: #fbad9c;'
       } else {
         return 'background-color: #ffffff'
       }
     },
     option2ImageBackground () {
       if (this.correctAnswer === 1 && this.disableOptions) {
-        return 'background-color: #00ff00;'
+        return 'background-color: #d1fb9c;'
       } else if (this.userAnswer === 1 && this.disableOptions) {
-        return 'background-color: #ff0000;'
+        return 'background-color: #fbad9c;'
       } else {
         return 'background-color: #ffffff'
       }
     },
     option3ImageBackground () {
       if (this.correctAnswer === 2 && this.disableOptions) {
-        return 'background-color: #00ff00;'
+        return 'background-color: #d1fb9c;'
       } else if (this.userAnswer === 2 && this.disableOptions) {
-        return 'background-color: #ff0000;'
+        return 'background-color: #fbad9c;'
       } else {
         return 'background-color: #ffffff'
       }
     },
     option4ImageBackground () {
       if (this.correctAnswer === 3 && this.disableOptions) {
-        return 'background-color: #00ff00;'
+        return 'background-color: #d1fb9c;'
       } else if (this.userAnswer === 3 && this.disableOptions) {
-        return 'background-color: #ff0000;'
+        return 'background-color: #fbad9c;'
       } else {
         return 'background-color: #ffffff'
       }

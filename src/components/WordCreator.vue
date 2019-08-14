@@ -27,19 +27,19 @@
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          <character-flashcard :imgSrc="slot1Image" :showTitle="showFeedbackMessage" />
+          <character-flashcard :imgSrc="slot1Image" :showTitle="showFeedbackMessage" :background="slot1ImageBackground" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot2Image" :showTitle="showFeedbackMessage" />
+          <character-flashcard :imgSrc="slot2Image" :showTitle="showFeedbackMessage" :background="slot2ImageBackground" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot3Image" :showTitle="showFeedbackMessage" />
+          <character-flashcard :imgSrc="slot3Image" :showTitle="showFeedbackMessage" :background="slot3ImageBackground" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot4Image" :showTitle="showFeedbackMessage" />
+          <character-flashcard :imgSrc="slot4Image" :showTitle="showFeedbackMessage" :background="slot4ImageBackground" />
         </span>
         <span>
-          <character-flashcard :imgSrc="slot5Image" :showTitle="showFeedbackMessage" />
+          <character-flashcard :imgSrc="slot5Image" :showTitle="showFeedbackMessage" :background="slot5ImageBackground" />
         </span>
       </span>
       <!-- actual answer slots (later: implement with v-for through array of flashcards) -->
@@ -154,6 +154,98 @@ export default {
     },
     disableOptions () {
       return this.showFeedbackMessage
+    },
+    slot1ImageBackground () {
+      if (this.showFeedbackMessage) {
+        console.log('s1 showFeedbackMessage: true in WordCreator slot1ImageBackground')
+        if (this.currentWordLength < 1) { // overstepped correct word's limit
+          console.log('s2 correctWordIndices undefined in WordCreator slot1ImageBackground')
+          if (this.userAnswerIndices[0] === undefined) {
+            console.log('s3 userAnswerIndices undefined in WordCreator slot1ImageBackground (white)')
+            return 'background-color: #ffffff;' // user has not entered anything
+          } else {
+            console.log('s3 userAnswerIndices not undefined in WordCreator slot1ImageBackground (red)')
+            return 'background-color: #fbad9c;' // user has falsely given input
+          }
+        } else if (this.correctWordIndices[0] === this.userAnswerIndices[0] && this.userAnswerIndices[0] !== undefined) {
+          console.log('s2 answers match up in WordCreator slot1ImageBackground (green)')
+          return 'background-color: #d1fb9c;' // user input and correct word match up
+        } else {
+          console.log('s2 userAnswer false or undefined WordCreator slot1ImageBackground (red)')
+          return 'background-color: #fbad9c;' // user input is false or doesn't exist
+        }
+      } else {
+        console.log('s1 showFeedbackMessage: false in WordCreator slot1ImageBackground (white)')
+        return 'background-color: #ffffff;' // no background highlighting intended
+      }
+    },
+    slot2ImageBackground () {
+      if (this.showFeedbackMessage) {
+        if (this.currentWordLength < 2) { // overstepped correct word's limit
+          if (this.userAnswerIndices[1] === undefined) {
+            return 'background-color: #ffffff;' // user has not entered anything
+          } else {
+            return 'background-color: #fbad9c;' // user has falsely given input
+          }
+        } else if (this.correctWordIndices[1] === this.userAnswerIndices[1] && this.userAnswerIndices[1] !== undefined) {
+          return 'background-color: #d1fb9c;' // user input and correct word match up
+        } else {
+          return 'background-color: #fbad9c;' // user input is false or doesn't exist
+        }
+      } else {
+        return 'background-color: #ffffff;' // no background highlighting intended
+      }
+    },
+    slot3ImageBackground () {
+      if (this.showFeedbackMessage) {
+        if (this.currentWordLength < 3) { // overstepped correct word's limit
+          if (this.userAnswerIndices[2] === undefined) {
+            return 'background-color: #ffffff;' // user has not entered anything
+          } else {
+            return 'background-color: #fbad9c;' // user has falsely given input
+          }
+        } else if (this.correctWordIndices[2] === this.userAnswerIndices[2] && this.userAnswerIndices[2] !== undefined) {
+          return 'background-color: #d1fb9c;' // user input and correct word match up
+        } else {
+          return 'background-color: #fbad9c;' // user input is false or doesn't exist
+        }
+      } else {
+        return 'background-color: #ffffff;' // no background highlighting intended
+      }
+    },
+    slot4ImageBackground () {
+      if (this.showFeedbackMessage) {
+        if (this.currentWordLength < 4) { // overstepped correct word's limit
+          if (this.userAnswerIndices[3] === undefined) {
+            return 'background-color: #ffffff;' // user has not entered anything
+          } else {
+            return 'background-color: #fbad9c;' // user has falsely given input
+          }
+        } else if (this.correctWordIndices[3] === this.userAnswerIndices[3] && this.userAnswerIndices[3] !== undefined) {
+          return 'background-color: #d1fb9c;' // user input and correct word match up
+        } else {
+          return 'background-color: #fbad9c;' // user input is false or doesn't exist
+        }
+      } else {
+        return 'background-color: #ffffff;' // no background highlighting intended
+      }
+    },
+    slot5ImageBackground () {
+      if (this.showFeedbackMessage) {
+        if (this.currentWordLength < 5) { // overstepped correct word's limit
+          if (this.userAnswerIndices[4] === undefined) {
+            return 'background-color: #ffffff;' // user has not entered anything
+          } else {
+            return 'background-color: #fbad9c;' // user has falsely given input
+          }
+        } else if (this.correctWordIndices[4] === this.userAnswerIndices[4] && this.userAnswerIndices[4] !== undefined) {
+          return 'background-color: #d1fb9c;' // user input and correct word match up
+        } else {
+          return 'background-color: #fbad9c;' // user input is false or doesn't exist
+        }
+      } else {
+        return 'background-color: #ffffff;' // no background highlighting intended
+      }
     }
   },
   methods: {
@@ -306,16 +398,16 @@ export default {
       }
     },
     resetImageSlots () {
-      this.slot1Image = ''
-      this.slot2Image = ''
-      this.slot3Image = ''
-      this.slot4Image = ''
-      this.slot5Image = ''
-      this.answer1Image = ''
-      this.answer2Image = ''
-      this.answer3Image = ''
-      this.answer4I4mage = ''
-      this.answer5Image = ''
+      this.slot1Image = '../statics/grey.png'
+      this.slot2Image = '../statics/grey.png'
+      this.slot3Image = '../statics/grey.png'
+      this.slot4Image = '../statics/grey.png'
+      this.slot5Image = '../statics/grey.png'
+      this.answer1Image = '../statics/grey.png'
+      this.answer2Image = '../statics/grey.png'
+      this.answer3Image = '../statics/grey.png'
+      this.answer4Image = '../statics/grey.png'
+      this.answer5Image = '../statics/grey.png'
     },
     setNewCreation () {
       this.currentIndex = 0
