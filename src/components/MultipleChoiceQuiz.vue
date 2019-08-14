@@ -17,7 +17,6 @@
         label="Highlight Manyougana"
         @input="updateHighlight()"
       />
-      {{highlightManyougana}}
       <!-- parameters panel -->
       <span class="row">
         <!-- script selection -->
@@ -354,6 +353,7 @@ export default {
         this.questionsAnsweredCorrectly += 1
         // reward with exp (perhaps level-ups)
         this.$root.$emit('addExp', 1)
+        this.$root.$emit('addSkillExp', 1)
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
         this.continueQuiz()
       } else {

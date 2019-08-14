@@ -3,5 +3,18 @@
 	"fish": ["sa", "ka", "na"],
 	"fox": ["ki", "tsu", "ne"],
 	"wolf": ["o", "o", "ka", "mi"],
-	"vinodh": ["wi", "no", "to"]
+	"vinodh": ["wi", "no", "to"],
+	"paper": ["ka", "mi"],
+	"cellphone": ["ke", "i", "ta", "i"],
+	"socks": ["ku", "tsu", "shi", "ta"],
+	"vegetables": ["ya", "sa", "i"],
+	"room": ["he", "ya"],
+	"drink": ["no", "mi", "mo", "no"],
+	"tomorrow": ["a", "shi", "ta"],
+	"luck": ["u", "n"],
+	"bait": ["e", "sa"],
+	"fragrance": ["ka", "o", "ri"],
+	"world": ["se", "ka", "i"],
+	"miso": ["mi", "so"],
+	"hello": ["ko", "n", "ni", "chi", "ha"]
 }

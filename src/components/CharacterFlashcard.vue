@@ -1,8 +1,9 @@
 <template>
   <q-card :style="background">
   <div class="character-flashcard">
-      <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
-      <span v-if="showTitle" style="position: relative; top: 50px; left: 64px;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
+    <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
+    <span v-if="showTitle" style="width: 100px; top: 44px; display: inline-block; position: relative;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
+    <span v-if="showScript" style="width: 100px; top: -86px; display: inline-block; position: relative;"><strong>{{imgScript}}</strong></span>
   </div>
   </q-card>
 </template>
@@ -13,7 +14,8 @@ export default {
   props: {
     imgSrc: String,
     showTitle: Boolean,
-    background: String
+    background: String,
+    showScript: Boolean
   },
   computed: {
     imgLetter () {
@@ -26,6 +28,13 @@ export default {
       } else {
         return 'No cheating allowed'
       }
+    },
+    imgScript () {
+      if (this.showScript) {
+        return this.imgSrc.split('/')[3].split('-')[0]
+      } else {
+        return ''
+      }
     }
   }
 }
@@ -36,6 +45,7 @@ div .character-flashcard {
   height: 150px;
   width: 150px;
   position: relative;
+  text-align: center;
 }
 .center {
   display: block;

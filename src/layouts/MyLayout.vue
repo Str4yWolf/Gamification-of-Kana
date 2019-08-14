@@ -91,6 +91,7 @@ export default {
     this.$root.$on('deleteAccount', this.deleteAccount)
     this.$root.$on('logOut', this.logOut)
     this.$root.$on('addExp', this.addExp)
+    this.$root.$on('addSkillExp', this.addSkillExp)
     this.$root.$on('incrementTracking', this.incrementTracking)
     this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
     this.$root.$on('hideWordCreator', this.hideWordCreator)
@@ -261,8 +262,14 @@ export default {
     **/
     addExp (n) {
       this.userObj.exp += n
-      this.userObj.skillExp += n
       this.updateLvl()
+      this.updateDatabase()
+    },
+    /**
+    similar to addExp(n)
+    **/
+    addSkillExp (n) {
+      this.userObj.skillExp += n
       this.updateSkillLvl()
       this.updateDatabase()
     },
@@ -278,7 +285,7 @@ export default {
       if (this.userObj.exp >= threshold) {
         this.userObj.lvl += 1 // increment level upon hitting threshold
         this.userObj.inkblots += this.userObj.lvl // get inkblots as rewards
-        alert('Congratulations. You have reached level ' + this.userObj.lvl + '!')
+        this.$q.notify('Congratulations. You have reached level ' + this.userObj.lvl + '!')
         this.updateLvl() // check whether more levels have been hit
       }
     },
@@ -292,7 +299,7 @@ export default {
       var threshold = this.skillLvlThreshold[this.userObj.skillLvl]
       if (this.userObj.skillExp >= threshold) {
         this.userObj.skillLvl += 1
-        alert('Congratulations. You have reached skill level ' + this.userObj.skillLvl + '!')
+        this.$q.notify('Congratulations. You have reached skill level ' + this.userObj.skillLvl + '!')
         this.updateSkillLvl()
       }
     },
