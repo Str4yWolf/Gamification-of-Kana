@@ -20,7 +20,7 @@
           </span>
           <span>
             <q-icon name="info" color="red" style="left:9px; top:7px;">
-              <q-tooltip style="font-size: 200%;">
+              <q-tooltip content-style="font-size: 16px">
                 Resets your level, achievements, progress tracking, and preferences.
               </q-tooltip>
             </q-icon>

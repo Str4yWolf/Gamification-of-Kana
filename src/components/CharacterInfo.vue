@@ -1,16 +1,14 @@
 <template>
   <span>
-    <character-flashcard :imgSrc="imageSrc" :showTitle="true" :background="background" :showScript="false" />
-    <q-menu auto-close>
-    <span style="position: relative;" class="row">
+    <character-flashcard :imgSrc="imageSrc" :showTitle="true" :background="selectableBackground" :showScript="false" @mouseover.native="selected = true" @mouseleave.native="selected = false"/>
+    <span v-if="unhideMenu" :style="menuStyle">
       <span>
-        <character-flashcard :imgSrc="image1" :showTitle="true" :background="background" :showScript="true" />
+        <character-flashcard :imgSrc="image1" :showTitle="true" :background="backgroundSelected2" :showScript="true" />
       </span>
-      <span>
-        <character-flashcard :imgSrc="image2" :showTitle="true" :background="background" :showScript="true" />
+      <span style="position: absolute; left: 150px; top: 0px;">
+        <character-flashcard :imgSrc="image2" :showTitle="true" :background="backgroundSelected2" :showScript="true" />
       </span>
     </span>
-    </q-menu>
   </span>
 </template>
 
@@ -25,8 +23,11 @@ export default {
   data () {
     return {
       background: 'background-color: #ffffff;',
+      backgroundSelected1: 'background-color: #d8f8f2;',
+      backgroundSelected2: 'background-color: #ebfbf4;',
       script1: 'katakana',
-      script2: 'manyougana-katakana'
+      script2: 'manyougana-katakana',
+      selected: false
     }
   },
   props: {
@@ -38,24 +39,56 @@ export default {
   },
   computed: {
     imageSrc () {
-      if (this.sourceScript === 'manyougana-katakana' && this.highlight) {
-        return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+      if (this.letter === '') {
+        return '../statics/grey.png'
       } else {
-        return '../statics/svg/' + this.sourceScript + '/' + this.sourceScript + '_letter_' + this.letter + '.svg'
+        if (this.sourceScript === 'manyougana-katakana' && this.highlight) {
+          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+        } else {
+          return '../statics/svg/' + this.sourceScript + '/' + this.sourceScript + '_letter_' + this.letter + '.svg'
+        }
       }
     },
     image1 () {
-      if (this.script1 === 'manyougana-katakana' && this.highlight) {
-        return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+      if (this.letter === '') {
+        return '../statics/grey.png'
       } else {
-        return '../statics/svg/' + this.script1 + '/' + this.script1 + '_letter_' + this.letter + '.svg'
+        if (this.script1 === 'manyougana-katakana' && this.highlight) {
+          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+        } else {
+          return '../statics/svg/' + this.script1 + '/' + this.script1 + '_letter_' + this.letter + '.svg'
+        }
       }
     },
     image2 () {
-      if (this.script2 === 'manyougana-katakana' && this.highlight) {
-        return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+      if (this.letter === '') {
+        return '../statics/grey.png'
       } else {
-        return '../statics/svg/' + this.script2 + '/' + this.script2 + '_letter_' + this.letter + '.svg'
+        if (this.script2 === 'manyougana-katakana' && this.highlight) {
+          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
+        } else {
+          return '../statics/svg/' + this.script2 + '/' + this.script2 + '_letter_' + this.letter + '.svg'
+        }
+      }
+    },
+    letterIsEmpty () {
+      return this.letter === ''
+    },
+    selectableBackground () {
+      if (this.selected) {
+        return this.backgroundSelected1
+      } else {
+        return this.background
+      }
+    },
+    unhideMenu () {
+      return !this.letterIsEmpty && this.selected
+    },
+    menuStyle () {
+      if (this.selected) {
+        return 'position: absolute; z-index: 1'
+      } else {
+        return ''
       }
     }
   },

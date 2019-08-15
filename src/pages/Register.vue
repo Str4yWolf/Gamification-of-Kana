@@ -10,7 +10,7 @@
           <!-- containing field -->
           <template v-slot:append>
             <q-icon name="info" color="red">
-              <q-tooltip style="font-size: 200%;">
+              <q-tooltip content-style="font-size: 16px">
                 Upon registration, you will be able to save and track your progress. <br />
                 You can change your name or delete your account at any time.
               </q-tooltip>

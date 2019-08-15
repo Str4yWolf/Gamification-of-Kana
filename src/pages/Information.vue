@@ -110,29 +110,29 @@
           <q-card-section>
             AGREEMENT FORM<br />
             <strong>Requirements (8/20/2019)</strong><br />
-            teaching mapping<br />
-            immersive/attractive feedback whatsoever<br />
-            animations<br />
-            buttons for hints<br />
-            vary between different options/games<br />
+            (?) teaching mapping<br />
+            (1) immersive/attractive feedback whatsoever<br />
+            (1) animations<br />
+            (0:30) buttons for hints<br />
+            (4) vary between different options/games<br />
             <br />
-            tutorials<br />
+            (4) tutorials<br />
             <br />
-            gamification/final game<br />
-            BA task, spaced repetition <br />
-            design<br />
+            (10) gamification/final game<br />
+            BA task, (1) spaced repetition <br />
+            (4+) design<br />
             <strong>Functions</strong><br />
-              Custom words in word creator.
-              Practical tests (e.g., reading hentaigana)<br />
-              getting rewards<br />
-              Additional gamification elements (e.g., timer)<br />
-              Final (exam)<br />
-              (Story mode)<br />
+              (0:40) Custom words in word creator.
+              (4) Practical tests (e.g., reading hentaigana)<br />
+              (3) getting rewards<br />
+              (3) Additional gamification elements (e.g., timer)<br />
+              (s.a.) Final (exam)<br />
+              ((100+) Story mode)<br />
               (Varying Hentaigana)<br />
               <br />
-              refactor code -- mixin<br />
+              (4) refactor code -- mixin<br />
             <strong>Scripts (48 glyphs)</strong><br />
-              Man'yougana-Hiragana, (kanbun)<br />
+              (Man'yougana-Hiragana), (kanbun)<br />
               <br />
             <strong>Text input</strong><br />
               (Japanese/Chinese input)

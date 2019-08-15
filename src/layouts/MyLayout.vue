@@ -107,7 +107,7 @@ export default {
       showSignInField: false,
       // level control
       lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1000000 },
-      skillLvlThreshold: { 0: 25, 1: 75, 2: 130, 3: 190, 4: 255, 5: 325, 6: 400, 7: 480, 8: 565, 9: 1500000 },
+      skillLvlThreshold: { 0: 25, 1: 75, 2: 130, 3: 190, 4: 255, 5: 325, 6: 400, 7: 480, 8: 565, 9: 655, 10: 1500000 },
       // user data
       username: '',
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 }
@@ -293,7 +293,7 @@ export default {
     Updates skillLvl similarly to updateLevel()
     **/
     updateSkillLvl () {
-      if (this.userObj.skillLvl === 10) {
+      if (this.userObj.skillLvl === 11) {
         return
       }
       var threshold = this.skillLvlThreshold[this.userObj.skillLvl]
