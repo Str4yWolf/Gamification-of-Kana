@@ -110,13 +110,13 @@
           <q-card-section>
             AGREEMENT FORM<br />
             <strong>Requirements (8/20/2019)</strong><br />
-            (?) teaching mapping<br />
+            (10) teaching mapping<br />
             (1) immersive/attractive feedback whatsoever<br />
             (1) animations<br />
             (0:30) buttons for hints<br />
             (4) vary between different options/games<br />
             <br />
-            (4) tutorials<br />
+            (3) tutorials<br />
             <br />
             (10) gamification/final game<br />
             BA task, (1) spaced repetition <br />
