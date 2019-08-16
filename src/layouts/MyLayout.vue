@@ -25,16 +25,31 @@
             <strong>Inkblots: &nbsp; </strong> {{userObj.inkblots}}
           </span>
           <!-- menu (pages) -->
-          <q-menu auto-close>
+          <q-menu>
             <q-list style="min-width: 100px">
               <q-item @click="unhideGeneralLearning()" clickable>
                 <q-item-section>Learn</q-item-section>
               </q-item>
-              <q-item @click="unhideMultipleChoiceQuiz()" clickable>
-                <q-item-section>Multiple Choice</q-item-section>
-              </q-item>
-              <q-item @click="unhideWordCreator()" clickable>
-                <q-item-section>Word Creator</q-item-section>
+              <q-item clickable>
+                <q-item-section>Learning Tools</q-item-section>
+                <q-item-section side>
+                  <q-icon name="keyboard_arrow_right" />
+                </q-item-section>
+                <!-- submenu start -->
+                <q-menu anchor="top right" auto-close>
+                  <q-list>
+                    <q-item @click="unhideMultipleChoiceQuiz()" clickable>
+                      <q-item-section>Multiple Choice</q-item-section>
+                    </q-item>
+                    <q-item @click="unhideWordCreator()" clickable>
+                      <q-item-section>Word Creator</q-item-section>
+                    </q-item>
+                    <q-item @click="unhideWordReader()" clickable>
+                      <q-item-section>Word Reader</q-item-section>
+                    </q-item>
+                  </q-list>
+                </q-menu>
+                <!-- submenu end -->
               </q-item>
               <q-item @click="$router.push('/Gojuuon/')" clickable>
                 <q-item-section>Character Reference</q-item-section>
@@ -71,6 +86,7 @@
       <router-view v-if="showRouterPage" />
       <multiple-choice-quiz-interface :userObj="userObj" v-if="showMultipleChoiceQuizPage" />
       <word-creator-interface :userObj="userObj" v-if="showWordCreatorPage" />
+      <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
     </q-page-container>
   </q-layout>
@@ -80,6 +96,7 @@
 import userTracking from '../statics/svg/user_tracking.json'
 import MultipleChoiceQuizInterface from '../components/MultipleChoiceQuizInterface.vue'
 import WordCreatorInterface from '../components/WordCreatorInterface.vue'
+import WordReaderInterface from '../components/WordReaderInterface.vue'
 import GeneralLearning from '../components/GeneralLearning.vue'
 
 export default {
@@ -87,6 +104,7 @@ export default {
   components: {
     MultipleChoiceQuizInterface,
     WordCreatorInterface,
+    WordReaderInterface,
     GeneralLearning
   },
   created () {
@@ -101,6 +119,7 @@ export default {
     this.$root.$on('incrementTracking', this.incrementTracking)
     this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
     this.$root.$on('hideWordCreator', this.hideWordCreator)
+    this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
   },
   data () {
@@ -108,6 +127,7 @@ export default {
       // display control
       showMultipleChoiceQuiz: false,
       showWordCreator: false,
+      showWordReader: false,
       showGeneralLearning: false,
       showAvatar: false,
       showSignInBtn: true,
@@ -142,17 +162,21 @@ export default {
     showWordCreatorPage () {
       return (this.$route.path === '/' && this.showWordCreator)
     },
+    showWordReaderPage () {
+      return (this.$route.path === '/' && this.showWordReader)
+    },
     showGeneralLearningPage () {
       return (this.$route.path === '/' && this.showGeneralLearning)
     },
     showRouterPage () {
-      return !(this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showGeneralLearningPage)
+      return !(this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage)
     }
   },
   methods: {
     unhideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = true
       this.showWordCreator = false
+      this.showWordReader = false
       this.showGeneralLearning = false
       this.$router.push('/')
     },
@@ -162,16 +186,28 @@ export default {
     unhideWordCreator () {
       this.showWordCreator = true
       this.showMultipleChoiceQuiz = false
+      this.showWordReader = false
       this.showGeneralLearning = false
       this.$router.push('/')
     },
     hideWordCreator () {
       this.showWordCreator = false
     },
+    unhideWordReader () {
+      this.showWordReader = true
+      this.showMultipleChoiceQuiz = false
+      this.showWordCreator = false
+      this.showGeneralLearning = false
+      this.$router.push('/')
+    },
+    hideWordReader () {
+      this.showWordReader = false
+    },
     unhideGeneralLearning () {
       this.showGeneralLearning = true
       this.showMultipleChoiceQuiz = false
       this.showWordCreator = false
+      this.showWordReader = false
       this.$router.push('/')
     },
     hideGeneralLearning () {

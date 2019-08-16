@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card style="width: 800px; padding: 30px;">
+    <q-card style="width: 820px; padding: 30px;">
       <!-- header -->
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
       &nbsp;
-      <strong style="font-size: 120%;">Learn ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
+      <strong style="font-size: 120%;">Learn</strong>
       &nbsp;
       &nbsp;
       &nbsp;
@@ -19,61 +19,54 @@
       />
       <!-- parameters panel -->
       <span class="row">
-        <!-- script selection -->
-        <span>
-          <q-select v-model="script1" :options="['katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
-        </span>
-        <span>
-          <q-select v-model="script2" :options="['katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
-        </span>
-        <!-- number of questions slider -->
-        <span style="padding:10px;" v-if="!quizHasStarted">
-          <strong>Questions: </strong>
-        </span>
-        <span v-if="!quizHasStarted">
-          <q-slider
-            v-model="quizLength"
-            :min="3"
-            :max="20"
-            :step="1"
-            label-always
-            color="light-green"
-            style="width: 120px;"
-          />
-        </span>
         <!-- context dependent buttons -->
-        <span style="padding-left:10px; position: absolute; left: 640px;">
-          <q-btn v-if="!quizHasStarted" color="green" label="Start" @click="startQuiz()" />
-          <q-btn v-if="quizHasStarted" color="green" label="Enter" @click="$refs.InterfaceMCQ.continueQuiz()" :disabled="!validationInProgress" />
+        <span style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
+          <q-btn color="green" label="Continue" @click="randomizeNextQuestion()" :disabled="!validationInProgress" />
         </span>
       </span>
-      <multiple-choice-quiz :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" ref="InterfaceMCQ" />
+      <multiple-choice-quiz v-if="showMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" ref="GeneralLearningMCQ" />
+      <word-creator v-if="showWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" />
     </q-card>
   </q-page>
 </template>
 
 <script>
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
+import WordCreator from '../components/WordCreator.vue'
 
 export default {
   // name: 'PageName',
   components: {
-    MultipleChoiceQuiz
+    MultipleChoiceQuiz,
+    WordCreator
   },
   data () {
     return {
       // Boolean process and button display controllors
-      quizHasStarted: false,
       hasAnsweredQuestion: false,
-      validationInProgress: false,
+      validationInProgress: true,
       highlightManyougana: false,
       // script-related
       script1: 'katakana',
-      script2: 'manyougana-katakana',
+      scripts: ['katakana', 'manyougana-katakana'],
       // quiz controllers
-      quizLength: 3,
-      numberQuestionsAnswered: 0,
-      questionsAnsweredCorrectly: 0
+      mode: 0,
+      disableOptions: false
+    }
+  },
+  computed: {
+    script2 () {
+      if (this.script1 === 'katakana') {
+        return 'manyougana-katakana'
+      } else {
+        return 'katakana'
+      }
+    },
+    showMCQ () {
+      return this.mode === 0
+    },
+    showWC () {
+      return this.mode === 1
     }
   },
   props: {
@@ -81,8 +74,7 @@ export default {
   },
   created () {
     // listen to event calls from elsewhere
-    this.$root.$on('setNumberQuestionsAnswered', this.setNumberQuestionsAnswered)
-    this.$root.$on('setQuizHasStarted', this.setQuizHasStarted)
+    this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
     this.$root.$on('setValidationInProgress', this.setValidationInProgress)
   },
   mounted () {
@@ -136,14 +128,23 @@ export default {
       this.questionsAnsweredCorrectly = 0
       this.numberQuestionsAnswered = 0
     },
-    setNumberQuestionsAnswered (x) {
-      this.numberQuestionsAnswered = x
-    },
-    setQuizHasStarted (x) {
-      this.quizHasStarted = x
-    },
     setValidationInProgress (x) {
       this.validationInProgress = x
+    },
+    randomizeNextQuestion () {
+      this.mode = Math.floor(Math.random() * 2)
+      this.script1 = this.scripts[Math.floor(Math.random() * 2)]
+      switch (this.mode) {
+        // Multiple choice
+        case 0:
+          this.$refs.GeneralLearningMCQ.continueQuiz()
+          break
+        case 1:
+        // Word creator
+          this.disableOptions = false
+          this.$refs.GeneralLearningWC.setNewCreation()
+          break
+      }
     }
   }
 }

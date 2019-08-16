@@ -109,13 +109,14 @@
         <q-card>
           <q-card-section>
             AGREEMENT FORM<br />
+            finish general learning page<br />
             create menu with submenu for pure learning games<br />
             make learning page for composite mapping teaching (and wrap in a nice context)<br />
             add exp boost to using learning page<br />
             make greyscale?<br />
             (crop SVGs for faster loading)<br />
             <strong>Requirements (8/20/2019)</strong><br />
-            (10) teaching mapping<br />
+            (6) teaching mapping<br />
             (1) immersive/attractive feedback whatsoever<br />
             (1) animations<br />
             (0:30) buttons for hints<br />

@@ -268,6 +268,7 @@ export default {
       console.log('correctAnswer: ' + this.correctAnswer)
       this.numberQuestionsAnswered += 1
       this.$root.$emit('setNumberQuestionsAnswered', this.numberQuestionsAnswered)
+      this.$root.$emit('MultipleChoiceQuestion answered')
       // display feedback,
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
