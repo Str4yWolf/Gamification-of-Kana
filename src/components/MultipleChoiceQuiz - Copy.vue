@@ -1,5 +1,52 @@
 <template>
-  <span>
+  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
+    <q-card style="width: 800px; padding: 30px;">
+      <!-- header -->
+      <!-- back button -->
+      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideMultipleChoiceQuiz')" />
+      &nbsp;
+      <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      &nbsp;
+      <!-- manyougana highlight toggle -->
+      <q-toggle
+        v-model="highlightManyougana"
+        color="red"
+        label="Highlight Manyougana"
+        @input="updateHighlight()"
+      />
+      <!-- parameters panel -->
+      <span class="row">
+        <!-- script selection -->
+        <span>
+          <q-select v-model="script1" :options="['katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
+        </span>
+        <span>
+          <q-select v-model="script2" :options="['katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
+        </span>
+        <!-- number of questions slider -->
+        <span style="padding:10px;" v-if="!quizHasStarted">
+          <strong>Questions: </strong>
+        </span>
+        <span v-if="!quizHasStarted">
+          <q-slider
+            v-model="quizLength"
+            :min="3"
+            :max="20"
+            :step="1"
+            label-always
+            color="light-green"
+            style="width: 120px;"
+          />
+        </span>
+        <!-- context dependent button -->
+        <span style="padding-left:10px;">
+          <q-btn v-if="!quizHasStarted" color="green" label="Start" @click="continueQuiz()" />
+          <q-btn v-if="validationInProgress" color="green" label="Continue" @click="continueQuiz()" />
+        </span>
+      </span>
       <!-- question -->
       <span class="row" style="padding: 20px 0px 20px 50px;">
         <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" :showTitle="validationInProgress" />
@@ -26,7 +73,8 @@
         </span>
       </span>
     <letter-operations :highlight="highlightManyougana" :skillLevel="userObj['skillLvl']" ref="MCQOps" />
-  </span>
+    </q-card>
+  </q-page>
 </template>
 
 <script>
@@ -46,7 +94,10 @@ export default {
       quizHasStarted: false,
       hasAnsweredQuestion: false,
       validationInProgress: false,
+      highlightManyougana: false,
       // script-related
+      script1: 'katakana',
+      script2: 'manyougana-katakana',
       currentKey: '',
       // convert script to its number code as used in script-to-script maps
       scriptIndex: { 'hentaigana': '1',
@@ -55,6 +106,7 @@ export default {
         'manyougana-katakana': '5',
         'manyougana-katakana-c': '5' },
       // quiz controllers
+      quizLength: 3,
       numberQuestionsAnswered: 0,
       questionsAnsweredCorrectly: 0,
       correctAnswer: -1,
@@ -70,11 +122,7 @@ export default {
     }
   },
   props: {
-    userObj: Object,
-    script1: String,
-    script2: String,
-    highlightManyougana: Boolean,
-    quizLength: Number
+    userObj: Object
   },
   mounted () {
     this.$refs.modal.$el.focus()
@@ -121,6 +169,38 @@ export default {
     }
   },
   methods: {
+    /**
+    Validate user keyboard input
+    **/
+    validateKeyInput (event) {
+      switch (event.keyCode) {
+        // keyboard numbers 1 - 4
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+          if (!this.disableOptions) {
+            console.log('called validateKeyInput with 1-4')
+            this.validateOption(event.keyCode - 48)
+          } else {
+            console.log('Validation is in progress. Options unusable.')
+          }
+          break
+        // keyboard Enter key
+        case 13:
+          console.log('pressed enter in validateKeyInput')
+          if (this.hasAnsweredQuestion) {
+            this.continueQuiz()
+          }
+          break
+        // log all other keys
+        default:
+          console.log('called validateKeyInput with key')
+          console.log(event.key)
+          console.log('and keyCode')
+          console.log(event.keyCode)
+      }
+    },
     /**
     Get the letter of an image path
     **/
@@ -219,10 +299,8 @@ export default {
       }
       // adjust display controls
       this.quizHasStarted = true
-      this.$root.$emit('setQuizHasStarted', true)
       this.hasAnsweredQuestion = false
       this.validationInProgress = false
-      this.$root.$emit('setValidationInProgress', false)
       // set a random new currentKey which yet employs spaced repetition and emphasis on less mastered questions
       this.randomizeCurrentKey()
       // get question image
@@ -257,7 +335,6 @@ export default {
       // adjust controls
       this.hasAnsweredQuestion = true
       this.validationInProgress = true
-      this.$root.$emit('setValidationInProgress', true)
       // get user answer
       if (event.target !== undefined) {
         this.userAnswer = parseInt(event.target.id.split('-')[4]) - 1 // from button
@@ -267,7 +344,6 @@ export default {
       console.log('userAnswer: ' + this.userAnswer)
       console.log('correctAnswer: ' + this.correctAnswer)
       this.numberQuestionsAnswered += 1
-      this.$root.$emit('setNumberQuestionsAnswered', this.numberQuestionsAnswered)
       // display feedback,
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
@@ -291,9 +367,7 @@ export default {
     endQuiz () {
       console.log('called endQuiz from MultipleChoice')
       this.quizHasStarted = false
-      this.$root.$emit('setQuizHasStarted', false)
       this.validationInProgress = false
-      this.$root.$emit('setValidationInProgress', false)
       this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.numberQuestionsAnswered + ' in this quiz!'
       this.questionsAnsweredCorrectly = 0
       this.numberQuestionsAnswered = 0

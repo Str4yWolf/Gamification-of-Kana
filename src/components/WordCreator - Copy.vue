@@ -1,5 +1,25 @@
 <template>
-  <span>
+  <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
+    <q-card style="width: 820px; padding: 30px;">
+      <span class="row">
+        <span>
+          <!-- header -->
+          <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideWordCreator')" />
+          &nbsp;
+          <strong style="font-size: 120%;">Word Creator</strong>
+        </span>
+        <!-- script selection -->
+        <span style="padding: 0px 20px 0px 40px;">
+          <q-select v-model="script" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script" style="width:200px;" />
+        </span>
+        <!-- Control buttons -->
+        <span style="padding: 15px;">
+          <q-btn color="green" label="New Word" title="Get a new word (n)" @click="setNewCreation()" />
+          <q-btn color="green" label="Enter" title="Enter answers (Enter)" @click="endCreation()" :disabled="showFeedbackMessage" />
+          <q-btn color="green" label="Show Japanese" title="Show Japanese word (j)" @click="showJapanese()" :disabled="showFeedbackMessage" />
+        </span>
+      </span>
+      <br />
       <!-- Text display -->
       <span v-if="!showFeedbackMessage"> Please spell {{currentWordEng}} in Japanese {{japaneseTip}}using {{script}}. </span>
       <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
@@ -59,8 +79,9 @@
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
+    </q-card>
     <letter-operations :highlight="false" :skillLevel="userObj['skillLvl']" ref="WCOps" />
-  </span>
+  </q-page>
 </template>
 
 <script>
@@ -77,6 +98,7 @@ export default {
   data () {
     return {
       // current params
+      script: 'katakana',
       currentWordEng: 'wolf',
       // control params
       currentIndex: 0,
@@ -109,10 +131,12 @@ export default {
     }
   },
   props: {
-    userObj: Object,
-    script: String
+    userObj: Object
   },
   created () {
+  },
+  mounted () {
+    this.$refs.modal.$el.focus()
   },
   computed: {
     currentWordJap () {
@@ -225,6 +249,50 @@ export default {
     }
   },
   methods: {
+    /**
+    Validate user keyboard input
+    **/
+    validateKeyInput (event) {
+      switch (event.keyCode) {
+        // keyboard numbers 1 - 4
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+          if (!this.disableOptions) {
+            console.log('called validateKeyInput with 1-4')
+            this.validateOption(event.keyCode - 48)
+          } else {
+            console.log('Validation is in progress. Options unusable.')
+          }
+          break
+        // keyboard Enter key
+        case 13:
+          console.log('pressed enter in validateKeyInput')
+          if (!this.showFeedbackMessage) {
+            this.endCreation()
+          }
+          break
+        // show tip
+        case 74:
+          console.log('pressed j in validateKeyInput')
+          if (!this.showFeedbackMessage) {
+            this.showJapanese()
+          }
+          break
+        // new word
+        case 78:
+          console.log('pressed n in validateKeyInput')
+          this.setNewCreation()
+          break
+        // log all other keys
+        default:
+          console.log('called validateKeyInput with key')
+          console.log(event.key)
+          console.log('and keyCode')
+          console.log(event.keyCode)
+      }
+    },
     isEqualLetters (obj1, obj2) {
       console.log('called isEqualLetters from WordCreator')
       var keys1 = Object.keys(obj1)

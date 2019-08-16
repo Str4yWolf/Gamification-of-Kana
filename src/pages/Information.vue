@@ -109,6 +109,11 @@
         <q-card>
           <q-card-section>
             AGREEMENT FORM<br />
+            create menu with submenu for pure learning games<br />
+            make learning page for composite mapping teaching (and wrap in a nice context)<br />
+            add exp boost to using learning page<br />
+            make greyscale?<br />
+            (crop SVGs for faster loading)<br />
             <strong>Requirements (8/20/2019)</strong><br />
             (10) teaching mapping<br />
             (1) immersive/attractive feedback whatsoever<br />
@@ -116,11 +121,14 @@
             (0:30) buttons for hints<br />
             (4) vary between different options/games<br />
             <br />
-            (3) tutorials<br />
+            (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
             <br />
             (10) gamification/final game<br />
             BA task, (1) spaced repetition <br />
             (4+) design<br />
+            still fewer options<br />
+            improve background of character overview<br />
+            make grey frame bigger on the background<br />
             <strong>Functions</strong><br />
               (0:40) Custom words in word creator.
               (4) Practical tests (e.g., reading hentaigana)<br />

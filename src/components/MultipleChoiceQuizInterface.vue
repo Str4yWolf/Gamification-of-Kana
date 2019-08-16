@@ -3,9 +3,9 @@
     <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
       <!-- back button -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideMultipleChoiceQuiz')" />
       &nbsp;
-      <strong style="font-size: 120%;">Learn ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
+      <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
       &nbsp;
       &nbsp;
       &nbsp;

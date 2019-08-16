@@ -27,7 +27,7 @@
           <!-- menu (pages) -->
           <q-menu auto-close>
             <q-list style="min-width: 100px">
-              <q-item @click="$router.push('/Learn/')" clickable>
+              <q-item @click="unhideGeneralLearning()" clickable>
                 <q-item-section>Learn</q-item-section>
               </q-item>
               <q-item @click="unhideMultipleChoiceQuiz()" clickable>
@@ -35,6 +35,9 @@
               </q-item>
               <q-item @click="unhideWordCreator()" clickable>
                 <q-item-section>Word Creator</q-item-section>
+              </q-item>
+              <q-item @click="$router.push('/Gojuuon/')" clickable>
+                <q-item-section>Character Reference</q-item-section>
               </q-item>
               <q-item @click="$router.push('/Information/')" clickable>
                 <q-item-section>App Info</q-item-section>
@@ -66,22 +69,25 @@
     </q-header>
     <q-page-container>
       <router-view v-if="showRouterPage" />
-      <multiple-choice-quiz :userObj="userObj" v-if="showMultipleChoiceQuizPage" />
-      <word-creator :userObj="userObj" v-if="showWordCreatorPage" />
+      <multiple-choice-quiz-interface :userObj="userObj" v-if="showMultipleChoiceQuizPage" />
+      <word-creator-interface :userObj="userObj" v-if="showWordCreatorPage" />
+      <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
     </q-page-container>
   </q-layout>
 </template>
 
 <script>
 import userTracking from '../statics/svg/user_tracking.json'
-import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
-import WordCreator from '../components/WordCreator.vue'
+import MultipleChoiceQuizInterface from '../components/MultipleChoiceQuizInterface.vue'
+import WordCreatorInterface from '../components/WordCreatorInterface.vue'
+import GeneralLearning from '../components/GeneralLearning.vue'
 
 export default {
   name: 'MyLayout',
   components: {
-    MultipleChoiceQuiz,
-    WordCreator
+    MultipleChoiceQuizInterface,
+    WordCreatorInterface,
+    GeneralLearning
   },
   created () {
     // listen to event calls from elsewhere
@@ -95,12 +101,14 @@ export default {
     this.$root.$on('incrementTracking', this.incrementTracking)
     this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
     this.$root.$on('hideWordCreator', this.hideWordCreator)
+    this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
   },
   data () {
     return {
       // display control
       showMultipleChoiceQuiz: false,
       showWordCreator: false,
+      showGeneralLearning: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -134,14 +142,18 @@ export default {
     showWordCreatorPage () {
       return (this.$route.path === '/' && this.showWordCreator)
     },
+    showGeneralLearningPage () {
+      return (this.$route.path === '/' && this.showGeneralLearning)
+    },
     showRouterPage () {
-      return !(this.showMultipleChoiceQuizPage || this.showWordCreatorPage)
+      return !(this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showGeneralLearningPage)
     }
   },
   methods: {
     unhideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = true
       this.showWordCreator = false
+      this.showGeneralLearning = false
       this.$router.push('/')
     },
     hideMultipleChoiceQuiz () {
@@ -150,10 +162,21 @@ export default {
     unhideWordCreator () {
       this.showWordCreator = true
       this.showMultipleChoiceQuiz = false
+      this.showGeneralLearning = false
       this.$router.push('/')
     },
     hideWordCreator () {
       this.showWordCreator = false
+    },
+    unhideGeneralLearning () {
+      this.showGeneralLearning = true
+      this.showMultipleChoiceQuiz = false
+      this.showWordCreator = false
+      this.$router.push('/')
+    },
+    hideGeneralLearning () {
+      console.log('called hideGeneralLearning')
+      this.showGeneralLearning = false
     },
     unhideSignInField () {
       console.log('Called unhideSignInField from Layout')
