@@ -20,12 +20,23 @@
       <!-- parameters panel -->
       <span class="row">
         <!-- context dependent buttons -->
-        <span style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
-          <q-btn color="green" label="Continue" @click="randomizeNextQuestion()" :disabled="!validationInProgress" />
+        <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
+          <q-btn v-if="validationInProgress" color="green" label="Continue" @click="randomizeNextQuestion()" />
+          <q-btn v-if="quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
+        </span>
+        <span v-if="activateWC">
+          <q-btn color="purple" label="Show Japanese" title="Show Japanese word (j)" @click="$refs.GeneralLearningWC.showJapanese()" :disable="disableOptions" style="padding-left:10px; position: absolute; left: 498px; top: 33px;" />
+          <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWC()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+        </span>
+        <span v-if="activateWR">
+          <q-btn v-if="!questionInProgress" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWR()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
         </span>
       </span>
-      <multiple-choice-quiz v-if="showMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" ref="GeneralLearningMCQ" />
-      <word-creator v-if="showWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" />
+      <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" ref="GeneralLearningMCQ" />
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" />
+      <word-reader :style="styleWR" :userObj="userObj" :script="script1" ref="GeneralLearningWR" />
     </q-card>
   </q-page>
 </template>
@@ -33,25 +44,29 @@
 <script>
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 import WordCreator from '../components/WordCreator.vue'
+import WordReader from '../components/Wordreader.vue'
 
 export default {
   // name: 'PageName',
   components: {
     MultipleChoiceQuiz,
-    WordCreator
+    WordCreator,
+    WordReader
   },
   data () {
     return {
       // Boolean process and button display controllors
+      quizHasStarted: false,
       hasAnsweredQuestion: false,
-      validationInProgress: true,
+      validationInProgress: false,
       highlightManyougana: false,
       // script-related
       script1: 'katakana',
       scripts: ['katakana', 'manyougana-katakana'],
       // quiz controllers
       mode: 0,
-      disableOptions: false
+      disableOptions: true,
+      questionInProgress: false
     }
   },
   computed: {
@@ -62,11 +77,35 @@ export default {
         return 'katakana'
       }
     },
-    showMCQ () {
+    activateMCQ () {
       return this.mode === 0
     },
-    showWC () {
+    activateWC () {
       return this.mode === 1
+    },
+    activateWR () {
+      return this.mode === 2
+    },
+    styleMCQ () {
+      if (this.activateMCQ) {
+        return 'position: relative; z-index: 2;'
+      } else {
+        return 'position: relative; z-index: -1;'
+      }
+    },
+    styleWC () {
+      if (this.activateWC) {
+        return 'position: relative; z-index: 2; top: -400px;'
+      } else {
+        return 'position: relative; z-index: -1;'
+      }
+    },
+    styleWR () {
+      if (this.activateWR) {
+        return 'position: relative; z-index: 2; top: -800px;'
+      } else {
+        return 'position: relative; z-index: -1;'
+      }
     }
   },
   props: {
@@ -75,6 +114,7 @@ export default {
   created () {
     // listen to event calls from elsewhere
     this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
+    this.$root.$on('setQuizHasStarted', this.setQuizHasStarted)
     this.$root.$on('setValidationInProgress', this.setValidationInProgress)
   },
   mounted () {
@@ -85,37 +125,76 @@ export default {
     Validate user keyboard input
     **/
     validateKeyInput (event) {
-      switch (event.keyCode) {
-        // keyboard numbers 1 - 4
-        case 49:
-        case 50:
-        case 51:
-        case 52:
-          if (!this.validationInProgress && this.quizHasStarted) {
-            console.log('called validateKeyInput with 1-4')
-            this.$refs.InterfaceMCQ.validateOption(event.keyCode - 48)
-          } else {
-            console.log('Validation is in progress. Options unusable.')
-          }
-          break
-        // keyboard Enter key
-        case 13:
-          console.log('pressed enter in validateKeyInput')
-          if (this.validationInProgress) {
-            this.$refs.InterfaceMCQ.continueQuiz()
-          }
-          break
-        // log all other keys
-        default:
-          console.log('called validateKeyInput with key')
-          console.log(event.key)
-          console.log('and keyCode')
-          console.log(event.keyCode)
+      if (this.activateMCQ) { // Multiple choice
+        switch (event.keyCode) {
+          // keyboard numbers 1 - 4
+          case 49:
+          case 50:
+          case 51:
+          case 52:
+            if (!this.validationInProgress) {
+              console.log('called validateKeyInput with 1-4')
+              this.$refs.GeneralLearningMCQ.validateOption(event.keyCode - 48)
+            } else {
+              console.log('Validation is in progress. Options unusable.')
+            }
+            break
+          case 13:
+            console.log('pressed enter in validateKeyInput')
+            if (this.validationInProgress) {
+              this.$refs.GeneralLearningMCQ.continueQuiz()
+            }
+            break
+        }
+      } else if (this.activateWC) { // word creator
+        switch (event.keyCode) {
+          case 49:
+          case 50:
+          case 51:
+          case 52:
+            if (!this.disableOptions) {
+              console.log('called validateKeyInput with 1-4')
+              this.$refs.GeneralLearningWC.validateOption(event.keyCode - 48)
+            } else {
+              console.log('Validation is in progress. Options unusable.')
+            }
+            break
+          case 13:
+            console.log('pressed enter in validateKeyInput')
+            if (!this.disableOptions) {
+              this.enterSolutionWC()
+            } else {
+              this.randomizeNextQuestion()
+            }
+            break
+          case 74:
+            console.log('pressed j in validateKeyInput') // show tip
+            if (!this.disableOptions) {
+              this.$refs.GeneralLearningWC.showJapanese()
+            }
+            break
+        }
+      } else if (this.activateWR) { // word reader
+        switch (event.keyCode) {
+          case 13:
+            console.log('pressed enter in validateKeyInput')
+            if (this.questionInProgress) {
+              this.enterSolutionWR()
+            } else {
+              this.randomizeNextQuestion()
+            }
+            break
+        }
+      } else {
+        console.log('called validateKeyInput with key')
+        console.log(event.key)
+        console.log('and keyCode')
+        console.log(event.keyCode)
       }
     },
     startQuiz () {
       this.numberQuestionsAnswered = 0
-      this.$refs.InterfaceMCQ.continueQuiz()
+      this.$refs.GeneralLearningMCQ.continueQuiz()
     },
     /**
     End quiz by intializing quiz controls and displaying feedback to user
@@ -124,19 +203,23 @@ export default {
       console.log('called endQuiz from MultipleChoice')
       this.quizHasStarted = false
       this.validationInProgress = false
-      this.feedbackMessage = 'Congratulations. You have scored ' + this.questionsAnsweredCorrectly + ' out of ' + this.numberQuestionsAnswered + ' in this quiz!'
       this.questionsAnsweredCorrectly = 0
       this.numberQuestionsAnswered = 0
+    },
+    setQuizHasStarted (x) {
+      this.quizHasStarted = x
     },
     setValidationInProgress (x) {
       this.validationInProgress = x
     },
     randomizeNextQuestion () {
-      this.mode = Math.floor(Math.random() * 2)
+      console.log('called randomizeNextQuestion in GL')
+      this.mode = Math.floor(Math.random() * 2) + 1
       this.script1 = this.scripts[Math.floor(Math.random() * 2)]
       switch (this.mode) {
         // Multiple choice
         case 0:
+          this.quizHasStarted = true
           this.$refs.GeneralLearningMCQ.continueQuiz()
           break
         case 1:
@@ -144,7 +227,21 @@ export default {
           this.disableOptions = false
           this.$refs.GeneralLearningWC.setNewCreation()
           break
+        case 2:
+        // Word reader
+          this.questionInProgress = true
+          this.$refs.GeneralLearningWR.generateQuestion()
+          break
       }
+      console.log('called randomizeNextQuestion in GL')
+    },
+    enterSolutionWR () {
+      this.questionInProgress = false
+      this.$refs.GeneralLearningWR.validateSolution()
+    },
+    enterSolutionWC () {
+      this.disableOptions = true
+      this.$refs.GeneralLearningWC.endCreation()
     }
   }
 }

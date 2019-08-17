@@ -77,7 +77,7 @@ export default {
     quizLength: Number
   },
   mounted () {
-    this.$refs.modal.$el.focus()
+    // this.$refs.modal.$el.focus()
   },
   computed: {
     disableOptions () {
