@@ -33,7 +33,7 @@
 
 <script>
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
-import words from '../statics/wordCreatorWords.json'
+import words from '../statics/wordsBySkillAll.json'
 import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
@@ -72,7 +72,7 @@ export default {
   },
   computed: {
     currentWordJap () {
-      return words[this.currentWordEng]
+      return words[this.userObj.skillLvl][this.currentWordEng]
     },
     currentWordLength () {
       return this.currentWordJap.length
@@ -86,13 +86,13 @@ export default {
   },
   methods: {
     getRandomWord (getKey) {
-      var wordsKeys = Object.keys(words)
+      var wordsKeys = Object.keys(words[this.userObj.skillLvl])
       var randomIndex = Math.floor(Math.random() * wordsKeys.length)
       var randomKey = wordsKeys[randomIndex]
       if (getKey) {
         return randomKey
       } else {
-        return words[randomKey]
+        return words[this.userObj.skillLvl][randomKey]
       }
     },
     setRandomWord () {

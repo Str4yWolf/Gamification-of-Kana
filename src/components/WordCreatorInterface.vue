@@ -20,7 +20,6 @@
         </span>
       </span>
       <br />
-    <letter-operations :highlight="false" :skillLevel="userObj['skillLvl']" ref="WCOps" />
   <word-creator :userObj="userObj" :script="script" ref="InterfaceWC" />
 </q-card>
   </q-page>
