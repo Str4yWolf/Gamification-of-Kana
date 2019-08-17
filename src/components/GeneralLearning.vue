@@ -15,14 +15,14 @@
         v-model="highlightManyougana"
         color="red"
         label="Highlight Manyougana"
-        @input="$refs.InterfaceMCQ.updateHighlight()"
+        @input="$refs.GeneralLearningMCQ.updateHighlight()"
       />
       <!-- parameters panel -->
       <span class="row">
         <!-- context dependent buttons -->
         <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
           <q-btn v-if="validationInProgress" color="green" label="Continue" @click="randomizeNextQuestion()" />
-          <q-btn v-if="quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
+          <q-btn v-if="!quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
         </span>
         <span v-if="activateWC">
           <q-btn color="purple" label="Show Japanese" title="Show Japanese word (j)" @click="$refs.GeneralLearningWC.showJapanese()" :disable="disableOptions" style="padding-left:10px; position: absolute; left: 498px; top: 33px;" />
@@ -34,7 +34,7 @@
           <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWR()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
         </span>
       </span>
-      <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" ref="GeneralLearningMCQ" />
+      <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" ref="GeneralLearningWR" />
     </q-card>
@@ -44,7 +44,7 @@
 <script>
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 import WordCreator from '../components/WordCreator.vue'
-import WordReader from '../components/Wordreader.vue'
+import WordReader from '../components/WordReader.vue'
 
 export default {
   // name: 'PageName',
@@ -112,13 +112,12 @@ export default {
     userObj: Object
   },
   created () {
-    // listen to event calls from elsewhere
-    this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
-    this.$root.$on('setQuizHasStarted', this.setQuizHasStarted)
-    this.$root.$on('setValidationInProgress', this.setValidationInProgress)
   },
   mounted () {
     this.$refs.modal.$el.focus()
+    // listen to event calls from elsewhere
+    this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
+    this.$root.$on('setValidationInProgress', this.setValidationInProgress)
   },
   methods: {
     /**
@@ -142,7 +141,7 @@ export default {
           case 13:
             console.log('pressed enter in validateKeyInput')
             if (this.validationInProgress) {
-              this.$refs.GeneralLearningMCQ.continueQuiz()
+              this.randomizeNextQuestion()
             }
             break
         }
@@ -193,7 +192,6 @@ export default {
       }
     },
     startQuiz () {
-      this.numberQuestionsAnswered = 0
       this.$refs.GeneralLearningMCQ.continueQuiz()
     },
     /**
@@ -214,7 +212,7 @@ export default {
     },
     randomizeNextQuestion () {
       console.log('called randomizeNextQuestion in GL')
-      this.mode = Math.floor(Math.random() * 2) + 1
+      this.mode = Math.floor(Math.random() * 3)
       this.script1 = this.scripts[Math.floor(Math.random() * 2)]
       switch (this.mode) {
         // Multiple choice

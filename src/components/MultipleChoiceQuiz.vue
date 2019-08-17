@@ -74,7 +74,8 @@ export default {
     script1: String,
     script2: String,
     highlightManyougana: Boolean,
-    quizLength: Number
+    quizLength: Number,
+    singleQuestion: Boolean
   },
   mounted () {
     // this.$refs.modal.$el.focus()
@@ -280,7 +281,9 @@ export default {
         this.$root.$emit('addExp', 1)
         this.$root.$emit('addSkillExp', 1)
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
-        this.continueQuiz()
+        if (!this.singleQuestion) {
+          this.continueQuiz()
+        }
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
         this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)

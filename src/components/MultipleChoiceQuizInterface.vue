@@ -47,7 +47,7 @@
           <q-btn v-if="quizHasStarted" color="green" label="Enter" @click="$refs.InterfaceMCQ.continueQuiz()" :disabled="!validationInProgress" />
         </span>
       </span>
-      <multiple-choice-quiz :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" ref="InterfaceMCQ" />
+      <multiple-choice-quiz :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" :singleQuestion="false" ref="InterfaceMCQ" />
     </q-card>
   </q-page>
 </template>
