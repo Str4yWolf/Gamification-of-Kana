@@ -88,7 +88,6 @@ export default {
       // feedback message
       showFeedbackMessage: false,
       feedbackMessage: '',
-      japaneseTip: '',
       // slot images
       slot1Image: '',
       slot2Image: '',
@@ -110,7 +109,8 @@ export default {
   },
   props: {
     userObj: Object,
-    script: String
+    script: String,
+    showJapanese: Boolean
   },
   created () {
     console.log('words: ' + words[10])
@@ -224,6 +224,13 @@ export default {
       } else {
         return 'background-color: #ffffff;' // no background highlighting intended
       }
+    },
+    japaneseTip () {
+      if (this.showJapanese) {
+        return '(' + this.assembleWord(this.currentWordJap) + ') '
+      } else {
+        return ''
+      }
     }
   },
   methods: {
@@ -268,9 +275,6 @@ export default {
         output = output += wordObject[i]
       }
       return output
-    },
-    showJapanese () {
-      this.japaneseTip = '(' + this.assembleWord(this.currentWordJap) + ') '
     },
     setSlotImage () {
       var slotImage = ''

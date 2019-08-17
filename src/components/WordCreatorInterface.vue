@@ -16,11 +16,24 @@
         <span style="padding: 15px;">
           <q-btn color="green" label="New Word" title="Get a new word (n)" @click="newWord()" />
           <q-btn color="green" label="Enter" title="Enter answers (Enter)" @click="enter()" :disabled="disableOptions" />
-          <q-btn color="green" label="Show Japanese" title="Show Japanese word (j)" @click="$refs.InterfaceWC.showJapanese()" :disable="disableOptions" />
+        </span>
+        <span class="row" style="position: absolute; top: 100px; left: 440px;">
+          <!-- manyougana highlight toggle -->
+          <q-toggle
+            v-model="highlightManyougana"
+            color="red"
+            label="Highlight Manyougana"
+          />
+          <!-- show Japanese toggle -->
+          <q-toggle
+            v-model="showJapanese"
+            color="red"
+            label="Japanese Hint"
+          />
         </span>
       </span>
       <br />
-  <word-creator :userObj="userObj" :script="script" ref="InterfaceWC" />
+  <word-creator :userObj="userObj" :script="script" :showJapanese="showJapanese" ref="InterfaceWC" />
 </q-card>
   </q-page>
 </template>
@@ -37,7 +50,8 @@ export default {
     return {
       // current params
       script: 'katakana',
-      disableOptions: true
+      disableOptions: true,
+      showJapanese: false
     }
   },
   computed: {
@@ -73,13 +87,6 @@ export default {
           console.log('pressed enter in validateKeyInput')
           if (!this.disableOptions) {
             this.enter()
-          }
-          break
-        // show tip
-        case 74:
-          console.log('pressed j in validateKeyInput')
-          if (!this.disableOptions) {
-            this.$refs.InterfaceWC.showJapanese()
           }
           break
         // new word

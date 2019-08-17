@@ -17,6 +17,13 @@
         label="Highlight Manyougana"
         @input="$refs.GeneralLearningMCQ.updateHighlight()"
       />
+      <!-- Japanese Tip -->
+      <q-toggle
+        v-if="activateWC"
+        v-model="showJapanese"
+        color="red"
+        label="Japanese Hint"
+      />
       <!-- parameters panel -->
       <span class="row">
         <!-- context dependent buttons -->
@@ -25,7 +32,6 @@
           <q-btn v-if="!quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
         </span>
         <span v-if="activateWC">
-          <q-btn color="purple" label="Show Japanese" title="Show Japanese word (j)" @click="$refs.GeneralLearningWC.showJapanese()" :disable="disableOptions" style="padding-left:10px; position: absolute; left: 498px; top: 33px;" />
           <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
           <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWC()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
         </span>
@@ -35,7 +41,7 @@
         </span>
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" />
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" :showJapanese="showJapanese" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" ref="GeneralLearningWR" />
     </q-card>
   </q-page>
@@ -66,7 +72,8 @@ export default {
       // quiz controllers
       mode: 0,
       disableOptions: true,
-      questionInProgress: false
+      questionInProgress: false,
+      showJapanese: false
     }
   },
   computed: {
@@ -164,12 +171,6 @@ export default {
               this.enterSolutionWC()
             } else {
               this.randomizeNextQuestion()
-            }
-            break
-          case 74:
-            console.log('pressed j in validateKeyInput') // show tip
-            if (!this.disableOptions) {
-              this.$refs.GeneralLearningWC.showJapanese()
             }
             break
         }
