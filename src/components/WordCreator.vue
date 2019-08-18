@@ -1,7 +1,7 @@
 <template>
   <span>
       <!-- Text display -->
-      <span v-if="!showFeedbackMessage"> Please spell {{currentWordEng}} in Japanese {{japaneseTip}}using {{script}}. </span>
+      <span v-if="!showFeedbackMessage"> Please spell {{currentWordEng}} in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
       <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
@@ -432,6 +432,7 @@ export default {
       if (this.isEqualLetters(this.userAnswerIndices, this.correctWordIndices)) {
         this.feedbackMessage = 'Your answer (' + this.assembleWord(this.currentWordJap) + ') was correct. Great job!'
         this.$root.$emit('addExp', this.currentWordLength)
+        this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
       } else {
         this.feedbackMessage = 'Your answer was incorrect. Correct answer: ' + this.assembleWord(this.currentWordJap) + '.'
       }

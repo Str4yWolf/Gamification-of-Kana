@@ -174,6 +174,7 @@ export default {
         this.feedbackMessage = 'Your answer (' + this.userSolution + ') was correct.'
         this.setBackgrounds('#d1fb9c')
         this.$root.$emit('addExp', this.currentWordLength)
+        this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
       } else {
         this.feedbackMessage = 'Your answer (' + this.userSolution + ') was incorrect. Correct answer: ' + this.currentSolution
         this.setBackgrounds('#fbad9c')
