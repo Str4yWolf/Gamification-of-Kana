@@ -1,6 +1,12 @@
 <template>
   <q-page class="flex flex-center">
-    <strong>I want to learn Manyougana</strong>
+    <transition
+      appear
+      enter-active-class="animated bounceInRight"
+      leave-active-class="animated fadeOut"
+    >
+    <img class="background-logo" @click="$router.push('/Register/')" src="../statics/logo.png" alt="Manyougana Logo" width="50%" />
+    </transition>
   </q-page>
 </template>
 
@@ -20,3 +26,9 @@ export default {
   }
 }
 </script>
+<style>
+img .background-logo :hover {
+  background-color: #888888;
+  opacity: 50%;
+}
+</style>

@@ -25,7 +25,7 @@
             <strong>Inkblots: &nbsp; </strong> {{userObj.inkblots}}
           </span>
           <!-- menu (pages) -->
-          <q-menu>
+          <q-menu transition-show="jump-down" transition-hide="jump-up">
             <q-list style="min-width: 100px">
               <q-item @click="unhideGeneralLearning()" clickable>
                 <q-item-section>Learn</q-item-section>
@@ -36,7 +36,7 @@
                   <q-icon name="keyboard_arrow_right" />
                 </q-item-section>
                 <!-- submenu start -->
-                <q-menu anchor="top right" auto-close>
+                <q-menu transition-show="jump-right" transition-hide="jump-left" anchor="top right" auto-close>
                   <q-list>
                     <q-item @click="unhideFlipCard()" clickable>
                       <q-item-section>Simple Flashcard</q-item-section>
@@ -92,13 +92,12 @@
       <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
       <flip-card v-if="showFlipCardPage" />
-    </q-page-container>
-    <q-dialog v-model="hitSkillLvlUp">
+      <q-dialog v-model="hitSkillLvlUp" style="width: 800px;">
       <q-card style="width: 800px; height: 500px;">
         <q-card-section>
           <div class="text-h6">New Skill Level ({{userObj.skillLvl}})</div>
         </q-card-section>
-        <q-card-section>
+        <q-card-section style="width: 800px;">
           Congratulations! You have unlocked the following characters. Hover over them to see katakana. Also visible under <strong>Menu -> "Character Reference"</strong>.
           <br />
           <br />
@@ -171,6 +170,13 @@
             <character-info :letter="'wi'" :highlight="highlight" :sourceScript="script" />
           </span>
           <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
           <strong>{{skillWordsCounts[userObj.skillLvl][0]}}</strong> new words available! &nbsp; Total word count: <strong>{{skillWordsCounts[userObj.skillLvl][1]}}</strong>
           <br />
           <span v-if="skillLvl2"> Also, the maximum word length has improved to 3!</span>
@@ -179,6 +185,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    </q-page-container>
   </q-layout>
 </template>
 
@@ -375,7 +382,6 @@ export default {
       } else {
         alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
       }
-      this.hitSkillLvlUp = true
     },
     /**
     Returns an initialized userObj with current time stamp
