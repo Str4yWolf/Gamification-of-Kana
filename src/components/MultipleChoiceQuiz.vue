@@ -25,7 +25,7 @@
           <q-btn color="primary" id="multiple-choice-option-btn-4" label="Option 4" style="top:5px; width:148px;" @click="validateOption" :disabled="disableOptions" />
         </span>
       </span>
-    <letter-operations :highlight="highlightManyougana" :skillLevel="userObj['skillLvl']" ref="MCQOps" />
+    <letter-operations :highlightManyougana="highlightManyougana" :skillLevel="userObj['skillLvl']" ref="MCQOps" />
   </span>
 </template>
 
@@ -123,19 +123,6 @@ export default {
   },
   methods: {
     /**
-    Get the letter of an image path
-    **/
-    getLetterFromPath (path) {
-      console.log('called getLetterFromPath(' + path + ')')
-      var temp = path.split('/').reverse()[0].split('_letter_')[1].split('.')[0]
-      console.log('temp: ' + temp)
-      if (temp.length === 1) {
-        return temp
-      } else {
-        return temp.substring(0, 2) // crop numeral suffix if it exists
-      }
-    },
-    /**
     Highlight or unhighlight the image according to the highlightManyougana state
     **/
     updateHighlight () {
@@ -146,11 +133,11 @@ export default {
       } else {
         console.log(this.option1Image)
         console.log(this.getLetterFromPath(this.option1Image))
-        this.option1Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option1Image), 'manyougana-katakana')[0]
+        this.option1Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option1Image), 'manyougana-katakana')[0]
         console.log(this.option1Image)
-        this.option2Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option2Image), 'manyougana-katakana')[0]
-        this.option3Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option3Image), 'manyougana-katakana')[0]
-        this.option4Image = this.$refs.MCQOps.getLetters(this.getLetterFromPath(this.option4Image), 'manyougana-katakana')[0]
+        this.option2Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option2Image), 'manyougana-katakana')[0]
+        this.option3Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option3Image), 'manyougana-katakana')[0]
+        this.option4Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option4Image), 'manyougana-katakana')[0]
       }
     },
     /**

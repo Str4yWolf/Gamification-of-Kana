@@ -109,6 +109,9 @@
         <q-card>
           <q-card-section>
             AGREEMENT FORM<br />
+            word creator shall not change scripts within question<br />
+            outsource highlight manyougana<br />
+            tabindex on WordReader<br />
             wrap learning page in a nice context<br />
             add exp boost to using learning page<br />
             make greyscale?<br />

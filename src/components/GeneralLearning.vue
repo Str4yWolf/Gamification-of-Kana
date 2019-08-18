@@ -15,7 +15,7 @@
         v-model="highlightManyougana"
         color="red"
         label="Highlight Manyougana"
-        @input="$refs.GeneralLearningMCQ.updateHighlight()"
+        @input="updateHighlights()"
       />
       <!-- Japanese Tip -->
       <q-toggle
@@ -41,8 +41,8 @@
         </span>
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" :showJapanese="showJapanese" />
-      <word-reader :style="styleWR" :userObj="userObj" :script="script1" ref="GeneralLearningWR" />
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" ref="GeneralLearningWR" />
     </q-card>
   </q-page>
 </template>
@@ -192,6 +192,11 @@ export default {
         console.log(event.keyCode)
       }
     },
+    updateHighlights () {
+      this.$refs.GeneralLearningMCQ.updateHighlight()
+      this.$refs.GeneralLearningWC.updateHighlight()
+      this.$refs.GeneralLearningWR.updateHighlight()
+    },
     startQuiz () {
       this.$refs.GeneralLearningMCQ.continueQuiz()
     },
@@ -216,18 +221,21 @@ export default {
       this.mode = Math.floor(Math.random() * 3)
       this.script1 = this.scripts[Math.floor(Math.random() * 2)]
       switch (this.mode) {
-        // Multiple choice
         case 0:
+        // Multiple choice
+          this.$refs.GeneralLearningMCQ.$el.focus()
           this.quizHasStarted = true
           this.$refs.GeneralLearningMCQ.continueQuiz()
           break
         case 1:
         // Word creator
+          this.$refs.GeneralLearningWC.$el.focus()
           this.disableOptions = false
           this.$refs.GeneralLearningWC.setNewCreation()
           break
         case 2:
         // Word reader
+          this.$refs.GeneralLearningWR.$el.focus()
           this.questionInProgress = true
           this.$refs.GeneralLearningWR.generateQuestion()
           break

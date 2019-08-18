@@ -18,7 +18,7 @@ export default {
     }
   },
   props: {
-    highlight: Boolean,
+    highlightManyougana: Boolean,
     skillLevel: Number
   },
   methods: {
@@ -27,7 +27,7 @@ export default {
     **/
     scriptToData (script) {
       var database = {}
-      console.log('highlight: ' + this.highlight)
+      console.log('highlightManyougana: ' + this.highlightManyougana)
       if (script === 'hentaigana') {
         database = hentaigana
       } else if (script === 'hiragana') {
@@ -35,7 +35,7 @@ export default {
       } else if (script === 'katakana') {
         database = katakana
       } else if (script === 'manyougana-katakana') {
-        if (this.highlight) {
+        if (this.highlightManyougana) {
           console.log('database: manyouganaKatakanaC')
           database = manyouganaKatakanaC
         } else {
@@ -51,13 +51,31 @@ export default {
       return database
     },
     toggleHighlight () {
-      this.highlight = !this.highlight
+      this.highlightManyougana = !this.highlightManyougana
+    },
+    /**
+    Get the letter of an image path
+    **/
+    getLetterFromPath (path) {
+      console.log('called getLetterFromPath(' + path + ')')
+      var temp = path.split('/').reverse()[0].split('_letter_')[1].split('.')[0]
+      console.log('temp: ' + temp)
+      if (temp === undefined) {
+        return '' // grey or empty image
+      } else if (temp.length === 1) {
+        return temp // vowel
+      } else {
+        return temp.substring(0, 2) // crop numeral suffix if it exists
+      }
     },
     /**
     Get an array of svg image paths of given letter and script
     **/
     getLetters (letter, scriptIn) {
-      var script = (this.highlight && scriptIn === 'manyougana-katakana') ? (scriptIn + '-c') : scriptIn
+      if (letter === '') {
+        return ['../statics/grey.png']
+      }
+      var script = (this.highlightManyougana && scriptIn === 'manyougana-katakana') ? (scriptIn + '-c') : scriptIn
       console.log('called getLetters(' + letter + ', ' + script + ') from LetterOperations')
       var suffixes = this.scriptToData(scriptIn)[letter] // get suffixes of given letter and script
       var paths = []

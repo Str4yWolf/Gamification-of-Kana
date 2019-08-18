@@ -27,7 +27,7 @@
           <q-btn round dense flat icon="send" @click="validateSolution()" />
         </template>
       </q-input>
-    <letter-operations :highlight="false" :skillLevel="userObj['skillLvl']" ref="WROps" />
+    <letter-operations :highlightManyougana="highlightManyougana" :skillLevel="userObj['skillLvl']" ref="WROps" />
   </span>
 </template>
 
@@ -66,7 +66,8 @@ export default {
   },
   props: {
     userObj: Object,
-    script: String
+    script: String,
+    highlightManyougana: Boolean
   },
   created () {
   },
@@ -114,6 +115,20 @@ export default {
       this.bg3 = 'background-color: ' + color + ';'
       this.bg4 = 'background-color: ' + color + ';'
       this.bg5 = 'background-color: ' + color + ';'
+    },
+    /**
+    Highlight or unhighlight the image according to the highlightManyougana state
+    **/
+    updateHighlight () {
+      console.log('called updateHighlight() from WordCreator')
+      this.$refs.WCOps.toggleHighlight()
+      if (this.script === 'manyougana-katakana') {
+        this.slot1Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
+        this.slot2Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot2Image), 'manyougana-katakana')[0]
+        this.slot3Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot3Image), 'manyougana-katakana')[0]
+        this.slot4Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot4Image), 'manyougana-katakana')[0]
+        this.slot5Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot5Image), 'manyougana-katakana')[0]
+      }
     },
     generateQuestion () {
       this.feedbackMessage = ''
