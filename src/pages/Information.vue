@@ -108,41 +108,48 @@
       >
         <q-card>
           <q-card-section>
-            AGREEMENT FORM<br />
+            <strong>Details / Debugging</strong><br />
             word creator shall not change scripts within question???<br />
             outsource highlight manyougana??<br />
             tabindex on WordReader<br />
-            wrap learning page in a nice context<br />
             add exp boost to using learning page<br />
-            make greyscale?<br />
-            (crop SVGs for faster loading)<br />
-            <strong>Requirements (8/20/2019)</strong><br />
-            (1) immersive/attractive feedback whatsoever<br />
-            (1) animations<br />
-            (0:15) manyougana button<br />
-            <br />
-            (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
-            <br />
-            (10) gamification/final game<br />
-            BA task, (1) spaced repetition <br />
-            (4+) design<br />
-            still fewer options<br />
+            skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />
-            <strong>Functions</strong><br />
-              (0:40) Custom words in word creator.
-              (4) Practical tests (e.g., reading hentaigana)<br />
+            make SVG greyscale?<br />
+            (crop SVGs for faster loading)<br /><br />
+            <strong>Requirements (8/27/2019)</strong><br />
+            scalable SVGs<br />
+            final game<br />
+            design<br />
+            improve user flow<br />
+            write description of app<br />
+            separate different learning options<br />
+            spaced repetition on characters of words<br />
+            still fewer options<br />
+            BA task<br /><br />
+            <strong>Core tasks</strong><br />
+              (10) Final (game)<br />
+              (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
+              (1) immersive/attractive feedback whatsoever<br />
+              (3) animations<br />
+              (0:15) manyougana button<br />
+              (3) badges<br />
+              (0:40) Custom words in word creator<br />
+              (1:30) colour design<br />
+              (6) app design <br />
+              (4) Practical tests / midterms <br />
               (3) getting rewards<br />
-              (3) Additional gamification elements (e.g., timer)<br />
-              (s.a.) Final (exam)<br />
+              (10) wrap learning page in a nice context<br />
+              (5) Additional gamification elements (e.g., timer)<br />
               ((100+) Story mode)<br />
               (Varying Hentaigana)<br />
               <br />
               (4) refactor code -- mixin<br />
-            <strong>Scripts (48 glyphs)</strong><br />
+            <!-- <strong>Scripts (48 glyphs)</strong><br />
               (Man'yougana-Hiragana), (kanbun)<br />
               <br />
             <strong>Text input</strong><br />
-              (Japanese/Chinese input)
+              (Japanese/Chinese input) -->
             </q-card-section>
           </q-card>
         </q-expansion-item>

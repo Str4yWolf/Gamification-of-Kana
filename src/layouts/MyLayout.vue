@@ -24,6 +24,14 @@
             <strong>Skill Level: &nbsp; </strong> {{userObj.skillLvl}} <br />
             <strong>Inkblots: &nbsp; </strong> {{userObj.inkblots}}
           </span>
+          <!-- Timer display -->
+          <q-item-section v-if="showTimer">
+            <q-item-label><strong>Time Boost</strong> &nbsp; &nbsp; &nbsp; &nbsp;
+             <strong>Boost: </strong>{{timeBoostActual}}/ {{timeBoostMax}}</q-item-label>
+            <q-item-label caption>
+              <q-linear-progress stripe rounded style="height: 20px" :value="timeBoostActual" color="secondary" />
+            </q-item-label>
+          </q-item-section>
           <!-- menu (pages) -->
           <q-menu transition-show="jump-down" transition-hide="jump-up">
             <q-list style="min-width: 100px">
@@ -244,7 +252,11 @@ export default {
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 },
       hitSkillLvlUp: false,
       skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194] },
-      script: 'katakana'
+      script: 'katakana',
+      // controls for time boost
+      timeStamp: 0,
+      showTimer: false,
+      timeBoostMax: 0
     }
   },
   computed: {
@@ -261,6 +273,14 @@ export default {
         value = this.userObj.exp / 5
       }
       return value
+    },
+    timeBoostActual () {
+      var currentTime = Date.now()
+      var secondsPassed = (currentTime - this.timeStamp()) / 1000
+      return this.getTimeBoost(this.timeBoostMax, secondsPassed, 1) / this.timeBoostMax
+    },
+    boostValue () {
+      return this.timeBoostActual / this.timeBoostMax
     },
     showFlipCardPage () {
       return (this.$route.path === '/' && this.showFlipCard)
@@ -457,6 +477,20 @@ export default {
     deleteAccount () {
       localStorage.removeItem(this.username)
       this.logOut()
+    },
+    /**
+    Calculate an additional experience boost dependent on time taken
+    @ params
+    n: base experience
+    t: time passed
+    decay: how fast the boost will decay (exponential factor)
+    **/
+    getTimeBoost (n, t, decay) {
+      if (t === 0) {
+        return n
+      } else {
+        return Math.round(n * ((1 / t) ** decay))
+      }
     },
     /**
     Adds user experience and calls relevant functions to make changes effective.

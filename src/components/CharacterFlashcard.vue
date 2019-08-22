@@ -1,11 +1,45 @@
 <template>
+  <span class="character-flashcard-selector">
   <q-card :style="background">
-  <div class="character-flashcard">
-    <img id="character-flashcard-image" v-bind:src="imgSrc" :title="imgLetter" class="center" />
-    <span v-if="showTitle" style="width: 100px; top: 44px; display: inline-block; position: relative;"><strong>{{imgLetter.split('\.')[0]}}</strong></span>
-    <span v-if="showScript" style="width: 100px; top: -86px; display: inline-block; position: relative;"><strong>{{imgScript}}</strong></span>
+  <div class="character-flashcard"
+    style="
+      height: 190px;
+      width: 190px;
+      position: relative;
+      text-align: center;
+      ">
+    <span>
+    <object id="character-flashcard-image" v-bind:data="imgSrc" :title="imgLetter" type="image/svg+xml"
+      style="
+        top: 47px;
+        left: 43px;
+        position: relative;
+        display: inline-block;
+      " />
+    </span>
+    <span v-if="showTitle"
+      style="
+        width: 100px;
+        top: -2px;
+        position: relative;
+        display: inline-block;
+        font-size: 125%;
+        ">
+      <strong>{{imgLetter.split('\.')[0]}}</strong>
+    </span>
+    <span v-if="showScript"
+      style="
+        width: 100px;
+        top: -171px;
+        position: relative;
+        display: inline-block;
+        font-size: 125%;
+      ">
+      <strong>{{imgScript}}</strong>
+    </span>
   </div>
   </q-card>
+  </span>
 </template>
 
 <script>
@@ -41,22 +75,7 @@ export default {
 </script>
 
 <style>
-div .character-flashcard {
-  height: 150px;
-  width: 150px;
-  position: relative;
-  text-align: center;
-}
-.center {
-  display: block;
-  margin: auto;
-  width: 50%;
-  height: 50%;
-  position: relative;
-  top: 42px;
-}
-.character-flashcard-btn {
-  position: relative;
-  top: 80px;
+span.character-flashcard-selector {
+  transform: rotate(20deg);
 }
 </style>
