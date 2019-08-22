@@ -112,7 +112,8 @@
             word creator shall not change scripts within question???<br />
             outsource highlight manyougana??<br />
             tabindex on WordReader<br />
-            add exp boost to using learning page<br />
+            regroup icons to status and currency<br>
+            add exp boost (1.1) to using learning page<br />
             skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
@@ -145,6 +146,27 @@
               (Varying Hentaigana)<br />
               <br />
               (4) refactor code -- mixin<br />
+              <br />
+              <br />
+              <strong>FINAL</strong><br/>
+              MCQ measurement 1.6 / word -> 0.8 / word<br />
+              WC kat measurement 5 / word -> 2.5<br />
+              WC man measurement 5.5 / word -> 2.5<br />
+              WR measurement 3 / word -> 1.5 / word<br />
+              <br/>
+              120s(75): MCQ(25) -> 20s; WC(25) -> 62.5s; WR(25) -> 37.5s<br />
+              <br/>
+              <strong>inkblots</strong><br/>
+              <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess); single midterm with first 25 chars (5); sell exam ticket(1)<br/>
+              <b>consume permanently: exam ticket(2)</b><br/>
+              <b>get temporarily: no Japanese hints (10),</b> no Manyougana highlight (5),<br/>
+              <b>consume temporarily: additional second (1)</b><br/>
+              <strong>Allocation:</strong> allocate points to tasks<br/>
+              <br/>
+              <strong>exam ticket</strong><br/>
+              get 1: pay 2 inkblots; lucky wheel; single midterm<br/>
+              consume 1: to get to final with 1.35 exp boost<br/>
+              <br/>
             <!-- <strong>Scripts (48 glyphs)</strong><br />
               (Man'yougana-Hiragana), (kanbun)<br />
               <br />

@@ -21,8 +21,12 @@
           </q-item-section>
           &nbsp; &nbsp; &nbsp;
           <span>
-            <strong>Skill Level: &nbsp; </strong> {{userObj.skillLvl}} <br />
-            <strong>Inkblots: &nbsp; </strong> {{userObj.inkblots}}
+            <span title="Skill Level"><q-icon name="school"/> {{userObj.skillLvl}}</span> <br />
+            <span title="Inkblots"><q-icon name="whatshot"/> {{userObj.inkblots}}</span>
+          </span>
+          &nbsp; &nbsp; &nbsp;
+          <span>
+            <span title="Exam Tickets"><q-icon name="note"/> {{userObj.examTickets}}</span>
           </span>
           <!-- Timer display -->
           <q-item-section v-if="showTimer">
@@ -64,6 +68,9 @@
               </q-item>
               <q-item @click="$router.push('/Gojuuon/')" clickable>
                 <q-item-section>Character Reference</q-item-section>
+              </q-item>
+              <q-item @click="$router.push('/Shop/')" clickable>
+                <q-item-section>Shop</q-item-section>
               </q-item>
               <q-item @click="$router.push('/Information/')" clickable>
                 <q-item-section>App Info</q-item-section>
@@ -231,6 +238,7 @@ export default {
     this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
+    this.$root.$on('getExamTickets', this.getExamTickets)
   },
   data () {
     return {
@@ -251,12 +259,13 @@ export default {
       username: '',
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 },
       hitSkillLvlUp: false,
-      skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194] },
+      skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
       // controls for time boost
       timeStamp: 0,
       showTimer: false,
-      timeBoostMax: 0
+      timeBoostMax: 0,
+      highlight: false
     }
   },
   computed: {
@@ -407,7 +416,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: userTracking }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -446,7 +455,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: userTracking }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.
@@ -491,6 +500,26 @@ export default {
       } else {
         return Math.round(n * ((1 / t) ** decay))
       }
+    },
+    /**
+    Add one exam ticket to current user object.
+    @params
+    n: number of tickets
+    consumeInkblots: Boolean; will consume 2 inkblots if true
+    **/
+    getExamTickets (n, consumeInkblots) {
+      if ((n * 2) > this.userObj.inkblots) {
+        alert('Purchase failed. You need ' + (n * 2) + ' inkblots but only have ' + this.userObj.inkblots + '.')
+        return
+      } else if (n < 0) {
+        alert('Purchase failed. You cannot enter a negative number.')
+        return
+      }
+      this.userObj.examTickets += n
+      if (consumeInkblots) {
+        this.userObj.inkblots -= (n * 2)
+      }
+      this.updateDatabase()
     },
     /**
     Adds user experience and calls relevant functions to make changes effective.
