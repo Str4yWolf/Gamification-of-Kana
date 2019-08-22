@@ -1,45 +1,38 @@
 <template>
-  <span class="character-flashcard-selector">
   <q-card :style="background">
   <div class="character-flashcard"
     style="
-      height: 190px;
-      width: 190px;
+      height: 150px;
+      width: 150px;
       position: relative;
       text-align: center;
       ">
-    <span>
-    <object id="character-flashcard-image" v-bind:data="imgSrc" :title="imgLetter" type="image/svg+xml"
+    <img id="character-flashcard-image" v-bind:src="imgSrcSVG" :title="imgLetter" width="50%"
       style="
-        top: 47px;
-        left: 43px;
+        top: 42px;
         position: relative;
         display: inline-block;
       " />
-    </span>
     <span v-if="showTitle"
       style="
         width: 100px;
-        top: -2px;
+        top: -35px;
         position: relative;
         display: inline-block;
-        font-size: 125%;
         ">
       <strong>{{imgLetter.split('\.')[0]}}</strong>
     </span>
     <span v-if="showScript"
       style="
         width: 100px;
-        top: -171px;
+        top: -166px;
         position: relative;
         display: inline-block;
-        font-size: 125%;
       ">
       <strong>{{imgScript}}</strong>
     </span>
   </div>
   </q-card>
-  </span>
 </template>
 
 <script>
@@ -69,13 +62,13 @@ export default {
       } else {
         return ''
       }
+    },
+    imgSrcSVG () {
+      return this.imgSrc + '#svgView(viewbox(0 0 100 100))"'
     }
   }
 }
 </script>
 
 <style>
-span.character-flashcard-selector {
-  transform: rotate(20deg);
-}
 </style>
