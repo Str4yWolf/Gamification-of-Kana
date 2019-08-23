@@ -75,7 +75,9 @@ export default {
     script2: String,
     highlightManyougana: Boolean,
     quizLength: Number,
-    singleQuestion: Boolean
+    singleQuestion: Boolean,
+    isFinalExam: Boolean,
+    currentKeyFinal: String
   },
   mounted () {
     // this.$refs.modal.$el.focus()
@@ -238,6 +240,41 @@ export default {
       }
     },
     /**
+    Generate next options and display them accordingly
+    **/
+    continueExam () {
+      console.log('called continueExam in MultipleChoice')
+      // adjust display controls
+      this.quizHasStarted = true
+      this.$root.$emit('setQuizHasStarted', true)
+      this.hasAnsweredQuestion = false
+      this.validationInProgress = false
+      this.$root.$emit('setValidationInProgress', false)
+      // get question image
+      this.questionImage = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script1)[0]
+      // generate options of target script2 which is NOT equal to the letter passed as randomKey
+      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
+      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
+      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
+      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
+      this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
+      // replace one of the options (all incorrect) with correct answer
+      switch (this.correctAnswer) {
+        case 0:
+          this.option1Image = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script2)[0]
+          break
+        case 1:
+          this.option2Image = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script2)[0]
+          break
+        case 2:
+          this.option3Image = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script2)[0]
+          break
+        case 3:
+          this.option4Image = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script2)[0]
+          break
+      }
+    },
+    /**
     validate option event triggered by user input
     **/
     validateOption (event) {
@@ -256,7 +293,11 @@ export default {
       console.log('correctAnswer: ' + this.correctAnswer)
       this.numberQuestionsAnswered += 1
       this.$root.$emit('setNumberQuestionsAnswered', this.numberQuestionsAnswered)
-      this.$root.$emit('MultipleChoiceQuestion answered')
+      if (!this.isFinalExam) {
+        this.$root.$emit('MultipleChoiceQuestion answered')
+      } else {
+        this.$root.$emit('incrementNumberQuestionsAnswered')
+      }
       // display feedback,
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
@@ -265,15 +306,27 @@ export default {
         this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was correct. Great job!'
         this.questionsAnsweredCorrectly += 1
         // reward with exp (perhaps level-ups)
-        this.$root.$emit('addExp', 1)
-        this.$root.$emit('addSkillExp', 1)
-        this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
+        if (!this.isFinalExam) {
+          this.$root.$emit('addExp', 1)
+          this.$root.$emit('addSkillExp', 1)
+          this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 1)
+        } else {
+          this.$root.$emit('addExamPoints', 1, true)
+        }
         if (!this.singleQuestion) {
-          this.continueQuiz()
+          if (!this.isFinalExam) {
+            this.continueQuiz()
+          } else {
+            this.continueExam()
+          }
         }
       } else {
         this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
-        this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
+        if (!this.isFinalExam) {
+          this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
+        } else {
+          this.$root.$emit('addExamPoints', 1, false)
+        }
       }
     },
     /**

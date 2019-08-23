@@ -143,7 +143,9 @@
       </q-list>
       <br/>
       <br/>
-      <q-checkbox v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." />
+      <q-checkbox v-if="userObj.examTickets" v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." />
+      <!-- disabled version -->
+      <q-checkbox v-if="!userObj.examTickets" v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." disable />
       <br/>
       <br/>
       <br/>
@@ -157,19 +159,19 @@
       <span class="row">
         <!-- context dependent buttons -->
         <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
-          <q-btn v-if="validationInProgress" color="green" label="Continue" @click="randomizeNextQuestion()" />
-          <q-btn v-if="!quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
+          <q-btn v-if="validationInProgress" color="green" label="Continue" @click="nextQuestion()" />
+          <q-btn v-if="!quizHasStarted" color="green" label="Continue" @click="nextQuestion()" />
         </span>
         <span v-if="activateWC">
-          <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="nextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
           <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWC()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
         </span>
         <span v-if="activateWR">
-          <q-btn v-if="!questionInProgress" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="!questionInProgress" color="green" label="Continue" title="Continue to next question (Enter)" @click="nextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
           <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWR()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
         </span>
       </span>
-      <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="FinalExamMCQ" />
+      <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" ref="FinalExamWR" />
     </q-card>
@@ -180,6 +182,7 @@
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 import WordCreator from '../components/WordCreator.vue'
 import WordReader from '../components/WordReader.vue'
+import finalExamWords from '../statics/finalExamWords.json'
 
 export default {
   // name: 'PageName',
@@ -200,6 +203,8 @@ export default {
       mode3Inkblots: 0,
       mode4Inkblots: 0,
       shownExamTicket: false,
+      // exam controllers
+      remainingTime: 0,
       // Boolean process and button display controllors
       quizHasStarted: false,
       hasAnsweredQuestion: false,
@@ -212,7 +217,13 @@ export default {
       mode: 0,
       disableOptions: true,
       questionInProgress: false,
-      showJapanese: false
+      showJapanese: false,
+      // final exam controller
+      wordKeysPool: Object.keys(finalExamWords),
+      currentKey: 'a',
+      examPoints: 0,
+      hasFailedExam: false,
+      numberQuestionsAnswered: 0
     }
   },
   computed: {
@@ -290,7 +301,7 @@ export default {
       }
     },
     disableExamStart () {
-      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0) || (this.mode4Inkblots < 0)
+      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.freeErrors > 10) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0) || (this.mode4Inkblots < 0)
     }
   },
   props: {
@@ -301,8 +312,10 @@ export default {
   mounted () {
     this.$refs.modal.$el.focus()
     // listen to event calls from elsewhere
-    this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
+    this.$root.$on('MultipleChoiceQuestion answered', this.nextQuestion())
     this.$root.$on('setValidationInProgress', this.setValidationInProgress)
+    this.$root.$on('incrementNumberQuestionsAnswered', this.incrementNumberQuestionsAnswered)
+    this.$root.$on('addExamPoints', this.addExamPoints)
   },
   methods: {
     /**
@@ -318,7 +331,7 @@ export default {
           case 52:
             if (!this.validationInProgress) {
               console.log('called validateKeyInput with 1-4')
-              this.$refs.GeneralLearningMCQ.validateOption(event.keyCode - 48)
+              this.$refs.FinalExamMCQ.validateOption(event.keyCode - 48)
             } else {
               console.log('Validation is in progress. Options unusable.')
             }
@@ -326,7 +339,7 @@ export default {
           case 13:
             console.log('pressed enter in validateKeyInput')
             if (this.validationInProgress) {
-              this.randomizeNextQuestion()
+              this.nextQuestion()
             }
             break
         }
@@ -338,7 +351,7 @@ export default {
           case 52:
             if (!this.disableOptions) {
               console.log('called validateKeyInput with 1-4')
-              this.$refs.GeneralLearningWC.validateOption(event.keyCode - 48)
+              this.$refs.FinalExamWC.validateOption(event.keyCode - 48)
             } else {
               console.log('Validation is in progress. Options unusable.')
             }
@@ -348,7 +361,7 @@ export default {
             if (!this.disableOptions) {
               this.enterSolutionWC()
             } else {
-              this.randomizeNextQuestion()
+              this.nextQuestion()
             }
             break
         }
@@ -359,7 +372,7 @@ export default {
             if (this.questionInProgress) {
               this.enterSolutionWR()
             } else {
-              this.randomizeNextQuestion()
+              this.nextQuestion()
             }
             break
         }
@@ -383,9 +396,12 @@ export default {
     startExam () {
       this.setupInProgress = false
       this.userObj.examTickets -= 1
+      this.$root.$emit('updateDatabase')
+      this.$root.$emit('toggleIsFinalExam')
+      this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
     },
     startQuiz () {
-      this.$refs.GeneralLearningMCQ.continueQuiz()
+      this.$refs.FinalExamMCQ.continueQuiz()
     },
     /**
     End quiz by intializing quiz controls and displaying feedback to user
@@ -395,7 +411,6 @@ export default {
       this.quizHasStarted = false
       this.validationInProgress = false
       this.questionsAnsweredCorrectly = 0
-      this.numberQuestionsAnswered = 0
     },
     setQuizHasStarted (x) {
       this.quizHasStarted = x
@@ -403,39 +418,58 @@ export default {
     setValidationInProgress (x) {
       this.validationInProgress = x
     },
-    randomizeNextQuestion () {
-      console.log('called randomizeNextQuestion in GL')
-      this.mode = Math.floor(Math.random() * 3)
-      this.script1 = this.scripts[Math.floor(Math.random() * 2)]
+    nextQuestion () {
+      console.log('called nextQuestion in Final Exam')
+      var randomIndex = Math.floor(Math.random() * this.wordKeysPool.length)
+      var nextCharacter = this.wordKeysPool[randomIndex].split('_')
+      this.wordKeysPool.splice(randomIndex, 1)
+      this.currentKey = nextCharacter[0]
+      this.script1 = nextCharacter[1]
       switch (this.mode) {
         case 0:
         // Multiple choice
-          this.$refs.GeneralLearningMCQ.$el.focus()
+          this.$refs.FinalExamMCQ.$el.focus()
           this.quizHasStarted = true
-          this.$refs.GeneralLearningMCQ.continueQuiz()
+          this.$refs.FinalExamMCQ.continueExam()
           break
         case 1:
         // Word creator
-          this.$refs.GeneralLearningWC.$el.focus()
+          this.$refs.FinalExamWC.$el.focus()
           this.disableOptions = false
-          this.$refs.GeneralLearningWC.setNewCreation()
+          this.$refs.FinalExamWC.setNewCreation()
           break
         case 2:
         // Word reader
-          this.$refs.GeneralLearningWR.$el.focus()
+          this.$refs.FinalExamWR.$el.focus()
           this.questionInProgress = true
-          this.$refs.GeneralLearningWR.generateQuestion()
+          this.$refs.FinalExamWR.generateQuestion()
           break
       }
       console.log('called randomizeNextQuestion in GL')
     },
+    addExamPoints (n, correctAnswer) {
+      console.log('called addExamPoints in FinalExam')
+      this.examPoints += n
+      if (!correctAnswer) {
+        this.freeErrors -= 1
+        this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
+        if (this.freeErrors === -1) {
+          this.$q.notify('Exam failed. You may continue to practice')
+          this.hasFailedExam = true
+        }
+      }
+    },
+    incrementNumberQuestionsAnswered () {
+      this.numberQuestionsAnswered += 1
+      this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
+    },
     enterSolutionWR () {
       this.questionInProgress = false
-      this.$refs.GeneralLearningWR.validateSolution()
+      this.$refs.FinalExamWR.validateSolution()
     },
     enterSolutionWC () {
       this.disableOptions = true
-      this.$refs.GeneralLearningWC.endCreation()
+      this.$refs.FinalExamWC.endCreation()
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header :style="layoutColor" elevated>
       <!-- info display at top -->
       <q-toolbar>
         <!-- avatar -->
@@ -20,13 +20,21 @@
             </q-item-label>
           </q-item-section>
           &nbsp; &nbsp; &nbsp;
-          <span>
-            <span title="Skill Level"><q-icon name="school"/> {{userObj.skillLvl}}</span> <br />
-            <span title="Inkblots"><q-icon name="whatshot"/> {{userObj.inkblots}}</span>
+          <!-- normal display -->
+          <span v-if="!isFinalExam">
+            <span>
+              <span title="Skill Level"><q-icon name="school"/> {{userObj.skillLvl}}</span> <br />
+              <span title="Inkblots"><q-icon name="whatshot"/> {{userObj.inkblots}}</span>
+            </span>
+            &nbsp; &nbsp; &nbsp;
+            <span>
+              <span title="Exam Tickets"><q-icon name="note"/> {{userObj.examTickets}}</span>
+            </span>
           </span>
-          &nbsp; &nbsp; &nbsp;
-          <span>
-            <span title="Exam Tickets"><q-icon name="note"/> {{userObj.examTickets}}</span>
+          <!-- final exam display -->
+          <span v-if="isFinalExam">
+            <span title="Questions"><q-icon name="casino"/> {{numberQuestions[0]}}/{{numberQuestions[1]}}</span> <br />
+            <span title="Free Errors"><q-icon name="done_all"/> {{freeErrors}}</span>
           </span>
           <!-- Timer display -->
           <q-item-section v-if="showTimer">
@@ -231,6 +239,7 @@ export default {
   },
   created () {
     // listen to event calls from elsewhere
+    this.$root.$on('updateDatabase', this.updateDatabase)
     this.$root.$on('registerSignIn', this.registerSignIn)
     this.$root.$on('changeName', this.changeName)
     this.$root.$on('resetAccount', this.resetAccount)
@@ -246,6 +255,9 @@ export default {
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
+    this.$root.$on('toggleIsFinalExam', this.toggleIsFinalExam)
+    this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
+    this.$root.$on('updateNumberFreeErrors', this.updateNumberFreeErrors)
   },
   data () {
     return {
@@ -273,7 +285,11 @@ export default {
       timeStamp: 0,
       showTimer: false,
       timeBoostMax: 0,
-      highlight: false
+      highlight: false,
+      //
+      isFinalExam: false,
+      numberQuestions: [0, 96],
+      freeErrors: 0
     }
   },
   computed: {
@@ -349,6 +365,17 @@ export default {
     },
     skillLvl9 () {
       return this.userObj.skillLvl === 9
+    },
+    layoutColor () {
+      if (this.showFinalExamPage) {
+        if (this.isFinalExam) {
+          return 'background-color: #a65d58;'
+        } else {
+          return 'background-color: primary;' // think about intermediate colour
+        }
+      } else {
+        return 'background-color: primary;'
+      }
     }
   },
   methods: {
@@ -615,6 +642,15 @@ export default {
       val[1] += 1 // increase total times seen count
       this.userObj['tracking'][key] = val // update map
       this.updateDatabase()
+    },
+    toggleIsFinalExam () {
+      this.isFinalExam = !this.isFinalExam
+    },
+    updateNumberQuestions (xs) {
+      this.numberQuestions = xs
+    },
+    updateNumberFreeErrors (n) {
+      this.freeErrors = n
     },
     /**
     Writes current userObj of user onto database
