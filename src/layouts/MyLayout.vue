@@ -72,6 +72,9 @@
               <q-item @click="$router.push('/Shop/')" clickable>
                 <q-item-section>Shop</q-item-section>
               </q-item>
+              <q-item @click="unhideFinalExam()" clickable>
+                <q-item-section>Take Final Exam</q-item-section>
+              </q-item>
               <q-item @click="$router.push('/Information/')" clickable>
                 <q-item-section>App Info</q-item-section>
               </q-item>
@@ -106,6 +109,7 @@
       <word-creator-interface :userObj="userObj" v-if="showWordCreatorPage" />
       <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
+      <final-exam :userObj="userObj" v-if="showFinalExamPage" />
       <flip-card v-if="showFlipCardPage" />
       <q-dialog v-model="hitSkillLvlUp" style="width: 800px;">
       <q-card style="width: 800px; height: 500px;">
@@ -211,6 +215,7 @@ import MultipleChoiceQuizInterface from '../components/MultipleChoiceQuizInterfa
 import WordCreatorInterface from '../components/WordCreatorInterface.vue'
 import WordReaderInterface from '../components/WordReaderInterface.vue'
 import GeneralLearning from '../components/GeneralLearning.vue'
+import FinalExam from '../components/FinalExam.vue'
 import CharacterInfo from '../components/CharacterInfo.vue'
 
 export default {
@@ -221,6 +226,7 @@ export default {
     WordCreatorInterface,
     WordReaderInterface,
     GeneralLearning,
+    FinalExam,
     CharacterInfo
   },
   created () {
@@ -238,6 +244,7 @@ export default {
     this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
+    this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
   },
   data () {
@@ -248,6 +255,7 @@ export default {
       showWordCreator: false,
       showWordReader: false,
       showGeneralLearning: false,
+      showFinalExam: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -306,8 +314,11 @@ export default {
     showGeneralLearningPage () {
       return (this.$route.path === '/' && this.showGeneralLearning)
     },
+    showFinalExamPage () {
+      return (this.$route.path === '/' && this.showFinalExam)
+    },
     showRouterPage () {
-      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage)
+      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage)
     },
     skillLvl0 () {
       return this.userObj.skillLvl === 0
@@ -377,12 +388,20 @@ export default {
       console.log('called hideGeneralLearning')
       this.showGeneralLearning = false
     },
+    unhideFinalExam () {
+      this.hideAllComponents()
+      this.showFinalExam = true
+    },
+    hideFinalExam () {
+      this.showFinalExam = false
+    },
     hideAllComponents () {
       this.showFlipCard = false
       this.showMultipleChoiceQuiz = false
       this.showWordCreator = false
       this.showWordReader = false
       this.showGeneralLearning = false
+      this.showFinalExam = false
       this.$router.push('/')
     },
     unhideSignInField () {
