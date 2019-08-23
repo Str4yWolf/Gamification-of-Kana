@@ -8,11 +8,18 @@
       <strong style="font-size: 120%;">Final Exam</strong>
 
       <span v-if="setupInProgress">
-        <strong style="font-size: 120%;"> (Setup)</strong><br/>
+        <strong style="font-size: 120%;"> (Setup)</strong>
         <br/>
         &nbsp;
         &nbsp;
-        <strong style="font-size: 120%;">Available Inkblots</strong><br/><br/>
+        <q-list>
+        <strong style="font-size: 120%;">Available Inkblots</strong>
+        <br/><br/>
+        <q-expansion-item
+          expand-separator
+          icon="bubble_chart"
+          label="Available Inkblots"
+        >
         <!-- base inkblots -->
         <span style="padding: 0px 107px 0px 57px;"><strong>Base Inkblots</strong></span>
         <strong><q-icon name="whatshot" /> {{userObj.inkblots}}</strong>
@@ -37,6 +44,7 @@
         <strong><q-icon name="whatshot" /> +{{extraInkblots2}}</strong>
         <br/>
         <hr/>
+        </q-expansion-item>
         <!-- total number of inkblots -->
         <span style="padding: 0px 162px 0px 57px;"><strong>Total</strong></span>
         <strong><q-icon name="whatshot" /> {{totalInkblots}}</strong>
@@ -44,21 +52,105 @@
         <br/>
         <br/>
         <!-- inkblot allocation -->
-        <strong style="font-size: 120%;">Allocate Inkblots</strong><br/>
+        <strong style="font-size: 120%;">Allocate Inkblots</strong>
+        <br/><br/>
+        <!-- total number of inkblots spent -->
+        <q-expansion-item
+          expand-separator
+          icon="poll"
+          label="Allocate Inkblots"
+        >
         <!-- error tolerance -->
         <span class="row">
-        <span style="top: 20px; padding: 0px 0px 0px 57px; position: relative;">Free Errors (<strong>5 <q-icon name="whatshot" />/ea</strong>)</span>
+        <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;">Free Errors (<strong>5 <q-icon name="whatshot" />/ea</strong>)</span>
         &nbsp; &nbsp; &nbsp;
         <q-input
           v-model.number="freeErrors"
           type="number"
-          max-length="1"
-          style="max-width: 30px;"
+          max-length="2"
+          style="max-width: 70px;"
           :rules="
-            [val => !(val < 0) || 'Invalid input',
-            val => !(val * 5 > this.totalInkblots) || 'inkblots']"
+            [val => !(val < 0) || 'invalid input',
+            val => !(val > 10) || 'limit is 10',
+            outOfInkblots || 'not enough inkblots']"
         />
-        <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong><q-icon name="whatshot" /> {{errorInkblots}}</strong></span>
+        <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong><q-icon name="whatshot" /> -{{errorInkblots}}</strong></span>
+        </span>
+        <!-- fieldAllocation -->
+        <span style="top: 0px; padding: 0px 76px 0px 18px; position: relative;">Bonus Seconds (<strong>1 <q-icon name="whatshot" />/ea</strong>)</span>
+        <strong><q-icon name="whatshot" /> -{{modeInkblots}}</strong>
+        <span class="row">
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <q-input
+          v-model.number="mode1Inkblots"
+          label="20s"
+          type="number"
+          max-length="2"
+          style="max-width: 120px;"
+          :rules="
+            [val => !(val < 0) || 'invalid input']">
+          <template v-slot:hint>
+            Multiple Choice
+          </template>
+        </q-input>
+        &nbsp; &nbsp;
+        <q-input
+          v-model.number="mode2Inkblots"
+          label="37.5s"
+          type="number"
+          max-length="2"
+          style="max-width: 120px;"
+          :rules="
+            [val => !(val < 0) || 'invalid input']">
+          <template v-slot:hint>
+            Word Reader
+          </template>
+        </q-input>
+        &nbsp; &nbsp;
+        <q-input
+          v-model.number="mode3Inkblots"
+          label="62.5s"
+          type="number"
+          max-length="2"
+          style="max-width: 120px;"
+          :rules="
+            [val => !(val < 0) || 'invalid input']">
+          <template v-slot:hint>
+            Word Creator
+          </template>
+        </q-input>
+        &nbsp; &nbsp;
+        <q-input
+          v-model.number="mode4Inkblots"
+          label="Task4?"
+          type="number"
+          max-length="2"
+          style="max-width: 120px;"
+          :rules="
+            [val => !(val < 0) || 'invalid input']">
+          <template v-slot:hint>
+            unknown
+          </template>
+        </q-input>
+      </span>
+      <br/>
+      <hr/>
+      </q-expansion-item>
+      <span :style="markedOutOfInkblot">
+        <span style="padding: 0px 162px 0px 57px;"><strong>Total</strong></span>
+        <strong><q-icon name="whatshot" /> -{{allocatedInkblots}}</strong>
+      </span>
+      </q-list>
+      <br/>
+      <br/>
+      <q-checkbox v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." />
+      <br/>
+      <br/>
+      <br/>
+      <span>
+        <q-btn color="green" label="Start Exam" @click="startExam()" :disabled="disableExamStart" />
+        &nbsp;
+        <q-btn color="purple" label="Reset" @click="resetSetup()" />
       </span>
       </span>
       <!-- parameters panel -->
@@ -103,7 +195,10 @@ export default {
       setJapaneseHint: true,
       setManyouganaHighlight: true,
       freeErrors: 0,
-      inkblotDistribution: [0, 0, 0, 0],
+      mode1Inkblots: 0,
+      mode2Inkblots: 0,
+      mode3Inkblots: 0,
+      mode4Inkblots: 0,
       shownExamTicket: false,
       // Boolean process and button display controllors
       quizHasStarted: false,
@@ -176,7 +271,26 @@ export default {
       return this.userObj.inkblots + this.extraInkblots1 + this.extraInkblots2
     },
     errorInkblots () {
-      return this.freeErrors * -5
+      return this.freeErrors * 5
+    },
+    modeInkblots () {
+      return (this.mode1Inkblots + this.mode2Inkblots + this.mode3Inkblots + this.mode4Inkblots)
+    },
+    allocatedInkblots () {
+      return this.errorInkblots + this.modeInkblots
+    },
+    outOfInkblots () {
+      return this.allocatedInkblots > this.totalInkblots
+    },
+    markedOutOfInkblot () {
+      if (this.outOfInkblots) {
+        return 'color: red;'
+      } else {
+        return 'color: black;'
+      }
+    },
+    disableExamStart () {
+      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0) || (this.mode4Inkblots < 0)
     }
   },
   props: {
@@ -256,10 +370,19 @@ export default {
         console.log(event.keyCode)
       }
     },
-    updateHighlights () {
-      this.$refs.GeneralLearningMCQ.updateHighlight()
-      this.$refs.GeneralLearningWC.updateHighlight()
-      this.$refs.GeneralLearningWR.updateHighlight()
+    resetSetup () {
+      this.setJapaneseHint = true
+      this.setManyouganaHighlight = true
+      this.freeErrors = 0
+      this.mode1Inkblots = 0
+      this.mode2Inkblots = 0
+      this.mode3Inkblots = 0
+      this.mode4Inkblots = 0
+      this.shownExamTicket = false
+    },
+    startExam () {
+      this.setupInProgress = false
+      this.userObj.examTickets -= 1
     },
     startQuiz () {
       this.$refs.GeneralLearningMCQ.continueQuiz()

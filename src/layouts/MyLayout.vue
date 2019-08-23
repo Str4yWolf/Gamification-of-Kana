@@ -534,6 +534,9 @@ export default {
         alert('Purchase failed. You cannot enter a negative number.')
         return
       }
+      console.log('getExamTickets logging')
+      console.log(typeof n)
+      console.log(typeof this.userObj.examTickets)
       this.userObj.examTickets += n
       if (consumeInkblots) {
         this.userObj.inkblots -= (n * 2)

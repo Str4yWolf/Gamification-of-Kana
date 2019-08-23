@@ -58,7 +58,8 @@ module.exports = function (ctx) {
         'QDialog',
         'QCarousel',
         'QCarouselControl',
-        'QCarouselSlide'
+        'QCarouselSlide',
+        'QCheckbox'
       ],
 
       directives: [
