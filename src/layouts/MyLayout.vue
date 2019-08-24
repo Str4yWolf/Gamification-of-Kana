@@ -257,7 +257,7 @@ export default {
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
-    this.$root.$on('toggleIsFinalExam', this.toggleIsFinalExam)
+    this.$root.$on('setIsFinalExam', this.setIsFinalExam)
     this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
     this.$root.$on('updateNumberFreeErrors', this.updateNumberFreeErrors)
     this.$root.$on('toggleTimer', this.toggleTimer)
@@ -612,6 +612,11 @@ export default {
         this.userObj.inkblots -= (n * 2)
       }
       this.updateDatabase()
+      if (consumeInkblots) {
+        this.$q.notify('You have purchased ' + n + ' Exam Tickets for ' + (n * 2) + ' Inkblots.')
+      } else {
+        this.$q.notify('You have received ' + n + ' Exam Tickets.')
+      }
     },
     /**
     Adds user experience and calls relevant functions to make changes effective.
@@ -686,8 +691,8 @@ export default {
       this.userObj['tracking'][key] = val // update map
       this.updateDatabase()
     },
-    toggleIsFinalExam () {
-      this.isFinalExam = !this.isFinalExam
+    setIsFinalExam (x) {
+      this.isFinalExam = x
     },
     updateNumberQuestions (xs) {
       this.numberQuestions = xs

@@ -34,6 +34,7 @@
 <script>
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 import words from '../statics/wordsBySkillAll.json'
+import wordsFinal from '../statics/wordsAll.json'
 import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
@@ -75,7 +76,11 @@ export default {
   },
   computed: {
     currentWordJap () {
-      return words[this.userObj.skillLvl][this.currentWordEng]
+      if (!this.isFinalExam) {
+        return words[this.userObj.skillLvl][this.currentWordEng]
+      } else {
+        return wordsFinal[this.currentWordEng]
+      }
     },
     currentWordLength () {
       return this.currentWordJap.length
@@ -179,12 +184,20 @@ export default {
       if (this.userSolution === this.currentSolution) {
         this.feedbackMessage = 'Your answer (' + this.userSolution + ') was correct.'
         this.setBackgrounds('#d1fb9c')
-        this.$root.$emit('addExp', this.currentWordLength)
-        this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
+        if (!this.isFinalExam) {
+          this.$root.$emit('addExp', this.currentWordLength)
+          this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
+        } else {
+          this.$root.$emit('addExamPoints', 1, true)
+        }
       } else {
         this.feedbackMessage = 'Your answer (' + this.userSolution + ') was incorrect. Correct answer: ' + this.currentSolution
         this.setBackgrounds('#fbad9c')
+        if (this.isFinalExam) {
+          this.$root.$emit('addExamPoints', 1, false)
+        }
       }
+      this.$root.$emit('incrementNumberQuestionsAnswered')
       this.showFeedbackMessage = true
     }
   }

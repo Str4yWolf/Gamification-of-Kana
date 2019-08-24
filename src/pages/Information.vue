@@ -109,7 +109,12 @@
         <q-card>
           <q-card-section>
             <strong>Details / Debugging</strong><br />
-            word creator shall not change scripts within question???<br />
+            no skipping question count in final<br />
+            fix Final Exam Layout update<br />
+            use absolute component display in Learning<br />
+            fix coloured Manyougana display<br />
+            word creator shall not change scripts within question<br />
+            fix timer<br />
             outsource highlight manyougana??<br />
             tabindex on WordReader<br />
             regroup icons to status and currency<br>
@@ -129,7 +134,6 @@
             still fewer options<br />
             BA task<br /><br />
             <strong>Core tasks</strong><br />
-              (10) Final (game)<br />
               (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
               (1) immersive/attractive feedback whatsoever<br />
               (3) animations<br />
@@ -155,6 +159,7 @@
               WR measurement 3 / word -> 1.5 / word<br />
               <br/>
               153.6s(96): MCQ(32) -> 25.6s; WR(32) -> 48s; WC(32) -> 80s<br />
+              315.6s(+162s) MCQ: 53.6s(+28s); -> WR: 89s(+41s); WC: 173s(+93s)
               <br/>
               <strong>inkblots</strong><br/>
               <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess); single midterm with first 25 chars (5); sell exam ticket(1)<br/>

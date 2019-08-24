@@ -1,12 +1,60 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card style="width: 820px; padding: 30px;">
+    <q-card :style="pageStyle">
       <!-- header -->
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideFinalExam')" />
       &nbsp;
       <strong style="font-size: 120%;">Final Exam</strong>
-
+      <span v-if="activateResults">
+        <strong style="font-size: 120%;"> (Results)</strong>
+        <br/>
+        <br/>
+        <span style="padding: 0px 107px 0px 57px;">
+          Points:
+        </span>
+        <strong>{{examPoints}}</strong>
+        <br/>
+        <span style="padding: 0px 109px 0px 57px;">
+          Errors:
+        </span>
+        <strong>{{96 - examPoints}}</strong>
+        <br/>
+        <span style="padding: 0px 79px 0px 57px;">
+          Free Errors:
+        </span>
+        <strong>{{(96 - examPoints) - freeErrors}}</strong>
+        <br/>
+        <span style="padding: 0px 28px 0px 57px;">
+          Reward:
+        </span>
+        <strong>{{examPoints}}</strong> x 1.35
+        <br/>
+        <span style="padding: 0px 143px 0px 57px;">
+        </span>
+        <strong>= {{Math.ceil(examPoints * 1.35)}}</strong>
+        <br>
+        <br>
+        <span style="font-size: 150%; font-weight: bold;">
+          <span v-if="!hasFailedExam" style="color: green;">Pass!</span>
+          <span v-if="hasFailedExam" style="color: red;">Fail.</span>
+        </span>
+        <br/>
+        <span v-if="!hasFailedExam">
+          Congratulations on finishing this Final Exam. Check out your achievements and try to unlock if you like.
+        </span>
+        <span v-if="hasFailedExam">
+          You have done a great job. Continue learning and try again.
+        </span>
+        <br/>
+        <br/>
+        <br/>
+        <span>
+          <q-btn color="green" label="Retry" @click="retakeExam()" />
+          &nbsp;
+          <q-btn color="purple" label="Done" @click="$root.$emit('hideFinalExam')" />
+        </span>
+      </span>
       <span v-if="setupInProgress">
         <strong style="font-size: 120%;"> (Setup)</strong>
         <br/>
@@ -143,7 +191,7 @@
       </span>
       </span>
       <!-- parameters panel -->
-      <span class="row">
+      <span v-if="!setupInProgress" class="row">
         <!-- context dependent buttons -->
         <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
           <q-btn v-if="validationInProgress" color="green" label="Continue" @click="nextQuestion()" />
@@ -160,7 +208,7 @@
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR" />
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
     </q-card>
   </q-page>
 </template>
@@ -170,6 +218,7 @@ import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 import WordCreator from '../components/WordCreator.vue'
 import WordReader from '../components/WordReader.vue'
 import finalExamKeys from '../statics/finalExamKeys.json'
+import finalExamWords from '../statics/finalExamWords.json'
 
 export default {
   // name: 'PageName',
@@ -230,25 +279,39 @@ export default {
     activateWR () {
       return !this.setupInProgress && this.mode === 2
     },
-    styleMCQ () {
-      if (this.activateMCQ) {
-        return 'position: relative; z-index: 2;'
+    activateResults () {
+      return !this.setupInProgress && this.mode === 3
+    },
+    pageStyle () {
+      var constant = 'width: 820px; padding: 30px;'
+      if (this.setupInProgress) {
+        return constant + ' height: 895px;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' height: 540px;'
+      }
+    },
+    styleMCQ () {
+      var constant = 'position: absolute; top: 100px;'
+      if (this.activateMCQ) {
+        return constant + ' z-index: 2;'
+      } else {
+        return constant + ' z-index: -1;'
       }
     },
     styleWC () {
+      var constant = 'position: absolute; top: 100px;'
       if (this.activateWC) {
-        return 'position: relative; z-index: 2; top: -400px;'
+        return constant + ' z-index: 2;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' z-index: -1;'
       }
     },
     styleWR () {
+      var constant = 'position: absolute; top: 100px;'
       if (this.activateWR) {
-        return 'position: relative; z-index: 2; top: -800px;'
+        return constant + ' z-index: 2;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' z-index: -1;'
       }
     },
     extraInkblots1 () {
@@ -371,6 +434,7 @@ export default {
       }
     },
     resetSetup () {
+      // setup controllers
       this.setJapaneseHint = true
       this.setManyouganaHighlight = true
       this.freeErrors = 0
@@ -378,16 +442,49 @@ export default {
       this.mode2Inkblots = 0
       this.mode3Inkblots = 0
       this.shownExamTicket = false
+      // exam controllers
+      this.remainingTime = 0
+      // Boolean process and button display controllors
+      this.quizHasStarted = false
+      this.hasAnsweredQuestion = false
+      this.validationInProgress = false
+      this.highlightManyougana = false
+      // script-related
+      this.script1 = 'katakana'
+      this.scripts = ['katakana', 'manyougana-katakana']
+      // quiz controllers
+      this.disableOptions = true
+      this.questionInProgress = false
+      this.showJapanese = false
+      // final exam controller
+      this.wordKeysPool = Object.keys(finalExamKeys)
+      this.currentKey = 'a'
+      this.currentWord = 'wolf'
     },
     startExam () {
       this.setupInProgress = false
       this.userObj.examTickets -= 1
       this.$root.$emit('updateDatabase')
-      this.$root.$emit('toggleIsFinalExam')
+      this.$root.$emit('setIsFinalExam', true)
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
       this.$root.$emit('toggleTimer')
       this.$root.$emit('setTimer', 25.6 + this.mode1Inkblots)
       this.$root.$emit('startTimer')
+    },
+    endExam () {
+      var reward = Math.ceil(this.examPoints * 1.35)
+      this.$root.$emit('addExp', reward)
+      this.$q.notify('Finished. You have been awarded ' + reward.toString() + ' experience points.')
+      this.resetSetup()
+      this.mode = 3
+    },
+    retakeExam () {
+      this.setupInProgress = true
+      this.examPoints = 0
+      this.hasFailedExam = false
+      this.numberQuestionsAnswered = 0
+      this.mode = 0
+      this.$root.$emit('setIsFinalExam', false)
     },
     startQuiz () {
       this.$refs.FinalExamMCQ.continueQuiz()
@@ -409,12 +506,19 @@ export default {
     },
     nextQuestion () {
       console.log('called nextQuestion in Final Exam')
-      var randomIndex = Math.floor(Math.random() * this.wordKeysPool.length)
-      this.currentWord = this.wordKeysPool[randomIndex]
-      var nextCharacter = this.currentWord.split('_')
-      this.wordKeysPool.splice(randomIndex, 1)
+      if (this.numberQuestionsAnswered === 10) {
+        return this.endExam()
+      }
+      // sample randomly from 96 word keys
+      var ri1 = Math.floor(Math.random() * this.wordKeysPool.length)
+      var nextCharacter = this.wordKeysPool[ri1].split('_')
+      this.wordKeysPool.splice(ri1, 1)
       this.currentKey = nextCharacter[0]
       this.script1 = nextCharacter[1]
+      // sample random word with current key
+      var finalWordPool = finalExamWords[this.currentKey]
+      var ri2 = Math.floor(Math.random() * finalWordPool.length)
+      this.currentWord = finalWordPool[ri2]
       if (this.numberQuestionsAnswered === 32) {
         this.mode = 2
         this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
@@ -423,9 +527,8 @@ export default {
         this.mode = 1
         this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
         this.$root.$emit('startTimer')
-      } else if (this.numberQuestionsAnswered === 96) {
-        this.mode = 3
       }
+      console.log('CurrentKeyScript: ' + this.currentKey + ' ' + this.script1)
       switch (this.mode) {
         case 0:
         // Multiple choice
@@ -445,13 +548,10 @@ export default {
           this.questionInProgress = true
           this.$refs.FinalExamWR.generateQuestion()
           break
-        case 3:
-          this.$q.notify('Finished')
       }
     },
     addExamPoints (n, correctAnswer) {
       console.log('called addExamPoints in FinalExam')
-      this.examPoints += n
       if (!correctAnswer) {
         this.freeErrors -= 1
         this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
@@ -459,6 +559,8 @@ export default {
           this.$q.notify('Exam failed. You may continue to practice')
           this.hasFailedExam = true
         }
+      } else {
+        this.examPoints += n
       }
     },
     incrementNumberQuestionsAnswered () {

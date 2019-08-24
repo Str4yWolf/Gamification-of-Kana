@@ -66,6 +66,7 @@
 <script>
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 import words from '../statics/wordsBySkillAll.json'
+import wordsFinal from '../statics/wordsAll.json'
 import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
@@ -111,7 +112,9 @@ export default {
     userObj: Object,
     script: String,
     showJapanese: Boolean,
-    highlightManyougana: Boolean
+    highlightManyougana: Boolean,
+    isFinalExam: Boolean,
+    currentWordFinal: String
   },
   created () {
     console.log('words: ' + words[10])
@@ -119,7 +122,11 @@ export default {
   },
   computed: {
     currentWordJap () {
-      return words[this.userObj.skillLvl][this.currentWordEng]
+      if (!this.isFinalExam) {
+        return words[this.userObj.skillLvl][this.currentWordEng]
+      } else {
+        return wordsFinal[this.currentWordEng]
+      }
     },
     currentLetter () {
       if (this.currentIndex >= this.currentWordLength) {
@@ -378,7 +385,11 @@ export default {
       this.showFeedbackMessage = false
       this.japaneseTip = ''
       this.resetImageSlots()
-      this.setRandomWord()
+      if (!this.isFinalExam) {
+        this.setRandomWord()
+      } else {
+        this.currentWordEng = this.currentWordFinal
+      }
       this.continueCreation()
     },
     continueCreation () {
@@ -431,11 +442,19 @@ export default {
       console.log('this.correctWordIndices: ' + Object.values(this.correctWordIndices))
       if (this.isEqualLetters(this.userAnswerIndices, this.correctWordIndices)) {
         this.feedbackMessage = 'Your answer (' + this.assembleWord(this.currentWordJap) + ') was correct. Great job!'
-        this.$root.$emit('addExp', this.currentWordLength)
-        this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
+        if (!this.isFinalExam) {
+          this.$root.$emit('addExp', this.currentWordLength)
+          this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
+        } else {
+          this.$root.$emit('addExamPoints', 1, true)
+        }
       } else {
         this.feedbackMessage = 'Your answer was incorrect. Correct answer: ' + this.assembleWord(this.currentWordJap) + '.'
+        if (this.isFinalExam) {
+          this.$root.$emit('addExamPoints', 1, false)
+        }
       }
+      this.$root.$emit('incrementNumberQuestionsAnswered')
     }
   }
 }
