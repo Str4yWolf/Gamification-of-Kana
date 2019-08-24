@@ -67,7 +67,9 @@ export default {
   props: {
     userObj: Object,
     script: String,
-    highlightManyougana: Boolean
+    highlightManyougana: Boolean,
+    isFinalExam: Boolean,
+    currentWordFinal: String
   },
   created () {
   },
@@ -135,7 +137,11 @@ export default {
       this.showFeedbackMessage = false
       this.userSolution = ''
       this.setBackgrounds('#ffffff')
-      this.setRandomWord()
+      if (!this.isFinalExam) {
+        this.setRandomWord()
+      } else {
+        this.currentWordEng = this.currentWordFinal
+      }
       if (this.currentWordLength > 0) {
         this.slot1Image = this.$refs.WROps.getLetters(this.currentWordJap[0], this.script)[0]
       } else {

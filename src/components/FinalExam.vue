@@ -83,7 +83,7 @@
         &nbsp; &nbsp; &nbsp; &nbsp;
         <q-input
           v-model.number="mode1Inkblots"
-          label="20s"
+          label="25.6s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -96,7 +96,7 @@
         &nbsp; &nbsp;
         <q-input
           v-model.number="mode2Inkblots"
-          label="37.5s"
+          label="48s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -109,7 +109,7 @@
         &nbsp; &nbsp;
         <q-input
           v-model.number="mode3Inkblots"
-          label="62.5s"
+          label="80s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -117,19 +117,6 @@
             [val => !(val < 0) || 'invalid input']">
           <template v-slot:hint>
             Word Creator
-          </template>
-        </q-input>
-        &nbsp; &nbsp;
-        <q-input
-          v-model.number="mode4Inkblots"
-          label="Task4?"
-          type="number"
-          max-length="2"
-          style="max-width: 120px;"
-          :rules="
-            [val => !(val < 0) || 'invalid input']">
-          <template v-slot:hint>
-            unknown
           </template>
         </q-input>
       </span>
@@ -172,8 +159,8 @@
         </span>
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
+      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR" />
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
-      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" ref="FinalExamWR" />
     </q-card>
   </q-page>
 </template>
@@ -182,7 +169,7 @@
 import MultipleChoiceQuiz from '../components/MultipleChoiceQuiz.vue'
 import WordCreator from '../components/WordCreator.vue'
 import WordReader from '../components/WordReader.vue'
-import finalExamWords from '../statics/finalExamWords.json'
+import finalExamKeys from '../statics/finalExamKeys.json'
 
 export default {
   // name: 'PageName',
@@ -201,7 +188,6 @@ export default {
       mode1Inkblots: 0,
       mode2Inkblots: 0,
       mode3Inkblots: 0,
-      mode4Inkblots: 0,
       shownExamTicket: false,
       // exam controllers
       remainingTime: 0,
@@ -219,8 +205,9 @@ export default {
       questionInProgress: false,
       showJapanese: false,
       // final exam controller
-      wordKeysPool: Object.keys(finalExamWords),
+      wordKeysPool: Object.keys(finalExamKeys),
       currentKey: 'a',
+      currentWord: 'wolf',
       examPoints: 0,
       hasFailedExam: false,
       numberQuestionsAnswered: 0
@@ -285,7 +272,7 @@ export default {
       return this.freeErrors * 5
     },
     modeInkblots () {
-      return (this.mode1Inkblots + this.mode2Inkblots + this.mode3Inkblots + this.mode4Inkblots)
+      return (this.mode1Inkblots + this.mode2Inkblots + this.mode3Inkblots)
     },
     allocatedInkblots () {
       return this.errorInkblots + this.modeInkblots
@@ -301,7 +288,7 @@ export default {
       }
     },
     disableExamStart () {
-      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.freeErrors > 10) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0) || (this.mode4Inkblots < 0)
+      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.freeErrors > 10) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0)
     }
   },
   props: {
@@ -390,7 +377,6 @@ export default {
       this.mode1Inkblots = 0
       this.mode2Inkblots = 0
       this.mode3Inkblots = 0
-      this.mode4Inkblots = 0
       this.shownExamTicket = false
     },
     startExam () {
@@ -399,6 +385,9 @@ export default {
       this.$root.$emit('updateDatabase')
       this.$root.$emit('toggleIsFinalExam')
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
+      this.$root.$emit('toggleTimer')
+      this.$root.$emit('setTimer', 25.6 + this.mode1Inkblots)
+      this.$root.$emit('startTimer')
     },
     startQuiz () {
       this.$refs.FinalExamMCQ.continueQuiz()
@@ -421,10 +410,22 @@ export default {
     nextQuestion () {
       console.log('called nextQuestion in Final Exam')
       var randomIndex = Math.floor(Math.random() * this.wordKeysPool.length)
-      var nextCharacter = this.wordKeysPool[randomIndex].split('_')
+      this.currentWord = this.wordKeysPool[randomIndex]
+      var nextCharacter = this.currentWord.split('_')
       this.wordKeysPool.splice(randomIndex, 1)
       this.currentKey = nextCharacter[0]
       this.script1 = nextCharacter[1]
+      if (this.numberQuestionsAnswered === 32) {
+        this.mode = 2
+        this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
+        this.$root.$emit('startTimer')
+      } else if (this.numberQuestionsAnswered === 64) {
+        this.mode = 1
+        this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
+        this.$root.$emit('startTimer')
+      } else if (this.numberQuestionsAnswered === 96) {
+        this.mode = 3
+      }
       switch (this.mode) {
         case 0:
         // Multiple choice
@@ -444,8 +445,9 @@ export default {
           this.questionInProgress = true
           this.$refs.FinalExamWR.generateQuestion()
           break
+        case 3:
+          this.$q.notify('Finished')
       }
-      console.log('called randomizeNextQuestion in GL')
     },
     addExamPoints (n, correctAnswer) {
       console.log('called addExamPoints in FinalExam')

@@ -154,7 +154,7 @@
               WC man measurement 5.5 / word -> 2.5<br />
               WR measurement 3 / word -> 1.5 / word<br />
               <br/>
-              120s(75): MCQ(25) -> 20s; WC(25) -> 62.5s; WR(25) -> 37.5s<br />
+              153.6s(96): MCQ(32) -> 25.6s; WR(32) -> 48s; WC(32) -> 80s<br />
               <br/>
               <strong>inkblots</strong><br/>
               <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess); single midterm with first 25 chars (5); sell exam ticket(1)<br/>

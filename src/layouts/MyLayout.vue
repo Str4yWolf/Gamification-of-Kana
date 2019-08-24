@@ -36,14 +36,16 @@
             <span title="Questions"><q-icon name="casino"/> {{numberQuestions[0]}}/{{numberQuestions[1]}}</span> <br />
             <span title="Free Errors"><q-icon name="done_all"/> {{freeErrors}}</span>
           </span>
+          &nbsp; &nbsp; &nbsp;
+          &nbsp; &nbsp; &nbsp;
           <!-- Timer display -->
-          <q-item-section v-if="showTimer">
-            <q-item-label><strong>Time Boost</strong> &nbsp; &nbsp; &nbsp; &nbsp;
-             <strong>Boost: </strong>{{timeBoostActual}}/ {{timeBoostMax}}</q-item-label>
+          <span v-if="showTimer">
+            <q-item-label><strong>Time</strong> &nbsp; &nbsp; &nbsp; &nbsp;
+             <strong></strong>{{timeActual}}s/{{timeMax}}s</q-item-label>
             <q-item-label caption>
-              <q-linear-progress stripe rounded style="height: 20px" :value="timeBoostActual" color="secondary" />
+              <q-linear-progress stripe rounded :style="timerStyle" :value="timeFraction" color="secondary" />
             </q-item-label>
-          </q-item-section>
+          </span>
           <!-- menu (pages) -->
           <q-menu transition-show="jump-down" transition-hide="jump-up">
             <q-list style="min-width: 100px">
@@ -258,6 +260,10 @@ export default {
     this.$root.$on('toggleIsFinalExam', this.toggleIsFinalExam)
     this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
     this.$root.$on('updateNumberFreeErrors', this.updateNumberFreeErrors)
+    this.$root.$on('toggleTimer', this.toggleTimer)
+    this.$root.$on('setTimer', this.setTimer)
+    this.$root.$on('startTimer', this.startTimer)
+    this.$root.$on('stopTimer', this.stopTimer)
   },
   data () {
     return {
@@ -281,10 +287,11 @@ export default {
       hitSkillLvlUp: false,
       skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
-      // controls for time boost
-      timeStamp: 0,
+      // controls for timer
       showTimer: false,
-      timeBoostMax: 0,
+      timeActual: 0,
+      timeMax: 0,
+      runTimer: false,
       highlight: false,
       //
       isFinalExam: false,
@@ -307,13 +314,8 @@ export default {
       }
       return value
     },
-    timeBoostActual () {
-      var currentTime = Date.now()
-      var secondsPassed = (currentTime - this.timeStamp()) / 1000
-      return this.getTimeBoost(this.timeBoostMax, secondsPassed, 1) / this.timeBoostMax
-    },
-    boostValue () {
-      return this.timeBoostActual / this.timeBoostMax
+    timeFraction () {
+      return this.timeActual / this.timeMax
     },
     showFlipCardPage () {
       return (this.$route.path === '/' && this.showFlipCard)
@@ -375,6 +377,18 @@ export default {
         }
       } else {
         return 'background-color: primary;'
+      }
+    },
+    timerStyle () {
+      var constant = 'height: 20px; width: 200px;'
+      if (this.timeFraction >= 0.5) {
+        return constant + ' color: green;'
+      } else if (this.timeFraction >= 0.25) {
+        return constant + ' color: yellow;'
+      } else if (this.timeFraction >= 0.1) {
+        return constant + ' color: orange;'
+      } else {
+        return constant + ' color: red;'
       }
     }
   },
@@ -532,6 +546,35 @@ export default {
     deleteAccount () {
       localStorage.removeItem(this.username)
       this.logOut()
+    },
+    // TIMER
+    toggleTimer () {
+      this.showTimer = !this.showTimer
+    },
+    /**
+    set the timer to max (in seconds.f1)
+    **/
+    setTimer (max) {
+      this.timeMax = max
+      this.timeActual = max
+    },
+    startTimer () {
+      this.runTimer = true
+      while (this.runTimer) {
+        console.log('timeActual: ' + this.timeActual)
+        if (this.timeActual > 0) {
+          setTimeout(this.reduceTime(), 100)
+        } else {
+          this.runTimer = false
+        }
+      }
+    },
+    reduceTime () {
+      var temp = (this.timeActual * 10) - 1 // avoid float imprecision
+      this.timeActual = (temp / 10)
+    },
+    stopTimer () {
+      this.runTimer = false
     },
     /**
     Calculate an additional experience boost dependent on time taken
