@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card style="width: 820px; padding: 30px;">
+    <q-card style="width: 840px; padding: 30px; height: 540px;">
       <!-- header -->
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
@@ -94,24 +94,27 @@ export default {
       return this.mode === 2
     },
     styleMCQ () {
+      var constant = 'position: absolute; top: 100px;'
       if (this.activateMCQ) {
-        return 'position: relative; z-index: 2;'
+        return constant + ' z-index: 2;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' z-index: -1;'
       }
     },
     styleWC () {
+      var constant = 'position: absolute; top: 100px;'
       if (this.activateWC) {
-        return 'position: relative; z-index: 2; top: -400px;'
+        return constant + ' z-index: 2;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' z-index: -1;'
       }
     },
     styleWR () {
+      var constant = 'position: absolute; top: 100px;'
       if (this.activateWR) {
-        return 'position: relative; z-index: 2; top: -800px;'
+        return constant + ' z-index: 2;'
       } else {
-        return 'position: relative; z-index: -1;'
+        return constant + ' z-index: -1;'
       }
     }
   },

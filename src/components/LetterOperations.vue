@@ -14,7 +14,8 @@ export default {
   // name: 'CharacterFlashcard',
   data () {
     return {
-      skillLevelKeys: skillLevelDatabaseKeys
+      skillLevelKeys: skillLevelDatabaseKeys,
+      cache: [] // store keys for duplicate check
     }
   },
   props: {
@@ -87,7 +88,7 @@ export default {
     Randomly generate an option (get image letter paths) which must not be forbiddenLetter but of given script.
     restricted parameter reduces available options according to current skill level.
     **/
-    generateOption (forbiddenLetter, script, restricted) {
+    generateOption (forbiddenLetter, script, restricted, avoidDuplicates) {
       console.log('called generateOption(' + forbiddenLetter + ', ' + script + ') from LetterOperations')
       var datasetKeys = []
       if (restricted) {
@@ -106,6 +107,14 @@ export default {
         var randomIndex = Math.floor(Math.random() * datasetKeys.length)
         randomKey = datasetKeys[randomIndex]
         isSameKey = (randomKey === forbiddenLetter) // is the randomKey we get the forbiddenLetter
+        if (avoidDuplicates) {
+          if (this.cache.includes(randomKey)) {
+            isSameKey = true
+          }
+        }
+      }
+      if (avoidDuplicates) {
+        this.cache.push(randomKey)
       }
       return this.getLetters(randomKey, script) // get an option not the forbiddenLetter above but of given script
     },
@@ -125,6 +134,9 @@ export default {
       } else {
         return randomKey
       }
+    },
+    clearCache () {
+      this.cache = []
     }
   }
 }

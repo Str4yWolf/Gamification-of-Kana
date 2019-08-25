@@ -22,12 +22,12 @@
           &nbsp; &nbsp; &nbsp;
           <!-- normal display -->
           <span v-if="!isFinalExam">
-            <span>
-              <span title="Skill Level"><q-icon name="school"/> {{userObj.skillLvl}}</span> <br />
+            <span class="row">
+              <span title="Skill Level" style="width: 80px;"><q-icon name="school"/> {{userObj.skillLvl}}</span>
               <span title="Inkblots"><q-icon name="whatshot"/> {{userObj.inkblots}}</span>
             </span>
-            &nbsp; &nbsp; &nbsp;
-            <span>
+            <span class="row">
+              <span title="Achievements" style="width: 80px;"><q-icon name="star"/> {{achievementsFraction}}%</span>
               <span title="Exam Tickets"><q-icon name="note"/> {{userObj.examTickets}}</span>
             </span>
           </span>
@@ -287,13 +287,14 @@ export default {
       hitSkillLvlUp: false,
       skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
+      achievements: ['level (1) - reached level 1.'],
       // controls for timer
       showTimer: false,
       timeActual: 0,
       timeMax: 0,
       runTimer: false,
       highlight: false,
-      //
+      // final exam controller
       isFinalExam: false,
       numberQuestions: [0, 96],
       freeErrors: 0
@@ -313,6 +314,10 @@ export default {
         value = this.userObj.exp / 5
       }
       return value
+    },
+    achievementsFraction () {
+      var temp = (this.achievements.length / 29) * 10000
+      return Math.floor(temp) / 100
     },
     timeFraction () {
       return this.timeActual / this.timeMax
@@ -727,7 +732,7 @@ export default {
     },
     /**
     Recursive function to check for level-ups which are governed by lvlThreshold object.
-     Maximum reachable level is 12.
+     Maximum reachable level is 16.
     **/
     updateLvl () {
       if (this.userObj.lvl === 16) {

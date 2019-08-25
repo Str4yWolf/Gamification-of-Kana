@@ -110,21 +110,15 @@
           <q-card-section>
             <strong>Details / Debugging</strong><br />
             ...When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function. <br />
-            no skipping question count in final<br />
-            use absolute component display in Learning<br />
-            fix duplicate keys<br />
+            Revise finalExamWords (no skipping questions or so)<br />
             fix timer<br />
             outsource highlight manyougana??<br />
-            tabindex on WordReader<br />
-            regroup icons to status and currency<br>
-            add exp boost (1.1) to using learning page<br />
             skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />
             <strong>Requirements (8/27/2019)</strong><br />
             scalable SVGs<br />
-            final game<br />
             design<br />
             improve user flow<br />
             write description of app<br />
@@ -138,7 +132,7 @@
               (1) immersive/attractive feedback whatsoever<br />
               (3) animations<br />
               (0:15) manyougana button<br />
-              (3) badges (bronze,silver,gold,platinum) without design<br />
+              (2) badges (bronze,silver,gold,platinum) without design<br />
               (3) add inkblot design to badges
               (0:40) Custom words in word creator<br />
               (1:30) colour design<br />
@@ -152,6 +146,7 @@
               (3) make DBs generic with script1 / script2 to improve adaptability<br/>
               (3) add latin script<br/>
               ((5) add commercial edge -> $0.05 / inklblot)
+              (0:20) encourage use of learning page
               <br />
               (4) refactor code -- mixin<br />
               <br />
@@ -168,9 +163,9 @@
               <strong>inkblots</strong><br/>
               <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess); single midterm with first 25 chars (5); sell exam ticket(1)<br/>
               <b>consume permanently: exam ticket(2)</b><br/>
-              <b>get temporarily: no Japanese hints (10),</b> no Manyougana highlight (5),<br/>
+              <b>get temporarily: no Japanese hints (10), no Manyougana highlight (5),</b><br/>
               <b>consume temporarily: additional second (1)</b><br/>
-              <strong>Allocation:</strong> allocate points to tasks<br/>
+              <strong>Allocation: allocate points to tasks</strong><br/>
               <br/>
               <strong>exam ticket</strong><br/>
               get 1: pay 2 inkblots; lucky wheel; single midterm<br/>

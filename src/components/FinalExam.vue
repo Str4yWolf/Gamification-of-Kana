@@ -20,11 +20,11 @@
         </span>
         <strong>{{96 - examPoints}}</strong>
         <br/>
-        <span style="padding: 0px 79px 0px 57px;">
+        <!--<span style="padding: 0px 79px 0px 57px;">
           Free Errors:
         </span>
-        <strong>{{(96 - examPoints) - freeErrors}}</strong>
-        <br/>
+        <strong>{{(96 - examPoints) + freeErrors}}</strong>
+        <br/>-->
         <span style="padding: 0px 28px 0px 57px;">
           Reward:
         </span>
@@ -283,7 +283,7 @@ export default {
       return !this.setupInProgress && this.mode === 3
     },
     pageStyle () {
-      var constant = 'width: 820px; padding: 30px;'
+      var constant = 'width: 840px; padding: 30px;'
       if (this.setupInProgress) {
         return constant + ' height: 895px;'
       } else {
@@ -533,9 +533,16 @@ export default {
     },
     nextQuestion () {
       console.log('called nextQuestion in Final Exam')
-      if (this.numberQuestionsAnswered === 10) {
+      if (this.numberQuestionsAnswered === 96) {
         return this.endExam()
       }
+      // TBD start
+      // workaround for preemptive unintended drainout of word pool
+      // fix finalExamWords keys / try 1 word per key
+      if (this.wordKeysPool.length === 0) {
+        this.wordKeysPool = Object.keys(finalExamKeys)
+      }
+      // TBD end
       // sample randomly from 96 word keys
       var ri1 = Math.floor(Math.random() * this.wordKeysPool.length)
       var nextCharacter = this.wordKeysPool[ri1].split('_')
@@ -546,11 +553,11 @@ export default {
       var finalWordPool = finalExamWords[this.currentKey]
       var ri2 = Math.floor(Math.random() * finalWordPool.length)
       this.currentWord = finalWordPool[ri2]
-      if (this.numberQuestionsAnswered === 1) {
+      if (this.numberQuestionsAnswered === 32) {
         this.mode = 2
         this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
         this.$root.$emit('startTimer')
-      } else if (this.numberQuestionsAnswered === 2) {
+      } else if (this.numberQuestionsAnswered === 64) {
         this.mode = 1
         this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
         this.$root.$emit('startTimer')

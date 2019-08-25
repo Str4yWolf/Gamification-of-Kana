@@ -218,10 +218,11 @@ export default {
       // get question image
       this.questionImage = this.$refs.MCQOps.getLetters(this.currentKey, this.script1)[0]
       // generate options of target script2 which is NOT equal to the letter passed as randomKey
-      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
-      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
-      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
-      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true)[0]
+      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true, true)[0]
+      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true, true)[0]
+      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true, true)[0]
+      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKey, this.script2, true, true)[0]
+      this.$refs.MCQOps.clearCache()
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {
@@ -253,10 +254,11 @@ export default {
       // get question image
       this.questionImage = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script1)[0]
       // generate options of target script2 which is NOT equal to the letter passed as randomKey
-      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
-      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
-      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
-      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true)[0]
+      this.option1Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true, true)[0]
+      this.option2Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true, true)[0]
+      this.option3Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true, true)[0]
+      this.option4Image = this.$refs.MCQOps.generateOption(this.currentKeyFinal, this.script2, true, true)[0]
+      this.$refs.MCQOps.clearCache()
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       // replace one of the options (all incorrect) with correct answer
       switch (this.correctAnswer) {
