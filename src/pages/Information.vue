@@ -109,11 +109,11 @@
         <q-card>
           <q-card-section>
             <strong>Details / Debugging</strong><br />
+            ... When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function. <br />
             no skipping question count in final<br />
-            fix Final Exam Layout update<br />
             use absolute component display in Learning<br />
             fix coloured Manyougana display<br />
-            word creator shall not change scripts within question<br />
+            fix duplicate keys<br />
             fix timer<br />
             outsource highlight manyougana??<br />
             tabindex on WordReader<br />
@@ -135,10 +135,12 @@
             BA task<br /><br />
             <strong>Core tasks</strong><br />
               (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
+              (0.5) about page
               (1) immersive/attractive feedback whatsoever<br />
               (3) animations<br />
               (0:15) manyougana button<br />
-              (3) badges<br />
+              (3) badges (bronze,silver,gold,platinum) without design<br />
+              (3) add inkblot design to badges
               (0:40) Custom words in word creator<br />
               (1:30) colour design<br />
               (6) app design <br />
@@ -148,6 +150,9 @@
               (5) Additional gamification elements (e.g., timer)<br />
               ((100+) Story mode)<br />
               (Varying Hentaigana)<br />
+              (3) make DBs generic with script1 / script2 to improve adaptability<br/>
+              (3) add latin script<br/>
+              ((5) add commercial edge -> $0.05 / inklblot)
               <br />
               (4) refactor code -- mixin<br />
               <br />

@@ -13,6 +13,7 @@
         position: relative;
         display: inline-block;
       " />
+    <span v-if="!isHighlightedManyougana">
     <span v-if="showTitle"
       style="
         width: 100px;
@@ -30,6 +31,27 @@
         display: inline-block;
       ">
       <strong>{{imgScript}}</strong>
+    </span>
+    </span>
+    <span v-if="isHighlightedManyougana">
+    <span v-if="showTitle"
+      style="
+        width: 100px;
+        top: 35px;
+        position: relative;
+        display: inline-block;
+        ">
+      <strong>{{imgLetter.split('\.')[0]}}</strong>
+    </span>
+    <span v-if="showScript"
+      style="
+        width: 100px;
+        top: -99px;
+        position: relative;
+        display: inline-block;
+      ">
+      <strong>{{imgScript}}</strong>
+    </span>
     </span>
   </div>
   </q-card>
@@ -61,6 +83,13 @@ export default {
         return this.imgSrc.split('/')[3].split('-')[0]
       } else {
         return ''
+      }
+    },
+    isHighlightedManyougana () {
+      if (this.showScript) {
+        return this.imgSrc.split('/')[3].split('-')[2] === 'c'
+      } else {
+        return false
       }
     },
     imgSrcSVG () {

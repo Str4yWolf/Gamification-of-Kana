@@ -76,19 +76,19 @@
                 </q-menu>
                 <!-- submenu end -->
               </q-item>
-              <q-item @click="$router.push('/Gojuuon/')" clickable>
+              <q-item @click="showGojuuon()" clickable>
                 <q-item-section>Character Reference</q-item-section>
               </q-item>
-              <q-item @click="$router.push('/Shop/')" clickable>
+              <q-item @click="showShop()" clickable>
                 <q-item-section>Shop</q-item-section>
               </q-item>
               <q-item @click="unhideFinalExam()" clickable>
                 <q-item-section>Take Final Exam</q-item-section>
               </q-item>
-              <q-item @click="$router.push('/Information/')" clickable>
+              <q-item @click="showInformation()" clickable>
                 <q-item-section>App Info</q-item-section>
               </q-item>
-              <q-item @click="$router.push('/Settings/')" clickable>
+              <q-item @click="showSettings()" clickable>
                 <q-item-section>Settings</q-item-section>
               </q-item>
               <q-item @click="logOut()" clickable>
@@ -257,13 +257,13 @@ export default {
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
-    this.$root.$on('setIsFinalExam', this.setIsFinalExam)
     this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
     this.$root.$on('updateNumberFreeErrors', this.updateNumberFreeErrors)
-    this.$root.$on('toggleTimer', this.toggleTimer)
     this.$root.$on('setTimer', this.setTimer)
     this.$root.$on('startTimer', this.startTimer)
     this.$root.$on('stopTimer', this.stopTimer)
+    this.$root.$on('setShowTimer', this.setShowTimer)
+    this.$root.$on('setIsFinalExam', this.setIsFinalExam)
   },
   data () {
     return {
@@ -369,14 +369,12 @@ export default {
       return this.userObj.skillLvl === 9
     },
     layoutColor () {
-      if (this.showFinalExamPage) {
-        if (this.isFinalExam) {
-          return 'background-color: #a65d58;'
-        } else {
-          return 'background-color: primary;' // think about intermediate colour
-        }
+      if (this.showFinalExamPage && this.isFinalExam) {
+        return 'background-color: #a65d58;' // when having Final Exam
+      } else if (this.showFinalExamPage) {
+        return 'background-color: #027be3;' // when on Final Exam page (think about intermediate colour)
       } else {
-        return 'background-color: primary;'
+        return 'background-color: #027be3;' // default
       }
     },
     timerStyle () {
@@ -394,6 +392,13 @@ export default {
   },
   methods: {
     unhideFlipCard () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showFlipCard = true
     },
@@ -401,6 +406,13 @@ export default {
       this.showFlipCard = false
     },
     unhideMultipleChoiceQuiz () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showMultipleChoiceQuiz = true
     },
@@ -408,6 +420,13 @@ export default {
       this.showMultipleChoiceQuiz = false
     },
     unhideWordCreator () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showWordCreator = true
     },
@@ -415,6 +434,13 @@ export default {
       this.showWordCreator = false
     },
     unhideWordReader () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showWordReader = true
     },
@@ -422,6 +448,13 @@ export default {
       this.showWordReader = false
     },
     unhideGeneralLearning () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showGeneralLearning = true
     },
@@ -430,6 +463,13 @@ export default {
       this.showGeneralLearning = false
     },
     unhideFinalExam () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.hideAllComponents()
       this.showFinalExam = true
     },
@@ -454,6 +494,49 @@ export default {
       console.log('Called hideSignInField from Layout')
       this.showSignInBtn = true
       this.showSignInField = false
+    },
+    /**
+    pages
+    **/
+    showGojuuon () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.$router.push('/Gojuuon/')
+    },
+    showShop () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.$router.push('/Shop/')
+    },
+    showInformation () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.$router.push('/Information/')
+    },
+    showSettings () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.$router.push('/Settings/')
     },
     /**
     Signs in a registered user by loading user data and setting display elements.
@@ -510,6 +593,13 @@ export default {
     **/
     logOut () {
       console.log('Called logOut')
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
       this.showAvatar = false
       this.showSignInBtn = true
       this.showRegisterBtn = true
@@ -548,8 +638,9 @@ export default {
       this.logOut()
     },
     // TIMER
-    toggleTimer () {
-      this.showTimer = !this.showTimer
+    setShowTimer (x) {
+      console.log('called setShowTimer(' + x + ') in MyLayout')
+      this.showTimer = x
     },
     /**
     set the timer to max (in seconds.f1)
@@ -692,6 +783,7 @@ export default {
       this.updateDatabase()
     },
     setIsFinalExam (x) {
+      console.log('called setIsFinalExam(' + x + ') in MyLayout')
       this.isFinalExam = x
     },
     updateNumberQuestions (xs) {

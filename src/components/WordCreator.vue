@@ -379,11 +379,11 @@ export default {
       }
     },
     setNewCreation () {
+      console.log('Called setNewCreation() in WordCreator; current script: ' + this.script)
       this.currentIndex = 0
       this.correctWordIndices = {}
       this.userAnswerIndices = {}
       this.showFeedbackMessage = false
-      this.japaneseTip = ''
       this.resetImageSlots()
       if (!this.isFinalExam) {
         this.setRandomWord()
@@ -393,6 +393,7 @@ export default {
       this.continueCreation()
     },
     continueCreation () {
+      console.log('Called continueCreation() in WordCreator; current script: ' + this.script)
       this.option1Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
       this.option2Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
       this.option3Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true)[0]
@@ -454,7 +455,7 @@ export default {
           this.$root.$emit('addExamPoints', 1, false)
         }
       }
-      this.$root.$emit('incrementNumberQuestionsAnswered')
+      this.$root.$emit('incrementNumberQuestionsAnswered', 1)
     }
   }
 }

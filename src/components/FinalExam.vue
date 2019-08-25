@@ -3,7 +3,7 @@
     <q-card :style="pageStyle">
       <!-- header -->
       <!-- back button -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideFinalExam')" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="leavePageConfirm()" />
       &nbsp;
       <strong style="font-size: 120%;">Final Exam</strong>
       <span v-if="activateResults">
@@ -52,7 +52,7 @@
         <span>
           <q-btn color="green" label="Retry" @click="retakeExam()" />
           &nbsp;
-          <q-btn color="purple" label="Done" @click="$root.$emit('hideFinalExam')" />
+          <q-btn color="purple" label="Done" @click="leavePageConfirm()" />
         </span>
       </span>
       <span v-if="setupInProgress">
@@ -366,6 +366,7 @@ export default {
     this.$root.$on('setValidationInProgress', this.setValidationInProgress)
     this.$root.$on('incrementNumberQuestionsAnswered', this.incrementNumberQuestionsAnswered)
     this.$root.$on('addExamPoints', this.addExamPoints)
+    this.$root.$on('leavePageFinalExam', this.leavePage)
   },
   methods: {
     /**
@@ -460,6 +461,8 @@ export default {
       this.wordKeysPool = Object.keys(finalExamKeys)
       this.currentKey = 'a'
       this.currentWord = 'wolf'
+      this.$root.$emit('setShowTimer', false)
+      this.wordKeysPool = Object.keys(finalExamKeys)
     },
     startExam () {
       this.setupInProgress = false
@@ -467,9 +470,10 @@ export default {
       this.$root.$emit('updateDatabase')
       this.$root.$emit('setIsFinalExam', true)
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
-      this.$root.$emit('toggleTimer')
+      this.$root.$emit('setShowTimer', true)
       this.$root.$emit('setTimer', 25.6 + this.mode1Inkblots)
       this.$root.$emit('startTimer')
+      this.nextQuestion()
     },
     endExam () {
       var reward = Math.ceil(this.examPoints * 1.35)
@@ -483,11 +487,34 @@ export default {
       this.examPoints = 0
       this.hasFailedExam = false
       this.numberQuestionsAnswered = 0
+      this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
       this.mode = 0
       this.$root.$emit('setIsFinalExam', false)
     },
     startQuiz () {
       this.$refs.FinalExamMCQ.continueQuiz()
+    },
+    leavePageConfirm () {
+      console.log('called leavePageConfirm() in FinalExam')
+      if (!this.setupInProgress && !(this.mode === 3)) { // ask only when taking exam
+        if (confirm('Are you sure you want to leave this page? All exam progress will be lost!')) {
+          this.leavePage()
+        }
+      } else {
+        this.leavePage()
+      }
+    },
+    leavePage () {
+      console.log('called leavePage() in FinalExam')
+      this.resetSetup()
+      this.setupInProgress = true
+      this.examPoints = 0
+      this.hasFailedExam = false
+      this.numberQuestionsAnswered = 0
+      this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
+      this.mode = 0
+      this.$root.$emit('setIsFinalExam', false)
+      this.$root.$emit('hideFinalExam')
     },
     /**
     End quiz by intializing quiz controls and displaying feedback to user
@@ -519,11 +546,11 @@ export default {
       var finalWordPool = finalExamWords[this.currentKey]
       var ri2 = Math.floor(Math.random() * finalWordPool.length)
       this.currentWord = finalWordPool[ri2]
-      if (this.numberQuestionsAnswered === 32) {
+      if (this.numberQuestionsAnswered === 1) {
         this.mode = 2
         this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
         this.$root.$emit('startTimer')
-      } else if (this.numberQuestionsAnswered === 64) {
+      } else if (this.numberQuestionsAnswered === 2) {
         this.mode = 1
         this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
         this.$root.$emit('startTimer')
@@ -563,8 +590,8 @@ export default {
         this.examPoints += n
       }
     },
-    incrementNumberQuestionsAnswered () {
-      this.numberQuestionsAnswered += 1
+    incrementNumberQuestionsAnswered (n) {
+      this.numberQuestionsAnswered += n
       this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
     },
     enterSolutionWR () {

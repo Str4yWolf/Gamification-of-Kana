@@ -296,7 +296,7 @@ export default {
       if (!this.isFinalExam) {
         this.$root.$emit('MultipleChoiceQuestion answered')
       } else {
-        this.$root.$emit('incrementNumberQuestionsAnswered')
+        this.$root.$emit('incrementNumberQuestionsAnswered', 1)
       }
       // display feedback,
       // adjust quiz controls, and

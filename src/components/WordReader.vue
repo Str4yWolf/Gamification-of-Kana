@@ -197,7 +197,7 @@ export default {
           this.$root.$emit('addExamPoints', 1, false)
         }
       }
-      this.$root.$emit('incrementNumberQuestionsAnswered')
+      this.$root.$emit('incrementNumberQuestionsAnswered', 1)
       this.showFeedbackMessage = true
     }
   }
