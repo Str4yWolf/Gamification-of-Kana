@@ -1,59 +1,59 @@
 <template>
   <q-card :style="background">
-  <div class="character-flashcard"
-    style="
-      height: 150px;
-      width: 150px;
-      position: relative;
-      text-align: center;
-      ">
-    <img id="character-flashcard-image" v-bind:src="imgSrcSVG" :title="imgLetter" width="50%"
+    <div class="character-flashcard"
       style="
-        top: 42px;
+        height: 150px;
+        width: 150px;
         position: relative;
-        display: inline-block;
-      " />
-    <span v-if="!isHighlightedManyougana">
-    <span v-if="showTitle"
-      style="
-        width: 100px;
-        top: -35px;
-        position: relative;
-        display: inline-block;
+        text-align: center;
         ">
-      <strong>{{imgLetter.split('\.')[0]}}</strong>
-    </span>
-    <span v-if="showScript"
-      style="
-        width: 100px;
-        top: -166px;
-        position: relative;
-        display: inline-block;
-      ">
-      <strong>{{imgScript}}</strong>
-    </span>
-    </span>
-    <span v-if="isHighlightedManyougana">
-    <span v-if="showTitle"
-      style="
-        width: 100px;
-        top: 35px;
-        position: relative;
-        display: inline-block;
-        ">
-      <strong>{{imgLetter.split('\.')[0]}}</strong>
-    </span>
-    <span v-if="showScript"
-      style="
-        width: 100px;
-        top: -99px;
-        position: relative;
-        display: inline-block;
-      ">
-      <strong>{{imgScript}}</strong>
-    </span>
-    </span>
-  </div>
+      <img id="character-flashcard-image" v-bind:src="imgSrcSVG" :title="imgLetter" width="50%"
+        style="
+          top: 42px;
+          position: relative;
+          display: inline-block;
+        " />
+      <span v-if="!isHighlightedManyougana">
+        <span v-if="showTitle"
+          style="
+            width: 100px;
+            top: -35px;
+            position: relative;
+            display: inline-block;
+            ">
+          <strong>{{imgLetter.split('\.')[0]}}</strong>
+        </span>
+        <span v-if="showScript"
+          style="
+            width: 100px;
+            top: -166px;
+            position: relative;
+            display: inline-block;
+          ">
+          <strong>{{imgScript}}</strong>
+        </span>
+      </span>
+      <span v-if="isHighlightedManyougana">
+        <span v-if="showTitle"
+          style="
+            width: 100px;
+            top: 35px;
+            position: relative;
+            display: inline-block;
+            ">
+          <strong>{{imgLetter.split('\.')[0]}}</strong>
+        </span>
+        <span v-if="showScript"
+          style="
+            width: 100px;
+            top: -99px;
+            position: relative;
+            display: inline-block;
+          ">
+          <strong>{{imgScript}}</strong>
+        </span>
+      </span>
+    </div>
   </q-card>
 </template>
 
