@@ -110,7 +110,6 @@
           <q-card-section>
             <strong>Details / Debugging</strong><br />
             ...When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function. <br />
-            ...When displaying characters in highlighted manyougana, the positions of the relevant tags go out of place when :showScript="false". Tried to fix with if-statement about highlightedness.<br />
             no skipping question count in final<br />
             use absolute component display in Learning<br />
             fix duplicate keys<br />

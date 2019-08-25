@@ -86,10 +86,10 @@ export default {
       }
     },
     isHighlightedManyougana () {
-      if (this.showScript) {
-        return this.imgSrc.split('/')[3].split('-')[2] === 'c'
+      if (this.imgSrc.split('/')[3] === undefined) {
+        return ''
       } else {
-        return false
+        return this.imgSrc.split('/')[3].split('-')[2] === 'c'
       }
     },
     imgSrcSVG () {
