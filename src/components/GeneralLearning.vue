@@ -6,6 +6,7 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
       &nbsp;
       <strong style="font-size: 120%;">Learn</strong>
+      <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       &nbsp;
       &nbsp;
       &nbsp;
@@ -43,6 +44,22 @@
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" ref="GeneralLearningWR" />
+      <q-dialog v-model="viewTutorial">
+      <q-card style="width: 600px;">
+        <q-card-section>
+          <div class="text-h6">Tutorial (Learning)</div>
+        </q-card-section>
+        <q-card-section>
+        Use <strong>Learning</strong> to combine <strong>Multiple Choice Quiz</strong>, <strong>Word Creator</strong>, and <strong>Word Reader</strong> into a single learning page by randomly looping between them. For details on each game, go to their respective pages under <strong>Learning Tools</strong> and view their tutorials.
+        <br/>
+        <br/>
+        <strong>Keyboard Shortcuts: </strong>You can comfortably dash through the games by using keyboard only. Keyboard shortcuts will work once you hit <strong>Enter</strong> on the keyboard after typing a word in <strong>Word Reader</strong> and deactivate once you use the mouse to click any buttons.
+        <br/><br/>
+        <strong>Tip:</strong> To highlight the parts of manyougana katakana were derived from, you can toggle <strong>Highlight Manyougana</strong> at any time. The changes will be visible on the next question.
+        <br/><br/>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -73,7 +90,9 @@ export default {
       mode: 0,
       disableOptions: true,
       questionInProgress: false,
-      showJapanese: false
+      showJapanese: false,
+      //
+      viewTutorial: false
     }
   },
   computed: {
@@ -128,6 +147,11 @@ export default {
     // listen to event calls from elsewhere
     this.$root.$on('MultipleChoiceQuestion answered', this.randomizeNextQuestion())
     this.$root.$on('setValidationInProgress', this.setValidationInProgress)
+    if (this.userObj.viewedTutorial[0] === false) {
+      this.userObj.viewedTutorial[0] = true
+      this.viewTutorial = true
+      this.$root.$emit('updateDatabase')
+    }
   },
   methods: {
     /**

@@ -6,6 +6,7 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="leavePageConfirm()" />
       &nbsp;
       <strong style="font-size: 120%;">Final Exam</strong>
+      <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <span v-if="activateResults">
         <strong style="font-size: 120%;"> (Results)</strong>
         <br/>
@@ -212,6 +213,90 @@
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR" />
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+    <q-dialog v-model="viewTutorial">
+      <q-card style="width: 600px;">
+        <q-card-section>
+          <div class="text-h6">Tutorial (Final Exam)</div>
+        </q-card-section>
+        <q-card-section>
+        Passing the <strong>Final Exam</strong> is proof of your knowledge of Manyougana and all the time and work you have chosen to invest into your studies. It is a <strong>milestone</strong> along your journey to master Manyougana.
+        <br/>
+        <br/>
+        In the final exam, you will face the challenge of applying your knowledge of Manyougana in a race against time. You will generally be asked all 48 Japanese letters with Manyougana as source and target script, with a low probability of receiving a random letter.
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <strong style="font-size: 120%; ">Setup</strong>
+        <br/>
+        <br/>
+        In addition to acquiring proficiency through practice, you can make use of your <strong>Available Inkblots.</strong> They are the sum of your <strong>Base Inkblots</strong> (the Inkblots displayed on the top left menu) and additional <strong>bonuses</strong>.
+        <br/>
+        <br/>
+        The bonuses apply when you choose <strong>not to use </strong> <strong>Highlight Manyougana</strong>, <strong>Show Japanese Hints</strong>, or <strong>both</strong>. Adjust the toggles to (de)activate the bonuses.
+        <br/>
+        <br/>
+        You use your Available Inkblots in <strong>Allocate Inkblots</strong> to get helpful means to help you pass your exam. <strong>Free Errors</strong> allow you to fail questions (you can get at most 10 Free Errors). <strong>Bonus Seconds</strong> can be allocated to each of the three question types (<strong>Multiple Choice</strong>, <strong>Word Reader</strong>, <strong>Word Creator</strong>). The base time for each question type is displayed above its input field. Adjust the input fields to your preferences.
+        <br/>
+        <br/>
+        You can allocate at most the number of Available Inkblots, but you don't need to.
+        <br/>
+        <br/>
+        Finally, you need to provide an <strong>Exam Ticket</strong> you can purchase at the <strong>Shop</strong>. Check the respective checkbox.
+        <br/>
+        <br/>
+        If all of your input is sound, the <strong>START EXAM</strong> button will be enabled and you can choose to start, or click <strong>RESET</strong> to reset the settings.
+        <br/>
+        <br/>
+        While none of your <strong>"Base" Inkblots</strong> will actually be consumed, you will permanently lose one <strong>Exam Ticket</strong> once you start the exam, regardless of whether you are going to finish the exam or its outcome.
+        <br/>
+        <br/>
+        None of the Setup can be changed anymore once you have started the exam.
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <strong style="font-size: 120%; ">Taking the Exam</strong>
+        <br/>
+        <br/>
+        The exam comprises 96 Questions split into three distinct categories. Questions 1-32 are Multiple Choice, Questions 33-64 are Word Reader, and Questions 65-96 are Word Creator.
+        <br/>
+        <br/>
+        You will have a limited amount of time to answer question for <strong>each</strong> category. Remaining time cannot be carried over. The timer will be set at the <strong>base time + your respective bonus seconds</strong> for each category.
+        <br/>
+        <br/>
+        The timer will only run when you have been shown a question. Once you have answered the question, the timer will stop and you will be given immediate feedback as to whether you were right or wrong. Wrong answers will be counted as errors and subsequently subtracted from your <strong>Free Errors</strong>.
+        <br/>
+        <br/>
+        Once the timer runs out of time in <strong>any</strong> of the three Question categories, you will fail the exam and notified thereof. The same applies once your Free Errors count drops below 0. However, you may want to proceed with the exam to the end to claim experience points.
+        <br/>
+        <br/>
+        As soon as you have answered all 96 questions, your results will be shown.
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <strong style="font-size: 120%; ">Results</strong>
+        <br/>
+        <br/>
+        Your results summarize how many answers you have answered correctly (<strong>"Points"</strong>), how many <strong>Errors</strong> you have made, and whether you have <strong color="green">Passed</strong> or <strong color="red">Failed</strong>. You will also be told why you have failed the exam.
+        <br/>
+        <br/>
+        You will receive <strong>boosted experience points (x1.35) after</strong> you have finished the exam. Only correct answers will receive one point each; i.e., <strong>Free Errors</strong> will not count as points when they have "saved" an incorrect answer.
+        <br/>
+        <br/>
+        You may choose to retake the exam (go to the Final Exam Setup) by clicking <strong>RETRY</strong> or leave the page by clicking <strong>DONE</strong>.
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <strong>Keyboard Shortcuts </strong>
+        <br/>
+        You can comfortably dash through the exam by using keyboard only. Keyboard shortcuts will work immediately in both <strong>Multiple Choice</strong> (Questions 1-32) and <strong>Word Creator</strong> (Questions 65-96). For <strong>Word Reader</strong> (Questions 33-64), you need to click on the text field once for keyboard shortcuts to work to the end (or until you use a mouse click again).
+        <br/>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -263,7 +348,9 @@ export default {
       examPoints: 0,
       hasFailedExamErrors: false,
       hasFailedExamTime: false,
-      numberQuestionsAnswered: 0
+      numberQuestionsAnswered: 0,
+      //
+      viewTutorial: false
     }
   },
   computed: {
@@ -375,6 +462,11 @@ export default {
     this.$root.$on('addExamPoints', this.addExamPoints)
     this.$root.$on('leavePageFinalExam', this.leavePage)
     this.$root.$on('timeElapsed', this.timeElapsed)
+    if (this.userObj.viewedTutorial[5] === false) {
+      this.userObj.viewedTutorial[5] = true
+      this.viewTutorial = true
+      this.$root.$emit('updateDatabase')
+    }
   },
   methods: {
     /**

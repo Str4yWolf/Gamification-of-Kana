@@ -68,6 +68,13 @@ export default {
       viewTutorial: false
     }
   },
+  mounted () {
+    if (this.userObj.viewedTutorial[1] === false) {
+      this.userObj.viewedTutorial[1] = true
+      this.viewTutorial = true
+      this.$root.$emit('updateDatabase')
+    }
+  },
   methods: {
     updateFlashcard () {
       this.currentLetters1 = this.$refs.IndexOps.getLetters(this.letter, this.script1, false)

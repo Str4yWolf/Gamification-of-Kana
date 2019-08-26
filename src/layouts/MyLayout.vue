@@ -572,7 +572,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -618,7 +618,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.

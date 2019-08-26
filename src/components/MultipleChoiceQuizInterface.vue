@@ -112,6 +112,11 @@ export default {
   },
   mounted () {
     this.$refs.modal.$el.focus()
+    if (this.userObj.viewedTutorial[2] === false) {
+      this.userObj.viewedTutorial[2] = true
+      this.viewTutorial = true
+      this.$root.$emit('updateDatabase')
+    }
   },
   methods: {
     /**

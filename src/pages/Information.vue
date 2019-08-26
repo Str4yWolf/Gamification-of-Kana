@@ -127,7 +127,6 @@
             still fewer options<br />
             BA task<br /><br />
             <strong>Core tasks</strong><br />
-              (3) tutorials - transfer to layout; add high z-index arrow overlays<br />
               (0.5) about page
               (1) immersive/attractive feedback whatsoever<br />
               (3) animations<br />
@@ -137,6 +136,7 @@
               (0:40) Custom words in word creator<br />
               (1:30) colour design<br />
               (6) app design <br />
+              (3) fancy tutorials - transfer to layout; add high z-index arrow overlays<br />
               (4) Practical tests / midterms <br />
               (3) getting rewards<br />
               (10) wrap learning page in a nice context<br />
