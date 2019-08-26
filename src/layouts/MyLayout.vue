@@ -41,7 +41,7 @@
           <!-- Timer display -->
           <span v-if="showTimer">
             <q-item-label><strong>Time</strong> &nbsp; &nbsp; &nbsp; &nbsp;
-             <strong></strong>{{timeActual}}s/{{timeMax}}s</q-item-label>
+             <strong></strong>{{timeActualFormatted}}s/{{timeMax}}s</q-item-label>
             <q-item-label caption>
               <q-linear-progress stripe rounded :style="timerStyle" :value="timeFraction" color="secondary" />
             </q-item-label>
@@ -294,6 +294,7 @@ export default {
       timeMax: 0,
       runTimer: false,
       highlight: false,
+      currentTime: 0,
       // final exam controller
       isFinalExam: false,
       numberQuestions: [0, 96],
@@ -321,6 +322,13 @@ export default {
     },
     timeFraction () {
       return this.timeActual / this.timeMax
+    },
+    timeActualFormatted () {
+      if (this.timeActual === Math.floor(this.timeActual)) { // decimal will always be shown
+        return this.timeActual.toString() + '.0'
+      } else {
+        return this.timeActual.toString()
+      }
     },
     showFlipCardPage () {
       return (this.$route.path === '/' && this.showFlipCard)
@@ -656,21 +664,47 @@ export default {
     },
     startTimer () {
       this.runTimer = true
-      while (this.runTimer) {
-        console.log('timeActual: ' + this.timeActual)
-        if (this.timeActual > 0) {
-          setTimeout(this.reduceTime(), 100)
-        } else {
-          this.runTimer = false
-        }
-      }
+      // this.currentTime = Date.now()
+      setTimeout(this.reduceTime, 91)
     },
     reduceTime () {
-      var temp = (this.timeActual * 10) - 1 // avoid float imprecision
-      this.timeActual = (temp / 10)
+      // console.log('called reduceTime() in MyLayout; timeActual: ' + this.timeActual)
+      // console.log('timeActual: ' + this.timeActual)
+      // console.log('this.runTimer: ' + this.runTimer)
+      if ((this.timeActual > 0) && this.runTimer) {
+        var temp = (this.timeActual * 10) - 1 // avoid float imprecision
+        this.timeActual = (temp / 10)
+        clearTimeout()
+        setTimeout(this.reduceTime, 91)
+        // console.log((Date.now() - this.currentTime) / 1000)
+      } else if (this.timeActual === 0) {
+        this.$root.$emit('timeElapsed')
+        clearTimeout()
+      }
     },
+    /**
+    startTimer () {
+      this.runTimer = true
+      // this.currentTime = Date.now()
+      setInterval(this.reduceTime, 91)
+    },
+    reduceTime () {
+      // console.log('called reduceTime() in MyLayout; timeActual: ' + this.timeActual)
+      // console.log('timeActual: ' + this.timeActual)
+      // console.log('this.runTimer: ' + this.runTimer)
+      if ((this.timeActual > 0) && this.runTimer) {
+        var temp = (this.timeActual * 10) - 1 // avoid float imprecision
+        this.timeActual = (temp / 10)
+        // console.log((Date.now() - this.currentTime) / 1000)
+      } else if (this.timeActual === 0) {
+        this.$root.$emit('timeElapsed')
+        clearInterval()
+      }
+    },
+    **/
     stopTimer () {
       this.runTimer = false
+      clearTimeout()
     },
     /**
     Calculate an additional experience boost dependent on time taken

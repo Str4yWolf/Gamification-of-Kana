@@ -1,7 +1,7 @@
 <template>
   <span>
       <!-- Text display -->
-      <span v-if="!showFeedbackMessage"> Please spell {{currentWordEng}} in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
+      <span v-if="!showFeedbackMessage"> Please spell <strong>{{currentWordEng}}</strong> in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
       <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
@@ -390,6 +390,7 @@ export default {
       } else {
         this.currentWordEng = this.currentWordFinal
       }
+      this.$root.$emit('startTimer')
       this.continueCreation()
     },
     continueCreation () {
@@ -438,6 +439,7 @@ export default {
       this.continueCreation()
     },
     endCreation () {
+      this.$root.$emit('stopTimer')
       this.showFeedbackMessage = true
       this.setAnswerImages()
       console.log('this.userAnswerIndices: ' + Object.values(this.userAnswerIndices))

@@ -172,12 +172,14 @@ export default {
       } else {
         this.slot5Image = '../statics/grey.png'
       }
+      this.$root.$emit('startTimer')
     },
     /**
     validate option event triggered by user input
     **/
     validateSolution () {
       console.log('called validateOption from WordReader')
+      this.$root.$emit('stopTimer')
       if (this.showFeedbackMessage) {
         return
       }

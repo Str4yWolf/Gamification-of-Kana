@@ -111,7 +111,6 @@
             <strong>Details / Debugging</strong><br />
             ...When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function. <br />
             Revise finalExamWords (no skipping questions or so)<br />
-            fix timer<br />
             outsource highlight manyougana??<br />
             skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />

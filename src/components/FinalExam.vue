@@ -37,8 +37,11 @@
         <br>
         <span style="font-size: 150%; font-weight: bold;">
           <span v-if="!hasFailedExam" style="color: green;">Pass!</span>
-          <span v-if="hasFailedExam" style="color: red;">Fail.</span>
+          <span v-if="hasFailedExam" style="color: red;">Fail</span>
+          <span v-if="hasFailedExamErrors"><br/> &nbsp; ... due to errors.</span>
+          <span v-if="hasFailedExamTime"><br/> &nbsp; ... due to time limitation.</span>
         </span>
+        <br/>
         <br/>
         <span v-if="!hasFailedExam">
           Congratulations on finishing this Final Exam. Check out your achievements and try to unlock if you like.
@@ -258,11 +261,15 @@ export default {
       currentKey: 'a',
       currentWord: 'wolf',
       examPoints: 0,
-      hasFailedExam: false,
+      hasFailedExamErrors: false,
+      hasFailedExamTime: false,
       numberQuestionsAnswered: 0
     }
   },
   computed: {
+    hasFailedExam () {
+      return (this.hasFailedExamErrors || this.hasFailedExamTime)
+    },
     script2 () {
       if (this.script1 === 'katakana') {
         return 'manyougana-katakana'
@@ -367,6 +374,7 @@ export default {
     this.$root.$on('incrementNumberQuestionsAnswered', this.incrementNumberQuestionsAnswered)
     this.$root.$on('addExamPoints', this.addExamPoints)
     this.$root.$on('leavePageFinalExam', this.leavePage)
+    this.$root.$on('timeElapsed', this.timeElapsed)
   },
   methods: {
     /**
@@ -461,6 +469,7 @@ export default {
       this.wordKeysPool = Object.keys(finalExamKeys)
       this.currentKey = 'a'
       this.currentWord = 'wolf'
+      this.$root.$emit('stopTimer')
       this.$root.$emit('setShowTimer', false)
       this.wordKeysPool = Object.keys(finalExamKeys)
     },
@@ -472,7 +481,6 @@ export default {
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
       this.$root.$emit('setShowTimer', true)
       this.$root.$emit('setTimer', 25.6 + this.mode1Inkblots)
-      this.$root.$emit('startTimer')
       this.nextQuestion()
     },
     endExam () {
@@ -485,7 +493,8 @@ export default {
     retakeExam () {
       this.setupInProgress = true
       this.examPoints = 0
-      this.hasFailedExam = false
+      this.hasFailedExamErrors = false
+      this.hasFailedExamTime = false
       this.numberQuestionsAnswered = 0
       this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
       this.mode = 0
@@ -509,7 +518,8 @@ export default {
       this.resetSetup()
       this.setupInProgress = true
       this.examPoints = 0
-      this.hasFailedExam = false
+      this.hasFailedExamErrors = false
+      this.hasFailedExamTime = false
       this.numberQuestionsAnswered = 0
       this.$root.$emit('updateNumberQuestions', [this.numberQuestionsAnswered, 96])
       this.mode = 0
@@ -555,12 +565,12 @@ export default {
       this.currentWord = finalWordPool[ri2]
       if (this.numberQuestionsAnswered === 32) {
         this.mode = 2
+        this.$root.$emit('stopTimer')
         this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
-        this.$root.$emit('startTimer')
       } else if (this.numberQuestionsAnswered === 64) {
         this.mode = 1
+        this.$root.$emit('stopTimer')
         this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
-        this.$root.$emit('startTimer')
       }
       console.log('CurrentKeyScript: ' + this.currentKey + ' ' + this.script1)
       switch (this.mode) {
@@ -590,11 +600,21 @@ export default {
         this.freeErrors -= 1
         this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
         if (this.freeErrors === -1) {
-          this.$q.notify('Exam failed. You may continue to practice')
-          this.hasFailedExam = true
+          if (!this.hasFailedExam) {
+            this.$q.notify('Exam failed due to error in answer. You may continue to practice.')
+          }
+          this.hasFailedExamErrors = true
         }
       } else {
         this.examPoints += n
+      }
+    },
+    timeElapsed () {
+      if (!this.setupInProgress) {
+        if (!this.hasFailedExam) {
+          this.$q.notify('Exam failed due to time limit. You may continue to practice.')
+        }
+        this.hasFailedExamTime = true
       }
     },
     incrementNumberQuestionsAnswered (n) {

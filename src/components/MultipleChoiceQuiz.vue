@@ -275,12 +275,14 @@ export default {
           this.option4Image = this.$refs.MCQOps.getLetters(this.currentKeyFinal, this.script2)[0]
           break
       }
+      this.$root.$emit('startTimer')
     },
     /**
     validate option event triggered by user input
     **/
     validateOption (event) {
       console.log('called validateOption from MultipleChoice')
+      this.$root.$emit('stopTimer')
       // adjust controls
       this.hasAnsweredQuestion = true
       this.validationInProgress = true
