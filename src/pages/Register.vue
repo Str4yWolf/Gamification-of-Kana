@@ -4,18 +4,10 @@
     <q-card class="register">
       <!-- label -->
       <strong style="font-size: 100%;">Registration</strong>
+      <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <p>
         <!-- username register panel -->
         <q-input v-model="username" label="Your Name" v-on:keyup.enter="validateRegistration()" >
-          <!-- containing field -->
-          <template v-slot:append>
-            <q-icon name="info" color="red">
-              <q-tooltip content-style="font-size: 16px">
-                Upon registration, you will be able to save and track your progress. <br />
-                You can change your name or delete your account at any time.
-              </q-tooltip>
-            </q-icon>
-          </template>
         </q-input>
         <br />
         <!-- confirm registration -->
@@ -24,6 +16,22 @@
         <!-- cancel registration -->
         <q-btn color="white" text-color="black" label="Cancel" @click="cancelRegistration()"/>
       </p>
+      <q-dialog v-model="viewTutorial">
+        <q-card style="width: 600px;">
+          <q-card-section>
+            <div class="text-h6">Tutorial (Register)</div>
+          </q-card-section>
+          <q-card-section>
+          Register to save and track your progress.
+          <br/><br/>
+          Type in your name in the <strong>Text Input</strong> field. Click the <strong>ENTER</strong> button or hit <strong>Enter</strong> on your keyboard to proceed, or click the <strong>Cancel</strong> button to return.
+          <br/><br/>
+          Your name will be unique and cannot be registered by another user on the same device.
+          <br/><br/>
+          You can change your name or delete your account at any time under <strong>Settings</strong>, thereby making your account name free to register again.
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -40,7 +48,8 @@ export default {
   name: 'Register',
   data () {
     return {
-      username: ''
+      username: '',
+      viewTutorial: false
     }
   },
   methods: {

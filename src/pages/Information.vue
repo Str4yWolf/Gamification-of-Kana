@@ -5,6 +5,7 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
       <strong style="font-size: 120%;">Information</strong>
+      <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <!-- content -->
       <q-list bordered class="rounded-borders">
         <!-- General (Index 1) -->
@@ -179,6 +180,18 @@
           </q-card>
         </q-expansion-item>
       </q-list>
+    <q-dialog v-model="viewTutorial">
+      <q-card style="width: 600px;">
+        <q-card-section>
+          <div class="text-h6">Tutorial (Information)</div>
+        </q-card-section>
+        <q-card-section>
+        Click on the menus to browse through this <strong>Information</strong> page and to view general, pedagogic, and technical details.
+        <br/><br/>
+        <strong>ToDo</strong> describes future extensions of this project which will likely be developed privately.
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -188,6 +201,7 @@ export default {
   // name: 'PageName',
   data () {
     return {
+      viewTutorial: false
     }
   }
 }

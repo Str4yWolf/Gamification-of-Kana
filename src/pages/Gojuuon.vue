@@ -7,9 +7,10 @@
           <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
           &nbsp;
           <strong style="font-size: 120%;">Reference</strong>
+          <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         </span>
         <!-- script selection -->
-        <span style="padding: 0px 0px 0px 70px; top: -10px; position: relative;">
+        <span style="padding: 0px 0px 0px 40px; top: -10px; position: relative;">
           <q-select v-model="script" :options="['katakana', 'manyougana-katakana']" label="Script" style="width:200px;" />
         </span>
         <!-- manyougana highlight toggle -->
@@ -402,6 +403,28 @@
         </span>
       </q-expansion-item>
       </q-list> -->
+    <q-dialog v-model="viewTutorial">
+      <q-card style="width: 600px;">
+        <q-card-section>
+          <div class="text-h6">Tutorial (Character Reference)</div>
+        </q-card-section>
+        <q-card-section>
+        Use <strong>Character Reference</strong> to view all Japanese letters in different scripts. You will see the <strong><abbr title="One Latin Romanization of Japanese">Romaji</abbr></strong> of the word in <strong><abbr title="shi chi tsu fu, rather than si ti tu hu">Hepburn</abbr></strong> below each character.
+        <br/>
+        <br/>
+        You can choose a <strong>Script</strong> all letters should be displayed in. Hover over the letters to see their katakana and manyougana characters alongside.
+        <br/>
+        <br/>
+        Toggle <strong>Highlight Manyougana</strong> to highlight the parts of manyougana katakana were derived from.
+        <br/>
+        <br/>
+        The default display of letters is in the so-called <strong><abbr title="Japanese ordering for letters">Gojuuon</abbr></strong> table.
+        <br/><br/>
+        Toggle <strong>By Level</strong> to display the letters according to <strong>Skill Levels</strong> as used in this app. You can now expand <strong><abbr title="literally: colums; implemented as rows here">Gyou</abbr></strong> which correspond to the Gojuuon table's visual rows in most cases.
+        <br/>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -418,7 +441,8 @@ export default {
     return {
       highlight: false,
       script: 'katakana',
-      showRows: false
+      showRows: false,
+      viewTutorial: false
     }
   },
   computed: {

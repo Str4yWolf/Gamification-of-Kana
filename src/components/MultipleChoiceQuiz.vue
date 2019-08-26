@@ -3,7 +3,7 @@
       <!-- question -->
       <span class="row" style="padding: 20px 0px 20px 50px;">
         <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" :showTitle="validationInProgress" />
-        <span v-if="!hasAnsweredQuestion" style="position:relative; top:68px; left:30px;">What is this {{script1}}'s equivalent in {{script2}}?</span>
+        <span v-if="!hasAnsweredQuestion" style="position:relative; top:68px; left:30px;">What is this <strong>{{script1}}</strong>'s equivalent in <strong>{{script2}}</strong>?</span>
         <span v-if="hasAnsweredQuestion" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
