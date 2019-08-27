@@ -212,7 +212,7 @@
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR"/>
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" :key="refresh"/>
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
     <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
         <q-card-section>
@@ -318,7 +318,6 @@ export default {
   data () {
     return {
       // setup controllers
-      refresh: false,
       setupInProgress: true,
       setJapaneseHint: true,
       setManyouganaHighlight: true,
@@ -350,6 +349,7 @@ export default {
       hasFailedExamErrors: false,
       hasFailedExamTime: false,
       numberQuestionsAnswered: 0,
+      questionsPerCategory: 32,
       //
       viewTutorial: false
     }
@@ -636,7 +636,7 @@ export default {
     },
     nextQuestion () {
       console.log('called nextQuestion in Final Exam')
-      if (this.numberQuestionsAnswered === 96) {
+      if (this.numberQuestionsAnswered === this.questionsPerCategory * 3) {
         return this.endExam()
       }
       // TBD start
@@ -652,8 +652,8 @@ export default {
       this.wordKeysPool.splice(ri1, 1)
       this.currentKey = nextCharacter[0]
       this.script1 = nextCharacter[1]
+      // this.$q.notify('Script1 in nextQuestion(): ' + this.script1)
 
-      this.refresh = !this.refresh
       // sample random word with current key
       var finalWordPool = finalExamWords[this.currentKey]
       var ri2 = Math.floor(Math.random() * finalWordPool.length)

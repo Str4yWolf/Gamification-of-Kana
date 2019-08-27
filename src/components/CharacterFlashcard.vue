@@ -1,6 +1,5 @@
 <template>
   <q-card :style="background">
-    The source is {{this.imgSrc}}
     <div class="character-flashcard"
       style="
         height: 150px;
@@ -93,8 +92,15 @@ export default {
         return this.imgSrc.split('/')[3].split('-')[2] === 'c'
       }
     },
+    imgSrcComp () {
+      if (this.imgSrc === '') {
+        return '../statics/grey.png'
+      } else {
+        return this.imgSrc
+      }
+    },
     imgSrcSVG () {
-      return this.imgSrc + '#svgView(viewbox(0 0 100 100))"'
+      return this.imgSrcComp + '#svgView(viewbox(0 0 100 100))"'
     }
   }
 }

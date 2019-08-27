@@ -470,7 +470,6 @@ export default {
       }
       this.hideAllComponents()
       this.showGeneralLearning = true
-      this.hitSkillLvlUp = true
     },
     hideGeneralLearning () {
       console.log('called hideGeneralLearning')

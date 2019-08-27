@@ -1,14 +1,12 @@
 <template>
   <span>
       <!-- Text display -->
-      We are getting out {{script}}. {{continueCreationCalled}} called times
       <span v-if="!showFeedbackMessage"> Please spell <strong>{{currentWordEng}}</strong> in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
       <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
-          We are sending in {{slot1Image}}
           <character-flashcard :imgSrc="slot1Image" :showTitle="showFeedbackMessage" :background="slot1ImageBackground" />
         </span>
         <span>
@@ -80,7 +78,6 @@ export default {
   data () {
     return {
       // current params
-      continueCreationCalled: 0,
       currentWordEng: 'wolf',
       // control params
       currentIndex: 0,
@@ -146,25 +143,25 @@ export default {
     },
     slot1ImageBackground () {
       if (this.showFeedbackMessage) {
-        console.log('s1 showFeedbackMessage: true in WordCreator slot1ImageBackground')
+        // console.log('s1 showFeedbackMessage: true in WordCreator slot1ImageBackground')
         if (this.currentWordLength < 1) { // overstepped correct word's limit
-          console.log('s2 correctWordIndices undefined in WordCreator slot1ImageBackground')
+          // console.log('s2 correctWordIndices undefined in WordCreator slot1ImageBackground')
           if (this.userAnswerIndices[0] === undefined) {
-            console.log('s3 userAnswerIndices undefined in WordCreator slot1ImageBackground (white)')
+            // console.log('s3 userAnswerIndices undefined in WordCreator slot1ImageBackground (white)')
             return 'background-color: #ffffff;' // user has not entered anything
           } else {
-            console.log('s3 userAnswerIndices not undefined in WordCreator slot1ImageBackground (red)')
+            // console.log('s3 userAnswerIndices not undefined in WordCreator slot1ImageBackground (red)')
             return 'background-color: #fbad9c;' // user has falsely given input
           }
         } else if (this.correctWordIndices[0] === this.userAnswerIndices[0] && this.userAnswerIndices[0] !== undefined) {
-          console.log('s2 answers match up in WordCreator slot1ImageBackground (green)')
+          // console.log('s2 answers match up in WordCreator slot1ImageBackground (green)')
           return 'background-color: #d1fb9c;' // user input and correct word match up
         } else {
-          console.log('s2 userAnswer false or undefined WordCreator slot1ImageBackground (red)')
+          // console.log('s2 userAnswer false or undefined WordCreator slot1ImageBackground (red)')
           return 'background-color: #fbad9c;' // user input is false or doesn't exist
         }
       } else {
-        console.log('s1 showFeedbackMessage: false in WordCreator slot1ImageBackground (white)')
+        // console.log('s1 showFeedbackMessage: false in WordCreator slot1ImageBackground (white)')
         return 'background-color: #ffffff;' // no background highlighting intended
       }
     },
@@ -249,10 +246,7 @@ export default {
       console.log('called isEqualLetters from WordCreator')
       var keys1 = Object.keys(obj1)
       var keys2 = Object.keys(obj2)
-      console.log('keys1: ' + keys1)
-      console.log('keys2: ' + keys2)
-      console.log('keys1.length :' + keys1.length)
-      console.log('keys2.length :' + keys2.length)
+
       if (keys1.length !== keys2.length) {
         return false
       }
@@ -347,16 +341,16 @@ export default {
       }
     },
     resetImageSlots () {
-      this.slot1Image = '../statics/grey.png'
-      this.slot2Image = '../statics/grey.png'
-      this.slot3Image = '../statics/grey.png'
-      this.slot4Image = '../statics/grey.png'
-      this.slot5Image = '../statics/grey.png'
-      this.answer1Image = '../statics/grey.png'
-      this.answer2Image = '../statics/grey.png'
-      this.answer3Image = '../statics/grey.png'
-      this.answer4Image = '../statics/grey.png'
-      this.answer5Image = '../statics/grey.png'
+      this.slot1Image = ''
+      this.slot2Image = ''
+      this.slot3Image = ''
+      this.slot4Image = ''
+      this.slot5Image = ''
+      this.answer1Image = ''
+      this.answer2Image = ''
+      this.answer3Image = ''
+      this.answer4Image = ''
+      this.answer5Image = ''
     },
     /**
     Highlight or unhighlight the image according to the highlightManyougana state
@@ -394,13 +388,16 @@ export default {
         this.currentWordEng = this.currentWordFinal
       }
       this.$root.$emit('startTimer')
-      alert(this.script)
-      this.continueCreation()
+      // this.$q.notify('setNewCreation() with ' + this.script)
+      /**
+      ...When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function but in HTML's {{script}}.
+      This delay works as a patch.
+      **/
+      setTimeout(this.continueCreation, 1)
     },
     continueCreation () {
-      alert(this.script)
-      this.continueCreationCalled += 1
       console.log('Called continueCreation() in WordCreator; current script: ' + this.script)
+      // this.$q.notify('continueCreation() with ' + this.script)
 
       this.option1Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
       this.option2Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
