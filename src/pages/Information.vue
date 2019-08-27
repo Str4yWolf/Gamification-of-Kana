@@ -116,6 +116,7 @@
             Add full tutorial and information in about page<br/>
             Debugging<br/>
             <strong>Details / Debugging</strong><br />
+            Fix first question in Quest after introduction bug.<br/>
             Revise finalExamWords (no skipping questions or so)<br />
             outsource highlight manyougana??<br />
             skill level up popup (use popupedit or so) <br />
@@ -123,8 +124,7 @@
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />
             <strong>Requirements (9/10/2019)</strong><br />
-            (8) teach mapping at once <br />
-            + redesign flashcard <br />
+            (2) teach mapping at once <br />
             (8) reduce mapping teaching to one script at a time (spread out)<br/>
             (8) increase visual affordances and shorten tutorials / outsource to title<br />
             (8) walk through design and redesign<br />

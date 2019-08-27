@@ -50,7 +50,7 @@
           <q-menu transition-show="jump-down" transition-hide="jump-up">
             <q-list style="min-width: 100px">
               <q-item @click="unhideGeneralLearning()" clickable>
-                <q-item-section>Learn</q-item-section>
+                <q-item-section>Quest</q-item-section>
               </q-item>
               <q-item clickable>
                 <q-item-section>Individual Tools</q-item-section>
@@ -120,97 +120,22 @@
       <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
       <final-exam :userObj="userObj" v-if="showFinalExamPage" />
-      <flip-card v-if="showFlipCardPage" :userObj="userObj" />
-      <q-dialog v-model="hitSkillLvlUp" style="width: 800px;">
-      <q-card style="width: 800px; height: 500px;">
+      <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
+      <q-dialog v-model="hitSkillLvlUp">
+      <q-card>
         <q-card-section>
           <div class="text-h6">New Skill Level ({{userObj.skillLvl}})</div>
         </q-card-section>
-        <q-card-section style="width: 800px;">
-          Congratulations! You have unlocked the following characters. Hover over them to see katakana. Also visible under <strong>Menu -> "Character Reference"</strong>.
-          <br />
-          <br />
-          <span v-if="skillLvl0" class="row">
-            <character-info :letter="'a'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'i'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'u'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'e'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'o'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl1" class="row">
-            <character-info :letter="'ka'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ki'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ku'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ke'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ko'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl2" class="row">
-            <character-info :letter="'sa'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'shi'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'su'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'se'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'so'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl3" class="row">
-            <character-info :letter="'ta'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'chi'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'tsu'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'te'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'to'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl4" class="row">
-            <character-info :letter="'na'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ni'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'nu'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ne'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'no'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl5" class="row">
-            <character-info :letter="'ha'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'hi'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'fu'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'he'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ho'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl6" class="row">
-            <character-info :letter="'ma'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'mi'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'mu'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'me'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'mo'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl7" class="row">
-            <character-info :letter="'ra'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ri'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ru'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'re'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'ro'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl8" class="row">
-            <character-info :letter="'ya'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'yu'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'yo'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'wa'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'wo'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <span v-if="skillLvl9" class="row">
-            <character-info :letter="'n'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'we'" :highlight="highlight" :sourceScript="script" />
-            <character-info :letter="'wi'" :highlight="highlight" :sourceScript="script" />
-          </span>
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+        <q-card-section>
+          Congratulations! You have unlocked new characters.
+          <span v-if="!showGeneralLearning"> &nbsp; Go to <strong>Quest</strong> to see which ones.</span>
           <br />
           <br />
           <strong>{{skillWordsCounts[userObj.skillLvl][0]}}</strong> new words available! &nbsp; Total word count: <strong>{{skillWordsCounts[userObj.skillLvl][1]}}</strong>
           <br />
-          <span v-if="skillLvl2"> Also, the maximum word length has improved to 3!</span>
-          <span v-if="skillLvl4"> Also, the maximum word length has improved to 4!</span>
-          <span v-if="skillLvl6"> Also, the maximum word length has improved to 5!</span>
+          <span v-if="skillLvl2"> Also, the maximum word length has increased to 3!</span>
+          <span v-if="skillLvl4"> Also, the maximum word length has increased to 4!</span>
+          <span v-if="skillLvl6"> Also, the maximum word length has increased to 5!</span>
         </q-card-section>
       </q-card>
     </q-dialog>
@@ -226,7 +151,6 @@ import WordCreatorInterface from '../components/WordCreatorInterface.vue'
 import WordReaderInterface from '../components/WordReaderInterface.vue'
 import GeneralLearning from '../components/GeneralLearning.vue'
 import FinalExam from '../components/FinalExam.vue'
-import CharacterInfo from '../components/CharacterInfo.vue'
 
 export default {
   name: 'MyLayout',
@@ -236,8 +160,7 @@ export default {
     WordCreatorInterface,
     WordReaderInterface,
     GeneralLearning,
-    FinalExam,
-    CharacterInfo
+    FinalExam
   },
   created () {
     // listen to event calls from elsewhere
@@ -280,7 +203,7 @@ export default {
       showSignInField: false,
       // level control
       lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1677, 12: 2714, 13: 4591, 14: 7305, 15: 11896, 16: 1000000 },
-      skillLvlThreshold: { 0: 50, 1: 110, 2: 180, 3: 260, 4: 350, 5: 450, 6: 560, 7: 680, 8: 810, 9: 950, 10: 1500000 },
+      skillLvlThreshold: { 0: 80, 1: 168, 2: 264, 3: 368, 4: 480, 5: 600, 6: 728, 7: 864, 8: 1008, 9: 1160, 10: 1500000 },
       // user data
       username: '',
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 },
@@ -572,7 +495,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -618,7 +541,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.
@@ -753,7 +676,9 @@ export default {
     **/
     addExp (n) {
       this.userObj.exp += n
+      this.userObj.learningExp += n
       this.updateLvl()
+      this.updateLearningMode()
       this.updateDatabase()
     },
     /**
@@ -791,10 +716,24 @@ export default {
       if (this.userObj.skillExp >= threshold) {
         this.userObj.skillLvl += 1
         this.$q.notify('Congratulations. You have reached skill level ' + this.userObj.skillLvl + '!')
+        this.userObj.learningMode = 0
         if (this.userObj.skillLvl !== 9) {
           this.hitSkillLvlUp = true
         }
         this.updateSkillLvl()
+      }
+    },
+    /**
+    TBD
+    **/
+    updateLearningMode () {
+      if (this.userObj.learningExp >= (20 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 1) {
+        this.$q.notify('You have unlocked Word Creator for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
+        this.userObj.learningMode = 2
+      }
+      if (this.userObj.learningExp >= (50 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 2) {
+        this.$q.notify('You have unlocked Word Reader for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
+        this.userObj.learningMode = 3
       }
     },
     /**

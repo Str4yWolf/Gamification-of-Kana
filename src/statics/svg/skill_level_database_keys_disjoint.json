@@ -1,0 +1,13 @@
+﻿{
+	"0": ["a", "i", "u", "e", "o"], 
+	"1": ["ka", "ki", "ku", "ke", "ko"], 
+	"2": ["sa", "shi", "su", "se", "so"], 
+	"3": ["ta", "chi", "tsu", "te", "to"], 
+	"4": ["na", "ni", "nu", "ne", "no"], 
+	"5": ["ha", "hi", "fu", "he", "ho"], 
+	"6": ["ma", "mi", "mu", "me", "mo"], 
+	"7": ["ra", "ri", "ru", "re", "ro"], 
+	"8": ["ya", "yu", "yo", "wa", "wo"], 
+	"9": ["n", "we", "wi"],
+	"10": ["a", "i", "u", "e", "o", "ka", "ki", "ku", "ke", "ko", "sa", "shi", "su", "se", "so", "ta", "chi", "tsu", "te", "to", "na", "ni", "nu", "ne", "no", "ha", "hi", "fu", "he", "ho", "ma", "mi", "mu", "me", "mo", "ra", "ri", "ru", "re", "ro", "ya", "yu", "yo", "wa", "wo", "n", "we", "wi"]
+}

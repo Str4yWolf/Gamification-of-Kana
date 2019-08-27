@@ -1,7 +1,7 @@
 <template>
   <q-page class="flex flex-center">
     <q-card :style="pageStyle">
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideFlipCard')" style="position: absolute; top: 34px; left: 20px;" />
+      <q-btn v-if="!isTutorial" round dense flat icon="keyboard_backspace" @click="$root.$emit('hideFlipCard')" style="position: absolute; top: 34px; left: 20px;" />
       <strong style="font-size: 120%; display: flex; justify-content: center;">Smart Flashcard</strong>
       <!-- logging some information -->
       <q-item-label style="display: flex; justify-content: center;">
@@ -20,12 +20,14 @@
       <q-expansion-item
           expand-separator
           icon="settings"
-          label="Options"
+          label="Customize"
           v-model="showOptions"
        >
         <q-item-section v-on:keyup.enter="flipCardOver()">
-          <q-select v-model="script1" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Front" />
-          <q-select v-model="script2" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Back" />
+          <span v-if="!isTutorial">
+            <q-select v-model="script1" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Front" />
+            <q-select v-model="script2" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Back" />
+          </span>
           <span style="position: relative; padding: 10px;"/>
           <q-toggle
             v-model="highlightManyougana"
@@ -56,6 +58,7 @@
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
 import LetterOperations from '../components/LetterOperations.vue'
 import skillLevelDatabaseKeys from '../statics/svg/skill_level_database_keys.json'
+import skillLevelDatabaseKeysDisjoint from '../statics/svg/skill_level_database_keys_disjoint.json'
 
 export default {
   name: 'FlipCard',
@@ -72,7 +75,6 @@ export default {
       script2: 'katakana',
       currentImage: '../statics/grey.png',
       flipped: false,
-      availableKeys: skillLevelDatabaseKeys[this.userObj.skillLvl],
       currentKeyIndex: 0,
       randomizedNextLetter: false,
       highlightManyougana: false,
@@ -80,9 +82,17 @@ export default {
     }
   },
   props: {
-    userObj: Object
+    userObj: Object,
+    isTutorial: Boolean
   },
   computed: {
+    availableKeys () {
+      if (this.isTutorial) {
+        return skillLevelDatabaseKeysDisjoint[this.userObj.skillLvl]
+      } else {
+        return skillLevelDatabaseKeys[this.userObj.skillLvl]
+      }
+    },
     flashcardSide () {
       if (!this.flipped) {
         return 'front side'
@@ -98,8 +108,10 @@ export default {
       }
     },
     pageStyle () {
-      if (this.showOptions) {
+      if (this.showOptions && !this.isTutorial) {
         return 'width: 256px; height: 660px; padding: 30px;'
+      } else if (this.showOptions && this.isTutorial) {
+        return 'width: 256px; height: 550px; padding: 30px;'
       } else {
         return 'width: 256px; height: 440px; padding: 30px;'
       }
