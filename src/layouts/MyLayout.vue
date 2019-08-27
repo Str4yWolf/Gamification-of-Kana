@@ -53,7 +53,7 @@
                 <q-item-section>Learn</q-item-section>
               </q-item>
               <q-item clickable>
-                <q-item-section>Learning Tools</q-item-section>
+                <q-item-section>Individual Tools</q-item-section>
                 <q-item-section side>
                   <q-icon name="keyboard_arrow_right" />
                 </q-item-section>
@@ -61,7 +61,7 @@
                 <q-menu transition-show="jump-right" transition-hide="jump-left" anchor="top right" auto-close>
                   <q-list>
                     <q-item @click="unhideFlipCard()" clickable>
-                      <q-item-section>Simple Flashcard</q-item-section>
+                      <q-item-section>Smart Flashcard</q-item-section>
                     </q-item>
                     <q-item @click="unhideMultipleChoiceQuiz()" clickable>
                       <q-item-section>Multiple Choice</q-item-section>
@@ -120,7 +120,7 @@
       <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
       <final-exam :userObj="userObj" v-if="showFinalExamPage" />
-      <flip-card v-if="showFlipCardPage" />
+      <flip-card v-if="showFlipCardPage" :userObj="userObj" />
       <q-dialog v-model="hitSkillLvlUp" style="width: 800px;">
       <q-card style="width: 800px; height: 500px;">
         <q-card-section>
