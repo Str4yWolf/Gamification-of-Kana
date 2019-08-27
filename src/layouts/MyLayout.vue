@@ -287,7 +287,7 @@ export default {
       hitSkillLvlUp: false,
       skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
-      achievements: ['level (1) - reached level 1.'],
+      achievements: [],
       // controls for timer
       showTimer: false,
       timeActual: 0,
@@ -470,6 +470,7 @@ export default {
       }
       this.hideAllComponents()
       this.showGeneralLearning = true
+      this.hitSkillLvlUp = true
     },
     hideGeneralLearning () {
       console.log('called hideGeneralLearning')

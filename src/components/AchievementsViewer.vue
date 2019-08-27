@@ -4,7 +4,7 @@
       <!-- header -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
-      <strong style="font-size: 120%;">Information</strong>
+      <strong style="font-size: 120%;">Achievements</strong>
       <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <!-- content -->
       <q-list bordered class="rounded-borders">
@@ -109,12 +109,6 @@
       >
         <q-card>
           <q-card-section>
-            <strong>Want to to</strong>
-            Achievements and its popup<br/>
-            Design<br/>
-            Separate modes<br/>
-            Add full tutorial and information in about page<br/>
-            Debugging<br/>
             <strong>Details / Debugging</strong><br />
             ...When changing scripts, WordCreator fails to update first letter of a word although prop is passed and relevant update function takes place after that. Change not evident in update function. <br />
             Revise finalExamWords (no skipping questions or so)<br />
@@ -123,20 +117,7 @@
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />
-            <strong>Requirements (9/10/2019)</strong><br />
-            (8) teach mapping at once <br />
-            (8) reduce mapping teaching to one script at a time (spread out)<br/>
-            (8) increase visual affordances and shorten tutorials / outsource to title<br />
-            (8) walk through design and redesign<br />
-            (16) clean up code<br />
-            (8) vue-fy/quasar-fy<br/>
-            (6) user study questionnaire/planning<br/>
-            (16) user study<br/>
-            (2) bugs <br/>
-            (80) <br />
-            (50 / 100) BA text<br/>
-            130/16 -> 8.125 h / day
-            (4) achievements
+            <strong>Requirements (8/27/2019)</strong><br />
             scalable SVGs<br />
             design<br />
             improve user flow<br />

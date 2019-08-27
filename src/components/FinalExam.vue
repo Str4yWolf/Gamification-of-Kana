@@ -211,8 +211,8 @@
         </span>
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
-      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR" />
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR"/>
+      <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" :key="refresh"/>
     <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
         <q-card-section>
@@ -318,6 +318,7 @@ export default {
   data () {
     return {
       // setup controllers
+      refresh: false,
       setupInProgress: true,
       setJapaneseHint: true,
       setManyouganaHighlight: true,
@@ -651,15 +652,17 @@ export default {
       this.wordKeysPool.splice(ri1, 1)
       this.currentKey = nextCharacter[0]
       this.script1 = nextCharacter[1]
+
+      this.refresh = !this.refresh
       // sample random word with current key
       var finalWordPool = finalExamWords[this.currentKey]
       var ri2 = Math.floor(Math.random() * finalWordPool.length)
       this.currentWord = finalWordPool[ri2]
-      if (this.numberQuestionsAnswered === 32) {
+      if (this.numberQuestionsAnswered === 0) {
         this.mode = 2
         this.$root.$emit('stopTimer')
         this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
-      } else if (this.numberQuestionsAnswered === 64) {
+      } else if (this.numberQuestionsAnswered === 1) {
         this.mode = 1
         this.$root.$emit('stopTimer')
         this.$root.$emit('setTimer', 80 + this.mode3Inkblots)

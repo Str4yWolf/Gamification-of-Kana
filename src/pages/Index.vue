@@ -5,7 +5,7 @@
       enter-active-class="animated bounceInRight"
       leave-active-class="animated fadeOut"
     >
-    <img class="background-logo" @click="$router.push('/Register/')" src="../statics/logo.png" alt="Manyougana Logo" width="50%" />
+    <img class="background-logo" @click="alert('Please click your avatar to view the menu.')" src="../statics/logo.png" alt="Manyougana Logo" width="50%" />
     </transition>
   </q-page>
 </template>

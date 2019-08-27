@@ -1,12 +1,14 @@
 <template>
   <span>
       <!-- Text display -->
+      We are getting out {{script}}. {{continueCreationCalled}} called times
       <span v-if="!showFeedbackMessage"> Please spell <strong>{{currentWordEng}}</strong> in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
       <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
         <span>
+          We are sending in {{slot1Image}}
           <character-flashcard :imgSrc="slot1Image" :showTitle="showFeedbackMessage" :background="slot1ImageBackground" />
         </span>
         <span>
@@ -78,6 +80,7 @@ export default {
   data () {
     return {
       // current params
+      continueCreationCalled: 0,
       currentWordEng: 'wolf',
       // control params
       currentIndex: 0,
@@ -391,14 +394,22 @@ export default {
         this.currentWordEng = this.currentWordFinal
       }
       this.$root.$emit('startTimer')
+      alert(this.script)
       this.continueCreation()
     },
     continueCreation () {
+      alert(this.script)
+      this.continueCreationCalled += 1
       console.log('Called continueCreation() in WordCreator; current script: ' + this.script)
+
       this.option1Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
       this.option2Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
       this.option3Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
       this.option4Image = this.$refs.WCOps.generateOption(this.currentLetter, this.script, true, true)[0]
+
+      console.log(this.option1Image)
+      console.log(this.option2Image)
+
       this.$refs.WCOps.clearCache()
       this.correctAnswer = Math.floor(Math.random() * 4) // let correct answer be one of 0,1,2,3
       if (this.currentIndex < this.currentWordLength) {

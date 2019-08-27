@@ -1,5 +1,6 @@
 <template>
   <q-card :style="background">
+    The source is {{this.imgSrc}}
     <div class="character-flashcard"
       style="
         height: 150px;
