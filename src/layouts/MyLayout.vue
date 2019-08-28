@@ -178,6 +178,7 @@ export default {
     this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
+    this.$root.$on('initializeGeneralLearningQuiz', this.initializeGeneralLearningQuiz)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
     this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
@@ -397,6 +398,10 @@ export default {
     hideGeneralLearning () {
       console.log('called hideGeneralLearning')
       this.showGeneralLearning = false
+    },
+    initializeGeneralLearningQuiz () {
+      this.hideGeneralLearning()
+      setTimeout(this.unhideGeneralLearning, 1)
     },
     unhideFinalExam () {
       if (this.isFinalExam) {

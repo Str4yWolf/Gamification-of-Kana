@@ -116,7 +116,12 @@
             Add full tutorial and information in about page<br/>
             Debugging<br/>
             <strong>Details / Debugging</strong><br />
-            Fix first question in Quest after introduction bug.<br/>
+            WordCreator remaining answer images bug.<br/>
+            Multiple Choice script delay (as in Word Creator)?<br/>
+            Multiple Choice same scripts in question and answer<br/>
+            WordReader highlight manyougana not updating<br/>
+            WordCreator highlight manyougana only updating in one case<br/>
+            Redesign question text colour scheme (word bold blue; script bold black)<br/>
             Revise finalExamWords (no skipping questions or so)<br />
             outsource highlight manyougana??<br />
             skill level up popup (use popupedit or so) <br />

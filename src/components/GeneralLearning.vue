@@ -29,7 +29,6 @@
         <!-- context dependent buttons -->
         <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
           <q-btn v-if="validationInProgress" color="green" label="Continue" @click="randomizeNextQuestion()" />
-          <q-btn v-if="!quizHasStarted" color="green" label="Continue" @click="randomizeNextQuestion()" />
         </span>
         <span v-if="activateWC">
           <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
@@ -386,6 +385,7 @@ export default {
       this.introFirstPage = true
       this.$q.notify('You have unlocked Multiple Choice Quiz for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
       this.$root.$emit('updateDatabase')
+      this.$root.$emit('initializeGeneralLearningQuiz')
     },
     randomizeNextQuestion () {
       console.log('called randomizeNextQuestion in GL')
