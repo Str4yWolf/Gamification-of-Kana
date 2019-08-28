@@ -290,7 +290,6 @@ export default {
       this.viewTutorial = true
       this.$root.$emit('updateDatabase')
     }
-    this.$q.notify(' ' + this.userObj.learningMode)
   },
   methods: {
     /**

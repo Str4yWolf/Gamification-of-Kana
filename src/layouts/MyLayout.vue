@@ -717,6 +717,7 @@ export default {
         this.userObj.skillLvl += 1
         this.$q.notify('Congratulations. You have reached skill level ' + this.userObj.skillLvl + '!')
         this.userObj.learningMode = 0
+        this.userObj.learningExp = 0
         if (this.userObj.skillLvl !== 9) {
           this.hitSkillLvlUp = true
         }
@@ -724,10 +725,11 @@ export default {
       }
     },
     /**
-    TBD
+    Change learning mode (how many different games will be included in Quest)
+    learning mode depends on how many experience points a user has gained within a skill level
     **/
     updateLearningMode () {
-      if (this.userObj.learningExp >= (20 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 1) {
+      if (this.userObj.learningExp >= (20 + (this.userObj.skillLvl * 4)) && this.userObj.learningMode === 1) {
         this.$q.notify('You have unlocked Word Creator for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
         this.userObj.learningMode = 2
       }

@@ -8,13 +8,24 @@
         <strong>{{flashcardSide}}</strong>
       </q-item-label>
       <!-- script display graphics -->
-      <character-flashcard :img-src="currentImage" :showTitle="true" :showScript="true" style="left:21px;" />
+      <!--
+      Transition TBD
+      <transition name="fade">
+        <character-flashcard v-if="!flipped" :img-src="currentLetters1[0]" :showTitle="true" :showScript="true" style="left:21px;" />
+      </transition>
+      <transition name="fade">
+        <character-flashcard v-if="flipped" :img-src="currentLetters2[0]" :showTitle="true" :showScript="true" style="left:21px;" />
+      </transition>
+      -->
+      <character-flashcard v-if="!flipped" :img-src="currentLetters1[0]" :showTitle="true" :showScript="true" style="left:21px;" />
+      <character-flashcard v-if="flipped" :img-src="currentLetters2[0]" :showTitle="true" :showScript="true" style="left:21px;" />
+      <!--<character-flashcard :img-src="currentImage" :showTitle="true" :showScript="true" style="left:21px;" />-->
       <!-- script display data -->
       <!-- flow simplification -->
       <!-- enabled: scripts: katakana, manyougana-katakana disabled scripts: hentaigana, hiragana -->
       <q-item-section>
-        <q-input v-model="letter" @input="updateFlashcard()" v-on:keyup.enter="flipCardOver()" label="Current Letter" />
-        <q-btn class="top-left" id="flip" style="margin: 10px 0px 5px 0px;" color="primary" label="Flip" @click="flipCardOver()" />
+        <q-input v-model="letter" @input="updateFlashcard()" v-on:keyup.enter="manualFlip()" label="Current Letter" />
+        <q-btn class="top-left" id="flip" style="margin: 10px 0px 5px 0px;" color="primary" label="Flip" @click="manualFlip()" :disabled="autoflip" />
         <q-btn class="top-left" style="margin: 0px 0px 5px 0px;" color="green" label="Next" @click="getNextLetter()" />
       </q-item-section>
       <q-expansion-item
@@ -23,7 +34,7 @@
           label="Customize"
           v-model="showOptions"
        >
-        <q-item-section v-on:keyup.enter="flipCardOver()">
+        <q-item-section>
           <span v-if="!isTutorial">
             <q-select v-model="script1" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Front" />
             <q-select v-model="script2" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Back" />
@@ -34,6 +45,12 @@
             color="red"
             label="Highlight Manyougana"
             @input="updateFlashcard()"
+          />
+          <q-toggle
+            v-model="autoflip"
+            color="blue"
+            label="Auto-Flip"
+            @input="timedFlip()"
           />
           <q-toggle
             v-model="randomizedNextLetter"
@@ -68,16 +85,16 @@ export default {
   },
   data () {
     return {
-      letter: '',
+      letter: 'a',
       currentLetters1: ['../statics/svg/manyougana-katakana/manyougana-katakana_letter_a.svg'],
       currentLetters2: ['../statics/svg/katakana/katakana_letter_a.svg'],
       script1: 'manyougana-katakana',
       script2: 'katakana',
-      currentImage: '../statics/grey.png',
-      flipped: false,
+      flipped: true,
       currentKeyIndex: 0,
-      randomizedNextLetter: false,
       highlightManyougana: false,
+      autoflip: false,
+      randomizedNextLetter: false,
       showOptions: false
     }
   },
@@ -109,9 +126,9 @@ export default {
     },
     pageStyle () {
       if (this.showOptions && !this.isTutorial) {
-        return 'width: 256px; height: 660px; padding: 30px;'
+        return 'width: 256px; height: 680px; padding: 30px;'
       } else if (this.showOptions && this.isTutorial) {
-        return 'width: 256px; height: 550px; padding: 30px;'
+        return 'width: 256px; height: 570px; padding: 30px;'
       } else {
         return 'width: 256px; height: 440px; padding: 30px;'
       }
@@ -123,6 +140,7 @@ export default {
       this.viewTutorial = true
       this.$root.$emit('updateDatabase')
     }
+    this.flipCardOver()
   },
   methods: {
     updateFlashcard () {
@@ -137,11 +155,6 @@ export default {
       } else {
         this.currentLetters2 = this.$refs.IndexOps.getLetters(this.letter, this.script2)
       }
-      if (this.flipped) {
-        this.currentImage = this.currentLetters2[0]
-      } else {
-        this.currentImage = this.currentLetters1[0]
-      }
     },
     flipCardOver () {
       if (this.flipped) {
@@ -150,6 +163,23 @@ export default {
         this.currentImage = this.currentLetters2[0]
       }
       this.flipped = !this.flipped
+      this.timedFlip()
+    },
+    /**
+    Flip card over after 5 seconds
+    Active when autoflip is engaged
+    **/
+    timedFlip () {
+      if (this.autoflip) {
+        setTimeout(this.flipCardOver, 5000)
+      }
+    },
+    /**
+    Manually flip card.
+    **/
+    manualFlip () {
+      clearTimeout()
+      this.flipCardOver()
     },
     /**
     Get the desired next letter
