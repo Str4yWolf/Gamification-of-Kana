@@ -11,7 +11,7 @@
         <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         <!-- script selection -->
         <span style="padding: 0px 20px 0px 40px;">
-          <q-select v-model="script" :options="['hentaigana', 'hiragana', 'katakana', 'manyougana-katakana', 'manyougana-katakana-c']" label="Script" style="width:200px;" />
+          <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
         </span>
         <!-- Control buttons -->
         <span style="padding: 15px;">
@@ -57,7 +57,7 @@ export default {
   data () {
     return {
       // current params
-      script: 'katakana',
+      script: this.userObj.currentMapping[0],
       questionInProgress: false,
       //
       viewTutorial: false

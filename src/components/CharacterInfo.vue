@@ -25,8 +25,8 @@ export default {
       background: 'background-color: #ffffff;',
       backgroundSelected1: 'background-color: #d8f8f2;',
       backgroundSelected2: 'background-color: #ebfbf4;',
-      script1: 'katakana',
-      script2: 'manyougana-katakana',
+      script1: 'manyougana-katakana',
+      script2: 'katakana',
       selected: false
     }
   },

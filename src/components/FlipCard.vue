@@ -36,8 +36,8 @@
        >
         <q-item-section>
           <span v-if="!isTutorial">
-            <q-select v-model="script1" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Front" />
-            <q-select v-model="script2" @input="updateFlashcard()" :options="['katakana', 'manyougana-katakana']" label="Back" />
+            <q-select v-model="script1" @input="updateFlashcard()" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Front" />
+            <q-select v-model="script2" @input="updateFlashcard()" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Back" />
           </span>
           <span style="position: relative; padding: 10px;"/>
           <q-toggle
@@ -88,8 +88,8 @@ export default {
       letter: 'a',
       currentLetters1: ['../statics/svg/manyougana-katakana/manyougana-katakana_letter_a.svg'],
       currentLetters2: ['../statics/svg/katakana/katakana_letter_a.svg'],
-      script1: 'manyougana-katakana',
-      script2: 'katakana',
+      script1: this.userObj.currentMapping[0],
+      script2: this.userObj.currentMapping[1],
       flipped: true,
       currentKeyIndex: 0,
       highlightManyougana: false,

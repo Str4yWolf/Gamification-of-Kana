@@ -20,10 +20,10 @@
       <span class="row">
         <!-- script selection -->
         <span>
-          <q-select v-if="!quizHasStarted" v-model="script1" :options="['katakana', 'manyougana-katakana']" label="Script1" style="width:200px;" />
+          <q-select v-if="!quizHasStarted" v-model="script1" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script1" style="width:200px;" />
         </span>
         <span>
-          <q-select v-if="!quizHasStarted" v-model="script2" :options="['katakana', 'manyougana-katakana']" label="Script2" style="width:200px;" />
+          <q-select v-if="!quizHasStarted" v-model="script2" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script2" style="width:200px;" />
         </span>
         <!-- number of questions slider -->
         <span style="padding:10px;" v-if="!quizHasStarted">
@@ -91,8 +91,8 @@ export default {
       validationInProgress: false,
       highlightManyougana: false,
       // script-related
-      script1: 'katakana',
-      script2: 'manyougana-katakana',
+      script1: this.userObj.currentMapping[0],
+      script2: this.userObj.currentMapping[1],
       // quiz controllers
       quizLength: 3,
       numberQuestionsAnswered: 0,

@@ -29,7 +29,9 @@ export default {
     scriptToData (script) {
       var database = {}
       console.log('highlightManyougana: ' + this.highlightManyougana)
-      if (script === 'hentaigana') {
+      if (script === 'romaji') {
+        database = katakana
+      } else if (script === 'hentaigana') {
         database = hentaigana
       } else if (script === 'hiragana') {
         database = hiragana
@@ -80,8 +82,9 @@ export default {
       console.log('called getLetters(' + letter + ', ' + script + ') from LetterOperations')
       var suffixes = this.scriptToData(scriptIn)[letter] // get suffixes of given letter and script
       var paths = []
+      var fileFormat = ((script === 'romaji') ? '.png' : '.svg')
       // construct an svg image path from each suffix
-      suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + '.svg'))
+      suffixes.forEach(suffix => paths.push('../statics/svg/' + script + '/' + script + '_letter_' + letter + suffix + fileFormat))
       return paths
     },
     /**

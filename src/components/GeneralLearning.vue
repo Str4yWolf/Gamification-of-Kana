@@ -181,8 +181,9 @@ export default {
       highlightManyougana: false,
       highlight: false,
       // script-related
-      script1: 'katakana',
-      scripts: ['katakana', 'manyougana-katakana'],
+      script1: this.userObj.currentMapping[0],
+      script2: this.userObj.currentMapping[1],
+      scripts: this.userObj.currentMapping,
       // quiz controllers
       mode: 0,
       disableOptions: true,
@@ -194,13 +195,6 @@ export default {
     }
   },
   computed: {
-    script2 () {
-      if (this.script1 === 'katakana') {
-        return 'manyougana-katakana'
-      } else {
-        return 'katakana'
-      }
-    },
     activateMCQ () {
       return this.mode === 0 && this.userObj.learningMode !== 0
     },

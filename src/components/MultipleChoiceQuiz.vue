@@ -49,11 +49,14 @@ export default {
       // script-related
       currentKey: '',
       // convert script to its number code as used in script-to-script maps
-      scriptIndex: { 'hentaigana': '1',
-        'hiragana': '2',
-        'katakana': '3',
-        'manyougana-katakana': '5',
-        'manyougana-katakana-c': '5' },
+      scriptIndex: {
+        'romaji': '0',
+        'katakana': '1',
+        'manyougana-katakana': '2',
+        'manyougana-katakana-c': '2',
+        'hiragana': '3',
+        'hentaigana': '4'
+      },
       // quiz controllers
       numberQuestionsAnswered: 0,
       questionsAnsweredCorrectly: 0,

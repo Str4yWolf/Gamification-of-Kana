@@ -120,6 +120,7 @@
       <word-reader-interface :userObj="userObj" v-if="showWordReaderPage" />
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
       <final-exam :userObj="userObj" v-if="showFinalExamPage" />
+      <mapping-setup :userObj="userObj" v-if="showMappingSetupPage" />
       <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
       <q-dialog v-model="hitSkillLvlUp">
       <q-card>
@@ -151,6 +152,7 @@ import WordCreatorInterface from '../components/WordCreatorInterface.vue'
 import WordReaderInterface from '../components/WordReaderInterface.vue'
 import GeneralLearning from '../components/GeneralLearning.vue'
 import FinalExam from '../components/FinalExam.vue'
+import MappingSetup from '../components/MappingSetup.vue'
 
 export default {
   name: 'MyLayout',
@@ -160,7 +162,8 @@ export default {
     WordCreatorInterface,
     WordReaderInterface,
     GeneralLearning,
-    FinalExam
+    FinalExam,
+    MappingSetup
   },
   created () {
     // listen to event calls from elsewhere
@@ -188,6 +191,7 @@ export default {
     this.$root.$on('stopTimer', this.stopTimer)
     this.$root.$on('setShowTimer', this.setShowTimer)
     this.$root.$on('setIsFinalExam', this.setIsFinalExam)
+    this.$root.$on('setNewMapping', this.setNewMapping)
   },
   data () {
     return {
@@ -198,6 +202,7 @@ export default {
       showWordReader: false,
       showGeneralLearning: false,
       showFinalExam: false,
+      showMappingSetup: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -272,8 +277,11 @@ export default {
     showFinalExamPage () {
       return (this.$route.path === '/' && this.showFinalExam)
     },
+    showMappingSetupPage () {
+      return (this.$route.path === '/' && this.showMappingSetup)
+    },
     showRouterPage () {
-      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage)
+      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage || this.showMappingSetupPage)
     },
     skillLvl0 () {
       return this.userObj.skillLvl === 0
@@ -414,6 +422,14 @@ export default {
       this.hideAllComponents()
       this.showFinalExam = true
     },
+    hideMappingSetup () {
+      this.showMappingSetup = false
+    },
+    unhideMappingSetup () {
+      console.log('called unhideMappingSetup() from Layout')
+      this.hideAllComponents()
+      this.showMappingSetup = true
+    },
     hideFinalExam () {
       this.showFinalExam = false
     },
@@ -500,7 +516,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -519,15 +535,25 @@ export default {
         alert('The name ' + name + ' has already been registered. Please try a different name.')
       } else {
         alert('Registration successful.')
-        this.showAvatar = true
         this.showSignInBtn = false
         this.showSignInField = false
         this.showRegisterBtn = false
         this.username = name
         this.userObj = this.initializeUserObj()
-        this.$router.push('../')
+        this.unhideMappingSetup()
         this.updateDatabase()
       }
+    },
+    /**
+    Sets a new mapping
+    **/
+    setNewMapping () {
+      this.userObj.skillLvl = 0
+      this.userObj.skillExp = 0
+      this.userObj.learningMode = 0
+      this.showAvatar = true
+      this.hideMappingSetup()
+      this.updateDatabase()
     },
     /**
     Logs out a user by adjusting display and resetting currently loaded user data.
@@ -546,7 +572,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.

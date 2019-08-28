@@ -334,8 +334,8 @@ export default {
       validationInProgress: false,
       highlightManyougana: false,
       // script-related
-      script1: 'katakana',
-      scripts: ['katakana', 'manyougana-katakana'],
+      script1: this.userObj.currentMapping[0],
+      scripts: this.userObj.currentMapping,
       // quiz controllers
       mode: 0,
       disableOptions: true,

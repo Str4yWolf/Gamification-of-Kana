@@ -71,6 +71,8 @@ export default {
       if (this.showTitle) {
         if (this.imgSrc === '../statics/grey.png') { // no letter input
           return ''
+        } else if (this.isRomaji) { // PNG images contain romaji only at the moment
+          return ''
         } else {
           return this.imgSrc.split('/').reverse()[0].split('_letter_')[1]
         }
@@ -101,6 +103,9 @@ export default {
     },
     imgSrcSVG () {
       return this.imgSrcComp + '#svgView(viewbox(0 0 100 100))"'
+    },
+    isRomaji () {
+      return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
     }
   }
 }
