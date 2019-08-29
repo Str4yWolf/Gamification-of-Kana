@@ -153,13 +153,13 @@ export default {
     **/
     updateHighlight () {
       console.log('called updateHighlight() from WordCreator')
-      this.$refs.WCOps.toggleHighlight()
+      // this.$refs.WROps.toggleHighlight()
       if (this.script === 'manyougana-katakana') {
-        this.slot1Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
-        this.slot2Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot2Image), 'manyougana-katakana')[0]
-        this.slot3Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot3Image), 'manyougana-katakana')[0]
-        this.slot4Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot4Image), 'manyougana-katakana')[0]
-        this.slot5Image = this.$refs.WROPS.getLetters(this.$refs.WROps.getLetterFromPath(this.slot5Image), 'manyougana-katakana')[0]
+        this.slot1Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
+        this.slot2Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot2Image), 'manyougana-katakana')[0]
+        this.slot3Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot3Image), 'manyougana-katakana')[0]
+        this.slot4Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot4Image), 'manyougana-katakana')[0]
+        this.slot5Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot5Image), 'manyougana-katakana')[0]
       }
     },
     generateQuestion () {

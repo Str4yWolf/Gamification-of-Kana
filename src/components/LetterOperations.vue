@@ -61,6 +61,9 @@ export default {
     **/
     getLetterFromPath (path) {
       console.log('called getLetterFromPath(' + path + ')')
+      if (path === '../statics/grey.png' || path === undefined) {
+        return ''
+      }
       var temp = path.split('/').reverse()[0].split('_letter_')[1].split('.')[0]
       console.log('temp: ' + temp)
       if (temp === undefined) {

@@ -21,6 +21,7 @@
             v-model="highlightManyougana"
             color="red"
             label="Highlight Manyougana"
+            @input="updateHighlight()"
           />
           &nbsp;
           <q-toggle
@@ -41,6 +42,7 @@
             v-model="highlightManyougana"
             color="red"
             label="Highlight Manyougana"
+            @input="updateHighlight()"
           />
           &nbsp;
           <!-- show Japanese toggle -->
@@ -53,7 +55,7 @@
       </span>
   <br v-if="!enableMultipleScripts"/>
   <br/>
-  <word-creator :userObj="userObj" :script="script" :showJapanese="showJapanese" ref="InterfaceWC" />
+  <word-creator :userObj="userObj" :script="script" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" ref="InterfaceWC" />
   <q-dialog v-model="viewTutorial">
     <q-card style="width: 600px;">
       <q-card-section>
@@ -98,7 +100,8 @@ export default {
       showJapanese: false,
       //
       viewTutorial: false,
-      enableMultipleScripts: false
+      enableMultipleScripts: false,
+      highlightManyougana: false
     }
   },
   computed: {
@@ -162,6 +165,9 @@ export default {
     enter () {
       this.disableOptions = true
       this.$refs.InterfaceWC.endCreation()
+    },
+    updateHighlight () {
+      setTimeout(this.$refs.InterfaceWC.updateHighlight, 1)
     }
   }
 }

@@ -41,6 +41,7 @@
           </span>
           <span style="position: relative; padding: 10px;"/>
           <q-toggle
+            v-if="mappingHasManyougana"
             v-model="highlightManyougana"
             color="red"
             label="Highlight Manyougana"
@@ -86,8 +87,8 @@ export default {
   data () {
     return {
       letter: 'a',
-      currentLetters1: ['../statics/svg/manyougana-katakana/manyougana-katakana_letter_a.svg'],
-      currentLetters2: ['../statics/svg/katakana/katakana_letter_a.svg'],
+      currentLetters1: [''],
+      currentLetters2: [''],
       script1: this.userObj.currentMapping[0],
       script2: this.userObj.currentMapping[1],
       flipped: true,
@@ -125,12 +126,23 @@ export default {
       }
     },
     pageStyle () {
-      if (this.showOptions && !this.isTutorial) {
+      if (this.showOptions && !this.isTutorial && this.mappingHasManyougana) {
         return 'width: 256px; height: 680px; padding: 30px;'
-      } else if (this.showOptions && this.isTutorial) {
+      } else if (this.showOptions && !this.isTutorial && !this.mappingHasManyougana) {
+        return 'width: 256px; height: 645px; padding: 30px;'
+      } else if (this.showOptions && this.isTutorial && this.mappingHasManyougana) {
         return 'width: 256px; height: 570px; padding: 30px;'
+      } else if (this.showOptions && this.isTutorial && !this.mappingHasManyougana) {
+        return 'width: 256px; height: 535px; padding: 30px;'
       } else {
         return 'width: 256px; height: 440px; padding: 30px;'
+      }
+    },
+    mappingHasManyougana () {
+      if (this.script1.split('-')[0] === 'manyougana' || this.script2.split('-')[0] === 'manyougana') {
+        return true
+      } else {
+        return false
       }
     }
   },
@@ -140,6 +152,7 @@ export default {
       this.viewTutorial = true
       this.$root.$emit('updateDatabase')
     }
+    this.updateFlashcard()
     this.flipCardOver()
   },
   methods: {

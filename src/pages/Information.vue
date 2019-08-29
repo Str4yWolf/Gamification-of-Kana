@@ -116,10 +116,7 @@
             Debugging<br/>
             <strong>Details / Debugging</strong><br />
             Revise Multiple Choice in Individual Tools<br/>
-            WordReader highlight manyougana not updating<br/>
-            WordCreator highlight manyougana only updating in one case<br/>
             Revise finalExamWords (no skipping questions or so)<br />
-            skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />

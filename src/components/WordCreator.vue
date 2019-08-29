@@ -374,22 +374,22 @@ export default {
     **/
     updateHighlight () {
       console.log('called updateHighlight() from WordCreator')
-      this.$refs.WCOps.toggleHighlight()
+      // this.$refs.WCOps.toggleHighlight()
       if (this.script === 'manyougana-katakana') {
         this.option1Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.option1Image), 'manyougana-katakana')[0]
         this.option2Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.option2Image), 'manyougana-katakana')[0]
         this.option3Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.option3Image), 'manyougana-katakana')[0]
         this.option4Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.option4Image), 'manyougana-katakana')[0]
-        this.slot1Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
-        this.slot2Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot2Image), 'manyougana-katakana')[0]
-        this.slot3Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot3Image), 'manyougana-katakana')[0]
-        this.slot4Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot4Image), 'manyougana-katakana')[0]
-        this.slot5Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot5Image), 'manyougana-katakana')[0]
-        this.answer1Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer1Image), 'manyougana-katakana')[0]
-        this.answer2Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer2Image), 'manyougana-katakana')[0]
-        this.answer3Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer3Image), 'manyougana-katakana')[0]
-        this.answer4Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer4Image), 'manyougana-katakana')[0]
-        this.answer5Image = this.$refs.WCOPS.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer5Image), 'manyougana-katakana')[0]
+        this.slot1Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
+        this.slot2Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot2Image), 'manyougana-katakana')[0]
+        this.slot3Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot3Image), 'manyougana-katakana')[0]
+        this.slot4Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot4Image), 'manyougana-katakana')[0]
+        this.slot5Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.slot5Image), 'manyougana-katakana')[0]
+        this.answer1Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer1Image), 'manyougana-katakana')[0]
+        this.answer2Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer2Image), 'manyougana-katakana')[0]
+        this.answer3Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer3Image), 'manyougana-katakana')[0]
+        this.answer4Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer4Image), 'manyougana-katakana')[0]
+        this.answer5Image = this.$refs.WCOps.getLetters(this.$refs.WCOps.getLetterFromPath(this.answer5Image), 'manyougana-katakana')[0]
       }
     },
     setNewCreation () {

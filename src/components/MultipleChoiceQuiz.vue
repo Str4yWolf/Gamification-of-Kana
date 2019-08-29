@@ -148,12 +148,12 @@ export default {
     **/
     updateHighlight () {
       console.log('called updateHighlight() from MultipleChoiceQuiz')
-      this.$refs.MCQOps.toggleHighlight()
+      // this.$refs.MCQOps.toggleHighlight()
       if (this.script1 === 'manyougana-katakana') {
         this.questionImage = this.$refs.MCQOps.getLetters(this.currentKey, 'manyougana-katakana')[0]
       } else {
         console.log(this.option1Image)
-        console.log(this.getLetterFromPath(this.option1Image))
+        console.log(this.$refs.MCQOps.getLetterFromPath(this.option1Image))
         this.option1Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option1Image), 'manyougana-katakana')[0]
         console.log(this.option1Image)
         this.option2Image = this.$refs.MCQOps.getLetters(this.$refs.MCQOps.getLetterFromPath(this.option2Image), 'manyougana-katakana')[0]

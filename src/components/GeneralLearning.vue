@@ -364,9 +364,22 @@ export default {
       }
     },
     updateHighlights () {
-      this.$refs.GeneralLearningMCQ.updateHighlight()
-      this.$refs.GeneralLearningWC.updateHighlight()
-      this.$refs.GeneralLearningWR.updateHighlight()
+      /**
+      switch (this.mode) {
+        case 1:
+          this.$refs.GeneralLearningMCQ.updateHighlight()
+          break
+        case 2:
+          this.$refs.GeneralLearningWR.updateHighlight()
+          break
+        case 3:
+          this.$refs.GeneralLearningWC.updateHighlight()
+          break
+      }
+      **/
+      setTimeout(this.$refs.GeneralLearningMCQ.updateHighlight, 1)
+      setTimeout(this.$refs.GeneralLearningWR.updateHighlight, 1)
+      setTimeout(this.$refs.GeneralLearningWC.updateHighlight, 1)
     },
     startQuiz () {
       this.$refs.GeneralLearningMCQ.continueQuiz()

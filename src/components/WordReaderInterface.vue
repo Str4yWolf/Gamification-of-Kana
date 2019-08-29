@@ -13,14 +13,23 @@
         <span v-if="enableMultipleScripts" style="padding: 0px 20px 0px 40px;">
           <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
         </span>
+        <!-- manyougana highlight toggle -->
+        <q-toggle
+          v-if="isManyougana"
+          style="position: absolute; top: 30px; right: 190px;"
+          v-model="highlightManyougana"
+          color="red"
+          label="Highlight Manyougana"
+          @input="updateHighlight()"
+        />
         <!-- Control buttons -->
-        <span style="position: absolute; top: 25px; right: 30px; padding: 15px;">
+        <span style="position: absolute; top: 18px; right: 30px; padding: 15px;">
           <q-btn v-if="!questionInProgress" color="green" label="New Word" title="Get new word (Enter)" @click="newQuestion()" />
           <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolution()" />
         </span>
       </span>
     <br/>
-    <word-reader :userObj="userObj" :script="script" ref="InterfaceWR" />
+    <word-reader :userObj="userObj" :script="script" :highlightManyougana="highlightManyougana" ref="InterfaceWR" />
     <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
         <q-card-section>
@@ -62,10 +71,14 @@ export default {
       questionInProgress: false,
       //
       viewTutorial: false,
-      enableMultipleScripts: false
+      enableMultipleScripts: false,
+      highlightManyougana: false
     }
   },
   computed: {
+    isManyougana () {
+      return this.script.split('-')[0] === 'manyougana'
+    }
   },
   props: {
     userObj: Object
@@ -110,6 +123,9 @@ export default {
     enterSolution () {
       this.questionInProgress = false
       this.$refs.InterfaceWR.validateSolution()
+    },
+    updateHighlight () {
+      setTimeout(this.$refs.InterfaceWR.updateHighlight, 1)
     }
   }
 }

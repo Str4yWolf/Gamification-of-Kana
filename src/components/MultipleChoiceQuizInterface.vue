@@ -14,7 +14,7 @@
         v-model="highlightManyougana"
         color="red"
         label="Highlight Manyougana"
-        @input="$refs.InterfaceMCQ.updateHighlight()"
+        @input="updateHighlight()"
       />
       <!-- parameters panel -->
       <span class="row">
@@ -178,6 +178,9 @@ export default {
     },
     setValidationInProgress (x) {
       this.validationInProgress = x
+    },
+    updateHighlight () {
+      setTimeout(this.$refs.InterfaceMCQ.updateHighlight, 1)
     }
   }
 }
