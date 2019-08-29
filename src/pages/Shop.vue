@@ -5,6 +5,31 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
       <strong style="font-size: 120%;">Shop</strong>
+      <br/>
+      <br/>
+      <br/>
+      &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+      <strong>Currently out of stock.</strong>
+    </q-card>
+  </q-page>
+</template>
+
+<script>
+export default {
+  // name: 'PageName',
+  data () {
+    return {
+      number: 0,
+      viewTutorial: false
+    }
+  },
+  methods: {
+    getExamTickets () {
+      this.$root.$emit('getExamTickets', this.number, true)
+    }
+  }
+}
+/**
       <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <!-- content -->
       <q-item-section>
@@ -45,24 +70,7 @@
         </q-card-section>
       </q-card>
     </q-dialog>
-  </q-page>
-</template>
-
-<script>
-export default {
-  // name: 'PageName',
-  data () {
-    return {
-      number: 0,
-      viewTutorial: false
-    }
-  },
-  methods: {
-    getExamTickets () {
-      this.$root.$emit('getExamTickets', this.number, true)
-    }
-  }
-}
+**/
 </script>
 
 <style>

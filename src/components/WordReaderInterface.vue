@@ -10,7 +10,7 @@
         </span>
         <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         <!-- script selection -->
-        <span v-if="enableMultipleScripts" style="padding: 0px 20px 0px 40px;">
+        <span v-if="enableMultipleScripts" style="position: absolute; top: 23px; left: 200px; padding: 0px 20px 0px 20px;">
           <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
         </span>
         <!-- manyougana highlight toggle -->

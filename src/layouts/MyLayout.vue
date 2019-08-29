@@ -76,11 +76,8 @@
                 </q-menu>
                 <!-- submenu end -->
               </q-item>
-              <q-item @click="showGojuuon()" clickable>
+              <q-item @click="unhideCharacterReference()" clickable>
                 <q-item-section>Character Reference</q-item-section>
-              </q-item>
-              <q-item @click="showShop()" clickable>
-                <q-item-section>Shop</q-item-section>
               </q-item>
               <q-item @click="unhideFinalExam()" clickable>
                 <q-item-section>Take Final Exam</q-item-section>
@@ -121,6 +118,7 @@
       <general-learning :userObj="userObj" v-if="showGeneralLearningPage" />
       <final-exam :userObj="userObj" v-if="showFinalExamPage" />
       <mapping-setup :userObj="userObj" v-if="showMappingSetupPage" />
+      <character-reference :userObj="userObj" v-if="showCharacterReferencePage" />
       <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
       <q-dialog v-model="hitSkillLvlUp">
       <q-card>
@@ -153,6 +151,7 @@ import WordReaderInterface from '../components/WordReaderInterface.vue'
 import GeneralLearning from '../components/GeneralLearning.vue'
 import FinalExam from '../components/FinalExam.vue'
 import MappingSetup from '../components/MappingSetup.vue'
+import CharacterReference from '../components/CharacterReference.vue'
 
 export default {
   name: 'MyLayout',
@@ -163,7 +162,8 @@ export default {
     WordReaderInterface,
     GeneralLearning,
     FinalExam,
-    MappingSetup
+    MappingSetup,
+    CharacterReference
   },
   created () {
     // listen to event calls from elsewhere
@@ -182,6 +182,7 @@ export default {
     this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
     this.$root.$on('initializeGeneralLearningQuiz', this.initializeGeneralLearningQuiz)
+    this.$root.$on('hideCharacterReference', this.hideCharacterReference)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
     this.$root.$on('getExamTickets', this.getExamTickets)
     this.$root.$on('updateNumberQuestions', this.updateNumberQuestions)
@@ -203,6 +204,7 @@ export default {
       showGeneralLearning: false,
       showFinalExam: false,
       showMappingSetup: false,
+      showCharacterReference: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -280,8 +282,11 @@ export default {
     showMappingSetupPage () {
       return (this.$route.path === '/' && this.showMappingSetup)
     },
+    showCharacterReferencePage () {
+      return (this.$route.path === '/' && this.showCharacterReference)
+    },
     showRouterPage () {
-      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage || this.showMappingSetupPage)
+      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage || this.showMappingSetupPage || this.showCharacterReferencePage)
     },
     skillLvl0 () {
       return this.userObj.skillLvl === 0
@@ -430,6 +435,13 @@ export default {
       this.hideAllComponents()
       this.showMappingSetup = true
     },
+    hideCharacterReference () {
+      this.showCharacterReference = false
+    },
+    unhideCharacterReference () {
+      this.hideAllComponents()
+      this.showCharacterReference = true
+    },
     hideFinalExam () {
       this.showFinalExam = false
     },
@@ -440,6 +452,7 @@ export default {
       this.showWordReader = false
       this.showGeneralLearning = false
       this.showFinalExam = false
+      this.showCharacterReference = false
       this.$router.push('/')
     },
     unhideSignInField () {

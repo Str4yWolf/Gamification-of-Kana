@@ -9,16 +9,19 @@
         <character-flashcard :imgSrc="image2" :showTitle="true" :background="backgroundSelected2" :showScript="true" />
       </span>
     </span>
+    <letter-operations :highlightManyougana="false" :skillLevel="9" ref="a" />
   </span>
 </template>
 
 <script>
 import CharacterFlashcard from '../components/CharacterFlashcard.vue'
+import LetterOperations from '../components/LetterOperations.vue'
 
 export default {
   // name: 'PageName',
   components: {
-    CharacterFlashcard
+    CharacterFlashcard,
+    LetterOperations
   },
   data () {
     return {
@@ -33,44 +36,36 @@ export default {
   props: {
     letter: String,
     highlight: Boolean,
-    sourceScript: String
+    sourceScript: String,
+    scripts: Array
   },
   mounted () {
   },
   computed: {
-    imageSrc () {
-      if (this.letter === '') {
-        return '../statics/grey.png'
-      } else {
-        if (this.sourceScript === 'manyougana-katakana' && this.highlight) {
-          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
-        } else {
-          return '../statics/svg/' + this.sourceScript + '/' + this.sourceScript + '_letter_' + this.letter + '.svg'
-        }
-      }
+    imgSrc () {
+      var fileFormat = ((this.sourceScript === 'romaji') ? '.png' : '.svg')
+      return ('../statics/svg/' + this.script + '/' + this.script + '_letter_' + this.letter + fileFormat)
     },
     image1 () {
-      if (this.letter === '') {
-        return '../statics/grey.png'
-      } else {
-        if (this.script1 === 'manyougana-katakana' && this.highlight) {
-          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
-        } else {
-          return '../statics/svg/' + this.script1 + '/' + this.script1 + '_letter_' + this.letter + '.svg'
-        }
-      }
+      var fileFormat = ((this.scripts[0] === 'romaji') ? '.png' : '.svg')
+      return ('../statics/svg/' + this.script[0] + '/' + this.script[0] + '_letter_' + this.letter + fileFormat)
     },
     image2 () {
-      if (this.letter === '') {
-        return '../statics/grey.png'
-      } else {
-        if (this.script2 === 'manyougana-katakana' && this.highlight) {
-          return '../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg'
-        } else {
-          return '../statics/svg/' + this.script2 + '/' + this.script2 + '_letter_' + this.letter + '.svg'
-        }
-      }
+      var fileFormat = ((this.script[1] === 'romaji') ? '.png' : '.svg')
+      return ('../statics/svg/' + this.script[1] + '/' + this.script[1] + '_letter_' + this.letter + fileFormat)
     },
+    /**
+    component hasn't been rendered yet
+    imageSrc () {
+      return this.$refs.a.getLetters(this.letter, this.sourceScript)[0]
+    },
+    image1 () {
+      return this.$refs.a.getLetters(this.letter, this.scripts[0])[0]
+    },
+    image2 () {
+      return this.$refs.a.getLetters(this.letter, this.scripts[1])[0]
+    },
+    **/
     letterIsEmpty () {
       return this.letter === ''
     },

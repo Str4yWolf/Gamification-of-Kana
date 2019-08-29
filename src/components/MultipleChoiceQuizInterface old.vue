@@ -1,11 +1,11 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card style="width: 800px; height: 540px; padding: 30px;">
+    <q-card style="width: 800px; padding: 30px;">
       <!-- header -->
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideMultipleChoiceQuiz')" />
       &nbsp;
-      <strong style="font-size: 120%;">Multiple Choice</strong>
+      <strong style="font-size: 120%;">Multiple Choice ({{numberQuestionsAnswered}}/{{quizLength}})</strong>
       <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       &nbsp;
       &nbsp;
@@ -16,31 +16,37 @@
         label="Highlight Manyougana"
         @input="updateHighlight()"
       />
-      <!-- customization panel  -->
-      <q-expansion-item
-        style="position: absolute; top: 30px; right: 150px;"
-        expand-separator
-        icon="settings"
-        label="Customize"
-        v-model="showOptions"
-        >
+      <!-- parameters panel -->
+      <span class="row">
         <!-- script selection -->
-        <span style="position: absolute; top: 0px; right: 110px;">
-          <q-select v-model="script1" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script1" style="width:200px;" @input="updateScriptSelection1()" />
+        <span>
+          <q-select v-if="!quizHasStarted" v-model="script1" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script1" style="width:200px;" />
         </span>
-        <span style="position: absolute; top: 0px; right: -100px;">
-          <q-select v-model="script2" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script2" style="width:200px;" @input="updateScriptSelection2()" />
+        <span>
+          <q-select v-if="!quizHasStarted" v-model="script2" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script2" style="width:200px;" />
         </span>
-    </q-expansion-item>
-      <!-- context dependent buttons -->
-      <span style="padding-left:10px; position: absolute; top: 40px; right: 50px;">
-        <q-btn v-if="!quizHasStarted" color="green" label="Start" @click="startQuiz()" />
-        <q-btn v-if="quizHasStarted" color="green" label="Enter" @click="$refs.InterfaceMCQ.continueQuiz()" :disabled="!validationInProgress" />
+        <!-- number of questions slider -->
+        <span style="padding:10px;" v-if="!quizHasStarted">
+          <strong>Questions: </strong>
+        </span>
+        <span v-if="!quizHasStarted">
+          <q-slider
+            v-model="quizLength"
+            :min="3"
+            :max="20"
+            :step="1"
+            label-always
+            color="light-green"
+            style="width: 120px;"
+          />
+        </span>
+        <!-- context dependent buttons -->
+        <span style="padding-left:10px; position: absolute; left: 640px;">
+          <q-btn v-if="!quizHasStarted" color="green" label="Start" @click="startQuiz()" />
+          <q-btn v-if="quizHasStarted" color="green" label="Enter" @click="$refs.InterfaceMCQ.continueQuiz()" :disabled="!validationInProgress" />
+        </span>
       </span>
-      <br/>
-      <br/>
-      <br/>
-      <multiple-choice-quiz :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="InterfaceMCQ" />
+      <multiple-choice-quiz :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="quizLength" :singleQuestion="false" ref="InterfaceMCQ" />
       <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
         <q-card-section>
@@ -175,21 +181,6 @@ export default {
     },
     updateHighlight () {
       setTimeout(this.$refs.InterfaceMCQ.updateHighlight, 1)
-    },
-    // make sure scripts are never the same
-    updateScriptSelection1 () {
-      if (this.script1 === this.userObj.currentMapping[0]) {
-        this.script2 = this.userObj.currentMapping[1]
-      } else {
-        this.script2 = this.userObj.currentMapping[0]
-      }
-    },
-    updateScriptSelection2 () {
-      if (this.script2 === this.userObj.currentMapping[0]) {
-        this.script1 = this.userObj.currentMapping[1]
-      } else {
-        this.script1 = this.userObj.currentMapping[0]
-      }
     }
   }
 }
