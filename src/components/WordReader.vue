@@ -1,8 +1,30 @@
 <template>
   <span>
       <!-- Text display -->
-      <span v-if="!showFeedbackMessage"> Please type in the letters you see using Latin letters (Romaji). </span>
-      <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
+      <span v-if="!showFeedbackMessage">
+        <br/>
+        <br/>
+        Please type the letters you see in <strong>Romaji</strong> (Latin script).
+        <br/>
+      </span>
+      <span v-if="showFeedbackMessage">
+        <span v-if="hasAnsweredCorrectly">
+          <br/>
+          <br/>
+          Your answer (<strong style="color: blue;">{{userSolution}}</strong>) was <strong style="color: green">correct</strong>. Great Job!
+          <br/>
+        </span>
+        <span v-if="!hasAnsweredCorrectly">
+          Your answer (<strong style="color: blue;">{{userSolution}}</strong>) was <strong style="color: red">incorrect</strong>.
+          <br/>
+          <br/>
+          <strong>
+            <span style="color: green">Correct answer: </span>
+            <span style="color: blue;">{{currentSolution}}</span>
+          </strong>
+          <br/>
+        </span>
+        </span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
@@ -90,6 +112,9 @@ export default {
     },
     disableOptions () {
       return this.showFeedbackMessage
+    },
+    hasAnsweredCorrectly () {
+      return this.userSolution === this.currentSolution
     }
   },
   methods: {
@@ -183,8 +208,7 @@ export default {
       if (this.showFeedbackMessage) {
         return
       }
-      if (this.userSolution === this.currentSolution) {
-        this.feedbackMessage = 'Your answer (' + this.userSolution + ') was correct.'
+      if (this.hasAnsweredCorrectly) {
         this.setBackgrounds('#d1fb9c')
         if (!this.isFinalExam) {
           this.$root.$emit('addExp', this.currentWordLength)
@@ -193,7 +217,6 @@ export default {
           this.$root.$emit('addExamPoints', 1, true)
         }
       } else {
-        this.feedbackMessage = 'Your answer (' + this.userSolution + ') was incorrect. Correct answer: ' + this.currentSolution
         this.setBackgrounds('#fbad9c')
         if (this.isFinalExam) {
           this.$root.$emit('addExamPoints', 1, false)

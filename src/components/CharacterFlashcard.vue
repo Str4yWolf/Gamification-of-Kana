@@ -69,7 +69,7 @@ export default {
   computed: {
     imgLetter () {
       if (this.showTitle) {
-        if (this.imgSrc === '../statics/grey.png') { // no letter input
+        if (this.imgSrc === '../statics/grey.png' || this.imgSrc === '') { // no letter input
           return ''
         } else if (this.isRomaji) { // PNG images contain romaji only at the moment
           return ''
@@ -105,7 +105,11 @@ export default {
       return this.imgSrcComp + '#svgView(viewbox(0 0 100 100))"'
     },
     isRomaji () {
-      return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
+      if (this.imgSrc !== '') {
+        return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
+      } else {
+        return false
+      }
     }
   }
 }

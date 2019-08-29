@@ -207,8 +207,8 @@ export default {
       showSignInBtn: true,
       showRegisterBtn: true,
       showSignInField: false,
-      // level control
-      lvlThreshold: { 0: 5, 1: 13, 2: 21, 3: 34, 4: 65, 5: 89, 6: 154, 7: 243, 8: 397, 9: 640, 10: 1037, 11: 1677, 12: 2714, 13: 4591, 14: 7305, 15: 11896, 16: 1000000 },
+      // level control 45 529
+      lvlThreshold: { 0: 10, 1: 25, 2: 50, 3: 86, 4: 135, 5: 199, 6: 280, 7: 380, 8: 501, 9: 645, 10: 814, 11: 1010, 12: 1235, 13: 1491, 14: 1780, 15: 2104, 16: 2465, 17: 2865, 18: 3306, 19: 3790, 20: 4319, 21: 4895, 22: 5520, 23: 6196, 24: 6925, 25: 7709, 26: 8550, 27: 9450, 28: 10000000 },
       skillLvlThreshold: { 0: 80, 1: 168, 2: 264, 3: 368, 4: 480, 5: 600, 6: 728, 7: 864, 8: 1008, 9: 1160, 10: 1500000 },
       // user data
       username: '',
@@ -596,6 +596,7 @@ export default {
     resetAccount () {
       localStorage.setItem(this.username, JSON.stringify(this.initializeUserObj()))
       this.userObj = JSON.parse(localStorage.getItem(this.username))
+      this.unhideMappingSetup()
     },
     /**
     Permanently removes the username and data associated with it and proceeds with the logout procedure.

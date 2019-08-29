@@ -10,15 +10,16 @@
         </span>
         <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         <!-- script selection -->
-        <span style="padding: 0px 20px 0px 40px;">
+        <span v-if="enableMultipleScripts" style="padding: 0px 20px 0px 40px;">
           <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
         </span>
         <!-- Control buttons -->
-        <span style="padding: 15px;">
+        <span style="position: absolute; top: 25px; right: 30px; padding: 15px;">
           <q-btn v-if="!questionInProgress" color="green" label="New Word" title="Get new word (Enter)" @click="newQuestion()" />
           <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolution()" />
         </span>
       </span>
+    <br/>
     <word-reader :userObj="userObj" :script="script" ref="InterfaceWR" />
     <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
@@ -60,7 +61,8 @@ export default {
       script: this.userObj.currentMapping[0],
       questionInProgress: false,
       //
-      viewTutorial: false
+      viewTutorial: false,
+      enableMultipleScripts: false
     }
   },
   computed: {

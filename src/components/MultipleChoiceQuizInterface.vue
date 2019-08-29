@@ -152,8 +152,12 @@ export default {
       }
     },
     startQuiz () {
-      this.numberQuestionsAnswered = 0
-      this.$refs.InterfaceMCQ.continueQuiz()
+      if (this.script1 === this.script2) {
+        this.$q.notify('Cannot use the same script twice.')
+      } else {
+        this.numberQuestionsAnswered = 0
+        this.$refs.InterfaceMCQ.continueQuiz()
+      }
     },
     /**
     End quiz by intializing quiz controls and displaying feedback to user

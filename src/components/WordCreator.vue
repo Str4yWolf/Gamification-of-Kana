@@ -1,8 +1,22 @@
 <template>
   <span>
       <!-- Text display -->
-      <span v-if="!showFeedbackMessage"> Please spell <strong>{{currentWordEng}}</strong> in Japanese <strong>{{japaneseTip}}</strong>using {{script}}. </span>
-      <span v-if="showFeedbackMessage"><strong>Feedback: {{feedbackMessage}}</strong></span>
+      <span v-if="!showFeedbackMessage">
+        Please spell <strong style="color: blue;">{{currentWordEng}}</strong> in Japanese <strong style="color: blue;">{{japaneseTip}}</strong>using <strong>{{script}}</strong>.
+      </span>
+      <span v-if="showFeedbackMessage">
+        <span v-if="hasAnsweredCorrectly">
+          Your answer (<strong style="color: blue;">{{assembleWord(currentWordJap)}}</strong>) was <strong style="color: green;">correct</strong>. Great job!
+        </span>
+        <span v-if="!hasAnsweredCorrectly">
+          Your answer was <strong style="color: red;">incorrect</strong>.
+          &nbsp;
+          <strong>
+            <span style="color: green;">Correct answer: </span>
+            <span style="color: blue;">{{assembleWord(currentWordJap)}}</span>
+          </strong>
+        </span>
+      </span>
       <br />
       <!-- slots (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
@@ -239,6 +253,9 @@ export default {
       } else {
         return ''
       }
+    },
+    hasAnsweredCorrectly () {
+      return this.isEqualLetters(this.userAnswerIndices, this.correctWordIndices)
     }
   },
   methods: {
@@ -452,8 +469,7 @@ export default {
       this.setAnswerImages()
       console.log('this.userAnswerIndices: ' + Object.values(this.userAnswerIndices))
       console.log('this.correctWordIndices: ' + Object.values(this.correctWordIndices))
-      if (this.isEqualLetters(this.userAnswerIndices, this.correctWordIndices)) {
-        this.feedbackMessage = 'Your answer (' + this.assembleWord(this.currentWordJap) + ') was correct. Great job!'
+      if (this.hasAnsweredCorrectly) {
         if (!this.isFinalExam) {
           this.$root.$emit('addExp', this.currentWordLength)
           this.$root.$emit('addSkillExp', Math.ceil(this.currentWordLength / 2))
@@ -461,7 +477,6 @@ export default {
           this.$root.$emit('addExamPoints', 1, true)
         }
       } else {
-        this.feedbackMessage = 'Your answer was incorrect. Correct answer: ' + this.assembleWord(this.currentWordJap) + '.'
         if (this.isFinalExam) {
           this.$root.$emit('addExamPoints', 1, false)
         }

@@ -112,33 +112,28 @@
             <strong>Want to to</strong><br/>
             Achievements and its popup<br/>
             Design<br/>
-            Separate modes<br/>
             Add full tutorial and information in about page<br/>
             Debugging<br/>
             <strong>Details / Debugging</strong><br />
-            Revise mapping cases with romaji<br/>
-            WordCreator remaining answer images bug.<br/>
-            Multiple Choice script delay (as in Word Creator)?<br/>
-            Multiple Choice same scripts in question and answer (apparently only script 2)<br/>
+            Revise Multiple Choice in Individual Tools<br/>
             WordReader highlight manyougana not updating<br/>
             WordCreator highlight manyougana only updating in one case<br/>
-            Redesign question text colour scheme (word bold blue; script bold black)<br/>
             Revise finalExamWords (no skipping questions or so)<br />
-            outsource highlight manyougana??<br />
             skill level up popup (use popupedit or so) <br />
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />
             <strong>Requirements (9/10/2019)</strong><br />
             (2) reduce mapping to teaching one script at a time (spread out)<br/>
-            (8) increase visual affordances and shorten tutorials / outsource to title<br />
-            (8) walk through design and redesign<br />
-            (16) clean up code<br />
+            (6) increase visual affordances and shorten tutorials / outsource to title<br />
+            (6) walk through design and redesign<br />
+            (15) clean up code<br />
             (8) vue-fy/quasar-fy<br/>
+            (2) bugs <br/>
+            (39)
             (6) user study questionnaire/planning<br/>
             (16) user study<br/>
-            (4) bugs <br/>
-            (68) <br />
+            (61) <br />
             (50 / 100) BA text<br/>
             130/16 -> 8.125 h / day
             (4) achievements
@@ -163,12 +158,11 @@
               (3) fancy tutorials - transfer to layout; add high z-index arrow overlays<br />
               (4) Practical tests / midterms <br />
               (3) getting rewards<br />
-              (10) wrap learning page in a nice context<br />
+              (6) wrap learning page in a nice context<br />
               (5) Additional gamification elements (e.g., timer)<br />
               ((100+) Story mode)<br />
               (Varying Hentaigana)<br />
               (3) make DBs generic with script1 / script2 to improve adaptability<br/>
-              (3) add latin script<br/>
               ((5) add commercial edge -> $0.05 / inklblot)
               (0:20) encourage use of learning page
               <br />

@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card v-if="activateQuiz" style="width: 840px; padding: 30px; height: 560px;">
+    <q-card v-if="activateQuiz" style="width: 840px; padding: 30px; height: 540px;">
       <!-- header -->
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
@@ -12,6 +12,7 @@
       &nbsp;
       <!-- manyougana highlight toggle -->
       <q-toggle
+        v-if="showHighlightManyougana"
         v-model="highlightManyougana"
         color="red"
         label="Highlight Manyougana"
@@ -27,21 +28,21 @@
       <!-- parameters panel -->
       <span class="row">
         <!-- context dependent buttons -->
-        <span v-if="activateMCQ" style="padding-left:10px; position: absolute; left: 640px; top: 33px;">
+        <span v-if="activateMCQ" style="padding-left:10px; position: absolute; right: 62px; top: 33px;">
           <q-btn v-if="validationInProgress" color="green" label="Continue" @click="randomizeNextQuestion()" />
         </span>
         <span v-if="activateWC">
-          <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
-          <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWC()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="disableOptions" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; right: 62px; top: 33px;" />
+          <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWC()" style="padding-left:10px; position: absolute; right: 62px; top: 33px;" />
         </span>
         <span v-if="activateWR">
-          <q-btn v-if="!questionInProgress" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
-          <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWR()" style="padding-left:10px; position: absolute; left: 640px; top: 33px;" />
+          <q-btn v-if="!questionInProgress" color="green" label="Continue" title="Continue to next question (Enter)" @click="randomizeNextQuestion()" style="padding-left:10px; position: absolute; right: 62px; top: 33px;" />
+          <q-btn v-if="questionInProgress" color="green" label="Enter" title="Enter answers (Enter)" @click="enterSolutionWR()" style="padding-left:10px; position: absolute; right: 62px; top: 33px;" />
         </span>
       </span>
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
-      <word-creator :style="styleWC" :userObj="userObj" :script="script1" ref="GeneralLearningWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
-      <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" ref="GeneralLearningWR" />
+      <word-creator :style="styleWC" :userObj="userObj" :script="userObj.currentMapping[0]" ref="GeneralLearningWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+      <word-reader :style="styleWR" :userObj="userObj" :script="userObj.currentMapping[0]" :highlightManyougana="highlightManyougana" ref="GeneralLearningWR" />
     </q-card>
     <q-card v-if="showIntro1" style="width: 840px; padding: 30px; height: 560px;">
       <!-- header -->
@@ -183,7 +184,6 @@ export default {
       // script-related
       script1: this.userObj.currentMapping[0],
       script2: this.userObj.currentMapping[1],
-      scripts: this.userObj.currentMapping,
       // quiz controllers
       mode: 0,
       disableOptions: true,
@@ -212,6 +212,19 @@ export default {
     },
     showIntro2 () {
       return this.userObj.learningMode === 0 && !this.introFirstPage
+    },
+    showHighlightManyougana () {
+      var s1 = this.userObj.currentMapping[0].split('-')[0]
+      var s2 = this.userObj.currentMapping[1].split('-')[0]
+      if (this.activateMCQ && (s1 === 'manyougana' || s2 === 'manyougana')) {
+        return true
+      } else if (this.activateWR && s1 === 'manyougana') {
+        return true
+      } else if (this.activateWC && s1 === 'manyougana') {
+        return true
+      } else {
+        return false
+      }
     },
     styleMCQ () {
       var constant = 'position: absolute; top: 100px;'
@@ -384,13 +397,16 @@ export default {
     randomizeNextQuestion () {
       console.log('called randomizeNextQuestion in GL')
       this.mode = Math.floor(Math.random() * this.userObj.learningMode)
-      this.script1 = this.scripts[Math.floor(Math.random() * 2)]
+      var script1Index = Math.floor(Math.random() * 2)
+      var script2Index = (script1Index ? 0 : 1)
+      this.script1 = this.userObj.currentMapping[script1Index]
+      this.script2 = this.userObj.currentMapping[script2Index]
       switch (this.mode) {
         case 0:
         // Multiple choice
           this.$refs.GeneralLearningMCQ.$el.focus()
           this.quizHasStarted = true
-          this.$refs.GeneralLearningMCQ.continueQuiz()
+          setTimeout(this.$refs.GeneralLearningMCQ.continueQuiz, 1)
           break
         case 1:
         // Word reader

@@ -1,6 +1,6 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
-    <q-card style="width: 820px; padding: 30px;">
+    <q-card style="width: 820px; height: 540px; padding: 30px;">
       <span class="row">
         <span>
           <!-- header -->
@@ -10,30 +10,49 @@
         </span>
         <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         <!-- script selection -->
-        <span style="padding: 0px 20px 0px 40px;">
+        <span v-if="enableMultipleScripts" style="padding: 0px 20px 0px 40px;">
           <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
         </span>
-        <!-- Control buttons -->
-        <span style="padding: 15px;">
-          <q-btn color="green" label="New Word" title="Get a new word (n)" @click="newWord()" />
-          <q-btn color="green" label="Enter" title="Enter answers (Enter)" @click="enter()" :disabled="disableOptions" />
-        </span>
-        <span class="row" style="position: absolute; top: 100px; left: 440px;">
+        <!-- show Japanese toggle -->
+        <span v-if="!enableMultipleScripts" style="position: absolute; right: 190px;">
           <!-- manyougana highlight toggle -->
           <q-toggle
+            v-if="isManyougana"
             v-model="highlightManyougana"
             color="red"
             label="Highlight Manyougana"
           />
+          &nbsp;
+          <q-toggle
+            v-model="showJapanese"
+            color="blue"
+            label="Japanese Hint"
+            />
+        </span>
+        <!-- Control buttons -->
+        <span style="position: absolute; right: 30px; padding: 0px 15px 0px 0px;">
+          <q-btn v-if="disableOptions" color="green" label="New Word" title="Get a new word (n)" @click="newWord()" />
+          <q-btn v-if="!disableOptions" color="green" label="Enter" title="Enter answers (Enter)" @click="enter()" :disabled="disableOptions" />
+        </span>
+        <span v-if="enableMultipleScripts" class="row" style="position: absolute; top: 80px; right: 30px; padding: 5px 15px 0px 0px;">
+          <!-- manyougana highlight toggle -->
+          <q-toggle
+            v-if="isManyougana"
+            v-model="highlightManyougana"
+            color="red"
+            label="Highlight Manyougana"
+          />
+          &nbsp;
           <!-- show Japanese toggle -->
           <q-toggle
             v-model="showJapanese"
-            color="red"
+            color="blue"
             label="Japanese Hint"
           />
         </span>
       </span>
-      <br />
+  <br v-if="!enableMultipleScripts"/>
+  <br/>
   <word-creator :userObj="userObj" :script="script" :showJapanese="showJapanese" ref="InterfaceWC" />
   <q-dialog v-model="viewTutorial">
     <q-card style="width: 600px;">
@@ -78,10 +97,14 @@ export default {
       disableOptions: true,
       showJapanese: false,
       //
-      viewTutorial: false
+      viewTutorial: false,
+      enableMultipleScripts: false
     }
   },
   computed: {
+    isManyougana () {
+      return this.script.split('-')[0] === 'manyougana'
+    }
   },
   props: {
     userObj: Object
@@ -119,12 +142,10 @@ export default {
           console.log('pressed enter in validateKeyInput')
           if (!this.disableOptions) {
             this.enter()
+          } else {
+            // new word
+            this.newWord()
           }
-          break
-        // new word
-        case 78:
-          console.log('pressed n in validateKeyInput')
-          this.newWord()
           break
         // log all other keys
         default:

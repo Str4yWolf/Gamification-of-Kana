@@ -4,7 +4,20 @@
       <span class="row" style="padding: 20px 0px 20px 50px;">
         <character-flashcard id="multiple-choice-question" :imgSrc="questionImage" :showTitle="validationInProgress" />
         <span v-if="!hasAnsweredQuestion" style="position:relative; top:68px; left:30px;">What is this <strong>{{script1}}</strong>'s equivalent in <strong>{{script2}}</strong>?</span>
-        <span v-if="hasAnsweredQuestion" style="padding:30px;"><strong>Feedback: {{feedbackMessage}}</strong></span>
+        <span v-if="hasAnsweredQuestion" style="padding:30px;">
+          <span v-if="hasAnsweredCorrectly">
+            <strong>Feedback: </strong> Your answer (<strong style="color: blue">Option {{this.userAnswer + 1}}</strong>) was <strong style="color: green;">correct</strong>. Great job!
+          </span>
+          <span v-if="!hasAnsweredCorrectly">
+            Your answer (<strong style="color: blue">Option {{this.userAnswer + 1}}</strong>) was <strong style="color: red;">incorrect</strong>.
+            <br/>
+            <br/>
+            <strong>
+              <span style="color: green">Correct answer: </span>
+              <span style="color: blue;">Option {{this.correctAnswer + 1}}</span>
+            </strong>
+          </span>
+        </span>
       </span>
       <!-- answers (later: implement with v-for through array of flashcards) -->
       <span class="row" style="padding: 20px 0px 20px 0px;">
@@ -124,6 +137,9 @@ export default {
       } else {
         return 'background-color: #ffffff'
       }
+    },
+    hasAnsweredCorrectly () {
+      return this.userAnswer === this.correctAnswer
     }
   },
   methods: {
@@ -309,8 +325,7 @@ export default {
       // adjust quiz controls, and
       // log progress in user tracking (to affect future questions in spaced repetition)
       // depending on answer
-      if (this.userAnswer === this.correctAnswer) {
-        this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was correct. Great job!'
+      if (this.hasAnsweredCorrectly) {
         this.questionsAnsweredCorrectly += 1
         // reward with exp (perhaps level-ups)
         if (!this.isFinalExam) {
@@ -328,7 +343,6 @@ export default {
           }
         }
       } else {
-        this.feedbackMessage = 'Your answer (Option ' + (this.userAnswer + 1) + ') was incorrect. Correct answer: Option ' + (this.correctAnswer + 1) + '.'
         if (!this.isFinalExam) {
           this.$root.$emit('incrementTracking', this.currentKey, this.scriptIndex[this.script1], this.scriptIndex[this.script2], 0)
         } else {
