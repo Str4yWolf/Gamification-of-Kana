@@ -42,17 +42,35 @@ export default {
   mounted () {
   },
   computed: {
-    imgSrc () {
-      var fileFormat = ((this.sourceScript === 'romaji') ? '.png' : '.svg')
-      return ('../statics/svg/' + this.script + '/' + this.script + '_letter_' + this.letter + fileFormat)
+    imageSrc () {
+      if (this.letter === '') {
+        return '../statics/grey.png'
+      } else if (this.sourceScript === 'manyougana-katakana' && this.highlight) {
+        return ('../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg')
+      } else {
+        var fileFormat = ((this.sourceScript === 'romaji') ? '.png' : '.svg')
+        return ('../statics/svg/' + this.sourceScript + '/' + this.sourceScript + '_letter_' + this.letter + fileFormat)
+      }
     },
     image1 () {
-      var fileFormat = ((this.scripts[0] === 'romaji') ? '.png' : '.svg')
-      return ('../statics/svg/' + this.script[0] + '/' + this.script[0] + '_letter_' + this.letter + fileFormat)
+      if (this.letter === '') {
+        return '../statics/grey.png'
+      } else if (this.scripts[0] === 'manyougana-katakana' && this.highlight) {
+        return ('../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg')
+      } else {
+        var fileFormat = ((this.scripts[0] === 'romaji') ? '.png' : '.svg')
+        return ('../statics/svg/' + this.scripts[0] + '/' + this.scripts[0] + '_letter_' + this.letter + fileFormat)
+      }
     },
     image2 () {
-      var fileFormat = ((this.script[1] === 'romaji') ? '.png' : '.svg')
-      return ('../statics/svg/' + this.script[1] + '/' + this.script[1] + '_letter_' + this.letter + fileFormat)
+      if (this.letter === '') {
+        return '../statics/grey.png'
+      } else if (this.scripts[1] === 'manyougana-katakana' && this.highlight) {
+        return ('../statics/svg/manyougana-katakana-c/manyougana-katakana-c_letter_' + this.letter + '.svg')
+      } else {
+        var fileFormat = ((this.scripts[1] === 'romaji') ? '.png' : '.svg')
+        return ('../statics/svg/' + this.scripts[1] + '/' + this.scripts[1] + '_letter_' + this.letter + fileFormat)
+      }
     },
     /**
     component hasn't been rendered yet
