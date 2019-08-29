@@ -76,6 +76,9 @@
                 </q-menu>
                 <!-- submenu end -->
               </q-item>
+              <q-item v-if="userObj.unlockNewMapping" @click="unhideMappingSetup()" clickable>
+                <q-item-section>Learn New Mapping</q-item-section>
+              </q-item>
               <q-item @click="unhideCharacterReference()" clickable>
                 <q-item-section>Character Reference</q-item-section>
               </q-item>
@@ -529,7 +532,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -564,6 +567,7 @@ export default {
       this.userObj.skillLvl = 0
       this.userObj.skillExp = 0
       this.userObj.learningMode = 0
+      this.userObj.unlockNewMapping = false
       this.showAvatar = true
       this.hideMappingSetup()
       this.updateDatabase()
@@ -585,7 +589,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false] }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false }
     },
     /**
     Changes username to a new name if the new name doesn't already exists.
@@ -739,7 +743,7 @@ export default {
      Maximum reachable level is 16.
     **/
     updateLvl () {
-      if (this.userObj.lvl === 16) {
+      if (this.userObj.lvl === 28) {
         return
       }
       var threshold = this.lvlThreshold[this.userObj.lvl] // get threshold associated with current user level

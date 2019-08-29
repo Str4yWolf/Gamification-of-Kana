@@ -13,7 +13,7 @@
           position: relative;
           display: inline-block;
         " />
-      <span v-if="!isHighlightedManyougana">
+      <span v-if="isNormal">
         <span v-if="showTitle"
           style="
             width: 100px;
@@ -51,6 +51,26 @@
             display: inline-block;
           ">
           <strong>{{imgScript}}</strong>
+        </span>
+        <span v-if="isRomaji">
+          <span v-if="showTitle"
+            style="
+              width: 100px;
+              top: 35px;
+              position: relative;
+              display: inline-block;
+              ">
+            <strong>{{imgLetter.split('\.')[0]}}</strong>
+          </span>
+          <span v-if="showScript"
+            style="
+              width: 100px;
+              top: -99px;
+              position: relative;
+              display: inline-block;
+            ">
+            <strong>{{imgScript}}</strong>
+          </span>
         </span>
       </span>
     </div>
@@ -94,6 +114,16 @@ export default {
         return this.imgSrc.split('/')[3].split('-')[2] === 'c'
       }
     },
+    isRomaji () {
+      if (this.imgSrc !== '') {
+        return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
+      } else {
+        return false
+      }
+    },
+    isNormal () {
+      return !this.isHighlightedManyougana && !this.isRomaji
+    },
     imgSrcComp () {
       if (this.imgSrc === '') {
         return '../statics/grey.png'
@@ -103,13 +133,6 @@ export default {
     },
     imgSrcSVG () {
       return this.imgSrcComp + '#svgView(viewbox(0 0 100 100))"'
-    },
-    isRomaji () {
-      if (this.imgSrc !== '') {
-        return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
-      } else {
-        return false
-      }
     }
   }
 }

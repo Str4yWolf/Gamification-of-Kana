@@ -49,7 +49,15 @@
       <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
       &nbsp;
-      <strong style="font-size: 120%;">Quest Preparation (1)</strong><br/>
+      <strong style="font-size: 120%;">Quest Preparation (1)</strong> &nbsp; &nbsp; &nbsp;
+      <!-- manyougana highlight toggle -->
+      <q-toggle
+        v-if="showHighlightManyougana"
+        v-model="highlightManyougana"
+        color="red"
+        label="Highlight Manyougana"
+        @input="updateHighlights()"
+      /><br/>
       <!-- next button -->
       <span style="padding-left:10px; position: absolute; left: 700px; top: 33px;">
           <q-btn color="green" label="Next" @click="introFirstPage = false" />
@@ -61,72 +69,72 @@
         <strong><span style="color: blue;">Hover your mouse over the images</span> to familiarize yourself.</strong>
       </p>
       <span v-if="skillLvl0" class="row">
-        <character-info :letter="'a'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'i'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'u'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'e'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'o'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'a'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'i'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'u'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'e'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'o'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl1" class="row">
-        <character-info :letter="'ka'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ki'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ku'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ke'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ko'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ka'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ki'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ku'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ke'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ko'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl2" class="row">
-        <character-info :letter="'sa'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'shi'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'su'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'se'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'so'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'sa'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'shi'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'su'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'se'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'so'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl3" class="row">
-        <character-info :letter="'ta'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'chi'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'tsu'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'te'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'to'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ta'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'chi'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'tsu'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'te'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'to'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl4" class="row">
-        <character-info :letter="'na'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ni'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'nu'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ne'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'no'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'na'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ni'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'nu'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ne'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'no'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl5" class="row">
-        <character-info :letter="'ha'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'hi'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'fu'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'he'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ho'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ha'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'hi'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'fu'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'he'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ho'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl6" class="row">
-        <character-info :letter="'ma'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'mi'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'mu'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'me'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'mo'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ma'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'mi'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'mu'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'me'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'mo'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl7" class="row">
-        <character-info :letter="'ra'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ri'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ru'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'re'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'ro'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ra'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ri'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ru'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'re'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'ro'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl8" class="row">
-        <character-info :letter="'ya'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'yu'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'yo'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'wa'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'wo'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'ya'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'yu'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'yo'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'wa'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'wo'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
       <span v-if="skillLvl9" class="row">
-        <character-info :letter="'n'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'we'" :highlight="highlight" :sourceScript="script1" />
-        <character-info :letter="'wi'" :highlight="highlight" :sourceScript="script1" />
+        <character-info :letter="'n'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'we'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
+        <character-info :letter="'wi'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
       </span>
     </q-card>
     <q-card v-if="showIntro2" style="width: 840px; padding: 30px; height: 560px;">
@@ -216,7 +224,9 @@ export default {
     showHighlightManyougana () {
       var s1 = this.userObj.currentMapping[0].split('-')[0]
       var s2 = this.userObj.currentMapping[1].split('-')[0]
-      if (this.activateMCQ && (s1 === 'manyougana' || s2 === 'manyougana')) {
+      if (this.showIntro1 && (s1 === 'manyougana' || s2 === 'manyougana')) {
+        return true
+      } else if (this.activateMCQ && (s1 === 'manyougana' || s2 === 'manyougana')) {
         return true
       } else if (this.activateWR && s1 === 'manyougana') {
         return true

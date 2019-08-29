@@ -135,7 +135,7 @@
         &nbsp; &nbsp; &nbsp; &nbsp;
         <q-input
           v-model.number="mode1Inkblots"
-          label="25.6s"
+          label="38.4s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -148,7 +148,7 @@
         &nbsp; &nbsp;
         <q-input
           v-model.number="mode2Inkblots"
-          label="48s"
+          label="36s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -161,7 +161,7 @@
         &nbsp; &nbsp;
         <q-input
           v-model.number="mode3Inkblots"
-          label="80s"
+          label="60s"
           type="number"
           max-length="2"
           style="max-width: 120px;"
@@ -182,9 +182,9 @@
       </q-list>
       <br/>
       <br/>
-      <q-checkbox v-if="userObj.examTickets" v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." />
+      <q-checkbox v-if="userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed." />
       <!-- disabled version -->
-      <q-checkbox v-if="!userObj.examTickets" v-model="shownExamTicket" label="Provide Exam Ticket" title="Exam Ticket will be consumed." disable />
+      <q-checkbox v-if="!userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed." disable />
       <br/>
       <br/>
       <br/>
@@ -213,6 +213,16 @@
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="25" :singleQuestion="true" :isFinalExam="true" :currentKeyFinal="currentKey" ref="FinalExamMCQ" />
       <word-reader :style="styleWR" :userObj="userObj" :script="script1" :highlightManyougana="highlightManyougana" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWR"/>
       <word-creator :style="styleWC" :userObj="userObj" :script="script1" :isFinalExam="true" :currentWordFinal="currentWord" ref="FinalExamWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
+    <q-dialog v-model="unlockNewMappingInfo">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">Unlocked New Mapping</div>
+        </q-card-section>
+        <q-card-section>
+          You can now learn <strong>one</strong> new mapping (<strong>Menu -> Learn New Mapping</strong>).
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <q-dialog v-model="viewTutorial">
       <q-card style="width: 600px;">
         <q-card-section>
@@ -325,7 +335,7 @@ export default {
       mode1Inkblots: 0,
       mode2Inkblots: 0,
       mode3Inkblots: 0,
-      shownExamTicket: false,
+      paidExamFee: false,
       // exam controllers
       remainingTime: 0,
       // Boolean process and button display controllors
@@ -351,19 +361,20 @@ export default {
       numberQuestionsAnswered: 0,
       questionsPerCategory: 32,
       //
-      viewTutorial: false
+      viewTutorial: false,
+      unlockNewMappingInfo: false
     }
   },
   computed: {
+    script2 () {
+      if (this.script1 === this.scripts[0]) {
+        return this.scripts[1]
+      } else {
+        return this.scripts[0]
+      }
+    },
     hasFailedExam () {
       return (this.hasFailedExamErrors || this.hasFailedExamTime)
-    },
-    script2 () {
-      if (this.script1 === 'katakana') {
-        return 'manyougana-katakana'
-      } else {
-        return 'katakana'
-      }
     },
     activateMCQ () {
       return !this.setupInProgress && this.mode === 0
@@ -446,7 +457,7 @@ export default {
       }
     },
     disableExamStart () {
-      return !this.shownExamTicket || this.outOfInkblots || (this.freeErrors < 0) || (this.freeErrors > 10) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0)
+      return !this.paidExamFee || this.outOfInkblots || (this.freeErrors < 0) || (this.freeErrors > 10) || (this.mode1Inkblots < 0) || (this.mode2Inkblots < 0) || (this.mode3Inkblots < 0)
     }
   },
   props: {
@@ -543,7 +554,7 @@ export default {
       this.mode1Inkblots = 0
       this.mode2Inkblots = 0
       this.mode3Inkblots = 0
-      this.shownExamTicket = false
+      this.paidExamFee = false
       // exam controllers
       this.remainingTime = 0
       // Boolean process and button display controllors
@@ -552,8 +563,8 @@ export default {
       this.validationInProgress = false
       this.highlightManyougana = false
       // script-related
-      this.script1 = 'katakana'
-      this.scripts = ['katakana', 'manyougana-katakana']
+      this.script1 = this.userObj.currentMapping[0]
+      this.scripts = this.userObj.currentMapping
       // quiz controllers
       this.disableOptions = true
       this.questionInProgress = false
@@ -568,12 +579,12 @@ export default {
     },
     startExam () {
       this.setupInProgress = false
-      this.userObj.examTickets -= 1
+      this.userObj.inkblots -= 2
       this.$root.$emit('updateDatabase')
       this.$root.$emit('setIsFinalExam', true)
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
       this.$root.$emit('setShowTimer', true)
-      this.$root.$emit('setTimer', 25.6 + this.mode1Inkblots)
+      this.$root.$emit('setTimer', 38.4 + this.mode1Inkblots)
       this.nextQuestion()
     },
     endExam () {
@@ -582,6 +593,12 @@ export default {
       this.$q.notify('Finished. You have been awarded ' + reward.toString() + ' experience points.')
       this.resetSetup()
       this.mode = 3
+      if (!this.hasFailedExam && this.userObj.unlockNewMapping === false) {
+        this.userObj.learnedMappings.push(this.scripts[0] + '_' + this.scripts[1])
+        this.userObj.unlockNewMapping = true
+        this.unlockNewMappingInfo = true
+        this.$root.$emit('updateDatabase')
+      }
     },
     retakeExam () {
       this.setupInProgress = true
@@ -636,7 +653,7 @@ export default {
     },
     nextQuestion () {
       console.log('called nextQuestion in Final Exam')
-      if (this.numberQuestionsAnswered === this.questionsPerCategory * 3) {
+      if (this.numberQuestionsAnswered === 96) {
         return this.endExam()
       }
       // TBD start
@@ -651,21 +668,21 @@ export default {
       var nextCharacter = this.wordKeysPool[ri1].split('_')
       this.wordKeysPool.splice(ri1, 1)
       this.currentKey = nextCharacter[0]
-      this.script1 = nextCharacter[1]
+      this.script1 = ((this.numberQuestionsAnswered < 48) ? this.scripts[parseInt(nextCharacter[1])] : this.scripts[0])
       // this.$q.notify('Script1 in nextQuestion(): ' + this.script1)
 
       // sample random word with current key
       var finalWordPool = finalExamWords[this.currentKey]
       var ri2 = Math.floor(Math.random() * finalWordPool.length)
       this.currentWord = finalWordPool[ri2]
-      if (this.numberQuestionsAnswered === 0) {
+      if (this.numberQuestionsAnswered === 48) {
         this.mode = 2
         this.$root.$emit('stopTimer')
-        this.$root.$emit('setTimer', 48 + this.mode2Inkblots)
-      } else if (this.numberQuestionsAnswered === 1) {
+        this.$root.$emit('setTimer', 36 + this.mode2Inkblots)
+      } else if (this.numberQuestionsAnswered === 72) {
         this.mode = 1
         this.$root.$emit('stopTimer')
-        this.$root.$emit('setTimer', 80 + this.mode3Inkblots)
+        this.$root.$emit('setTimer', 60 + this.mode3Inkblots)
       }
       console.log('CurrentKeyScript: ' + this.currentKey + ' ' + this.script1)
       switch (this.mode) {

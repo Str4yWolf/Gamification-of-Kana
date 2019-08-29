@@ -33,7 +33,7 @@ export default {
     }
   },
   props: {
-    userObj: String
+    userObj: Object
   },
   methods: {
     checkAlreadyLearned () {
