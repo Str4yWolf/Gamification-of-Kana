@@ -73,33 +73,48 @@
           label="Available Inkblots"
         >
         <!-- base inkblots -->
-        <span style="padding: 0px 107px 0px 57px;"><strong>Base Inkblots</strong></span>
+        <span style="padding: 0px 109px 0px 57px;"><strong>Your Inkblots</strong></span>
         <strong><q-icon name="whatshot" /> {{userObj.inkblots}}</strong>
         <br/>
         <br/>
         <!-- manyougana highlight toggle -->
-        <q-toggle
-          v-model="highlightManyougana"
-          color="red"
-          label="Highlight Manyougana"
-          style="width: 250px;"
-        />
-        <strong><q-icon name="whatshot" /> +{{extraInkblots1}}</strong>
+        <span title="Highlight Manyougana during Exam">
+          <q-toggle
+            v-if="!showHighlightManyougana"
+            v-model="highlightManyougana"
+            color="red"
+            label="Highlight Manyougana"
+            style="width: 250px; color: red; text-decoration: line-through;"
+            disable
+          />
+          <q-toggle
+            v-if="showHighlightManyougana"
+            v-model="highlightManyougana"
+            color="red"
+            label="Highlight Manyougana"
+            style="width: 250px;"
+          />
+          <strong><q-icon name="whatshot" /> +{{extraInkblots1}}</strong>
+        </span>
         <br/>
         <!-- Japanese Tip -->
-        <q-toggle
-          v-model="showJapanese"
-          color="red"
-          label="Show Japanese Hints"
-          style="width: 250px;"
-        />
-        <strong><q-icon name="whatshot" /> +{{extraInkblots2}}</strong>
+        <span title="Show Japanese word translation during Exam">
+          <q-toggle
+            v-model="showJapanese"
+            color="blue"
+            label="Show Japanese Hints"
+            style="width: 250px;"
+          />
+          <strong><q-icon name="whatshot" /> +{{extraInkblots2}}</strong>
+        </span>
         <br/>
         <hr/>
         </q-expansion-item>
         <!-- total number of inkblots -->
-        <span style="padding: 0px 162px 0px 57px;"><strong>Total</strong></span>
-        <strong><q-icon name="whatshot" /> {{totalInkblots}}</strong>
+        <span title="Your available inkblots">
+          <span style="padding: 0px 162px 0px 57px;"><strong>Total</strong></span>
+          <strong><q-icon name="whatshot" /> {{totalInkblots}}</strong>
+        </span>
         <br/>
         <br/>
         <br/>
@@ -113,85 +128,90 @@
           label="Allocate Inkblots"
         >
         <!-- error tolerance -->
-        <span class="row">
-        <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;">Free Errors (<strong>5 <q-icon name="whatshot" />/ea</strong>)</span>
-        &nbsp; &nbsp; &nbsp;
-        <q-input
-          v-model.number="freeErrors"
-          type="number"
-          max-length="2"
-          style="max-width: 70px;"
-          :rules="
-            [val => !(val < 0) || 'invalid input',
-            val => !(val > 10) || 'limit is 10',
-            outOfInkblots || 'not enough inkblots']"
-        />
-        <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong><q-icon name="whatshot" /> -{{errorInkblots}}</strong></span>
+        <span class="row" title="How many errors you can make during the exam">
+          <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong>Free Errors (<q-icon name="done_all"/>)</strong> (<strong>5 <q-icon name="whatshot" /> each</strong>)</span>
+          &nbsp; &nbsp; &nbsp;
+          <q-input
+            v-model.number="freeErrors"
+            type="number"
+            max-length="2"
+            style="max-width: 70px;"
+            :rules="
+              [val => !(val < 0) || 'invalid input',
+              val => !(val > 10) || 'limit is 10',
+              outOfInkblots || 'not enough inkblots']"
+          />
+          <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong><q-icon name="whatshot" /> -{{errorInkblots}}</strong></span>
         </span>
         <!-- fieldAllocation -->
-        <span style="top: 0px; padding: 0px 76px 0px 18px; position: relative;">Bonus Seconds (<strong>1 <q-icon name="whatshot" />/ea</strong>)</span>
-        <strong><q-icon name="whatshot" /> -{{modeInkblots}}</strong>
-        <span class="row">
-        &nbsp; &nbsp; &nbsp; &nbsp;
-        <q-input
-          v-model.number="mode1Inkblots"
-          label="38.4s"
-          type="number"
-          max-length="2"
-          style="max-width: 120px;"
-          :rules="
-            [val => !(val < 0) || 'invalid input']">
-          <template v-slot:hint>
-            Multiple Choice
-          </template>
-        </q-input>
-        &nbsp; &nbsp;
-        <q-input
-          v-model.number="mode2Inkblots"
-          label="36s"
-          type="number"
-          max-length="2"
-          style="max-width: 120px;"
-          :rules="
-            [val => !(val < 0) || 'invalid input']">
-          <template v-slot:hint>
-            Word Reader
-          </template>
-        </q-input>
-        &nbsp; &nbsp;
-        <q-input
-          v-model.number="mode3Inkblots"
-          label="60s"
-          type="number"
-          max-length="2"
-          style="max-width: 120px;"
-          :rules="
-            [val => !(val < 0) || 'invalid input']">
-          <template v-slot:hint>
-            Word Creator
-          </template>
-        </q-input>
+        <span>
+          <span style="top: 0px; padding: 0px 104px 0px 18px; position: relative;" title="How many additional seconds you can get for each question catogory"><strong>Bonus Seconds (1 <q-icon name="whatshot" /> each)</strong></span>
+          <strong><q-icon name="whatshot" /> -{{modeInkblots}}</strong>
+          <span class="row">
+          &nbsp; &nbsp; &nbsp; &nbsp;
+          <q-input
+            v-model.number="mode1Inkblots"
+            label="38.4s"
+            type="number"
+            max-length="2"
+            style="max-width: 120px;"
+            title="38.4s + your bonus for 48 questions"
+            :rules="
+              [val => !(val < 0) || 'invalid input']">
+            <template v-slot:hint>
+              Multiple Choice
+            </template>
+          </q-input>
+          &nbsp; &nbsp;
+          <q-input
+            v-model.number="mode2Inkblots"
+            label="36s"
+            type="number"
+            max-length="2"
+            style="max-width: 120px;"
+            title="36s + your bonus for 24 questions"
+            :rules="
+              [val => !(val < 0) || 'invalid input']">
+            <template v-slot:hint>
+              Word Reader
+            </template>
+          </q-input>
+          &nbsp; &nbsp;
+          <q-input
+            v-model.number="mode3Inkblots"
+            label="60s"
+            type="number"
+            max-length="2"
+            style="max-width: 120px;"
+            title="60s + your bonus for 24 questions"
+            :rules="
+              [val => !(val < 0) || 'invalid input']">
+            <template v-slot:hint>
+              Word Creator
+            </template>
+          </q-input>
+        </span>
       </span>
       <br/>
       <hr/>
       </q-expansion-item>
-      <span :style="markedOutOfInkblot">
-        <span style="padding: 0px 162px 0px 57px;"><strong>Total</strong></span>
+      <span :style="markedOutOfInkblot" title="Your allocated inkblots">
+        <span style="padding: 0px 204px 0px 57px;"><strong>Total</strong></span>
         <strong><q-icon name="whatshot" /> -{{allocatedInkblots}}</strong>
       </span>
       </q-list>
       <br/>
       <br/>
-      <q-checkbox v-if="userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed." />
+      <q-checkbox v-if="userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed" />
       <!-- disabled version -->
-      <q-checkbox v-if="!userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed." disable />
+      <q-checkbox v-if="!userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed" disable />
       <br/>
       <br/>
       <br/>
       <span>
-        <q-btn color="green" label="Start Exam" @click="startExam()" :disabled="disableExamStart" />
+        <q-btn color="green" label="Start Exam" @click="startExam()" title="Start exam with current configuration" :disabled="disableExamStart" />
         &nbsp;
-        <q-btn color="purple" label="Reset" @click="resetSetup()" />
+        <q-btn color="purple" label="Reset" @click="resetSetup()" title="Reset configuration" />
       </span>
       </span>
       <!-- parameters panel -->
@@ -366,6 +386,15 @@ export default {
     }
   },
   computed: {
+    showHighlightManyougana () {
+      var s1 = this.scripts[0].split('-')[0]
+      var s2 = this.scripts[1].split('-')[0]
+      if (s1 === 'manyougana' || s2 === 'manyougana') {
+        return true
+      } else {
+        return false
+      }
+    },
     script2 () {
       if (this.script1 === this.scripts[0]) {
         return this.scripts[1]
@@ -668,7 +697,7 @@ export default {
       var nextCharacter = this.wordKeysPool[ri1].split('_')
       this.wordKeysPool.splice(ri1, 1)
       this.currentKey = nextCharacter[0]
-      this.script1 = ((this.numberQuestionsAnswered < 48) ? this.scripts[parseInt(nextCharacter[1])] : this.scripts[0])
+      this.script1 = ((this.numberQuestionsAnswered < 47) ? this.scripts[parseInt(nextCharacter[1])] : this.scripts[0])
       // this.$q.notify('Script1 in nextQuestion(): ' + this.script1)
 
       // sample random word with current key
@@ -735,7 +764,7 @@ export default {
     },
     enterSolutionWR () {
       this.questionInProgress = false
-      this.$refs.FinalExamWR.validateSolution()
+      setTimeout(this.$refs.FinalExamWR.validateSolution, 1)
     },
     enterSolutionWC () {
       this.disableOptions = true

@@ -115,7 +115,8 @@ export default {
       }
     },
     isRomaji () {
-      if (this.imgSrc !== '') {
+      console.log('imgSrc in CharacterFlashcard: ' + this.imgSrc)
+      if (this.imgSrc !== '' && this.imgSrc !== '../statics/grey.png') {
         return this.imgSrc.split('/')[3].split('-')[0] === 'romaji'
       } else {
         return false
