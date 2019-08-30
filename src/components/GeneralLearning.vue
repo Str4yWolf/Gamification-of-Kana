@@ -43,6 +43,11 @@
       <multiple-choice-quiz :style="styleMCQ" :userObj="userObj" :script1="script1" :script2="script2" :highlightManyougana="highlightManyougana" :quizLength="1000000" :singleQuestion="true" ref="GeneralLearningMCQ" />
       <word-creator :style="styleWC" :userObj="userObj" :script="userObj.currentMapping[0]" ref="GeneralLearningWC" :showJapanese="showJapanese" :highlightManyougana="highlightManyougana" />
       <word-reader :style="styleWR" :userObj="userObj" :script="userObj.currentMapping[0]" :highlightManyougana="highlightManyougana" ref="GeneralLearningWR" />
+      <q-dialog v-model="viewTutorial">
+        <q-card style="padding: 10px;">
+          <strong>Tip: </strong>Use keyboard shortcuts <strong style="color: blue;">1 - 4 </strong> for Options and <strong style="color: blue;">Enter </strong> for ENTER and CONTINUE.
+        </q-card>
+      </q-dialog>
     </q-card>
     <q-card v-if="showIntro1" style="width: 840px; padding: 30px; height: 560px;">
       <!-- header -->
@@ -411,6 +416,7 @@ export default {
       this.validationInProgress = x
     },
     startQuest () {
+      console.log('called startQuest')
       this.userObj.learningMode += 1
       this.introFirstPage = true
       this.$q.notify('You have unlocked Multiple Choice Quiz for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')

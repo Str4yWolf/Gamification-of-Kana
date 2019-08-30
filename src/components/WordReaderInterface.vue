@@ -8,7 +8,6 @@
           &nbsp;
           <strong style="font-size: 120%;">Word Reader</strong>
         </span>
-        <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
         <!-- script selection -->
         <span v-if="enableMultipleScripts" style="position: absolute; top: 23px; left: 200px; padding: 0px 20px 0px 20px;">
           <q-select v-model="script" :options="[userObj.currentMapping[0], userObj.currentMapping[1]]" label="Script" style="width:200px;" />
@@ -31,25 +30,8 @@
     <br/>
     <word-reader :userObj="userObj" :script="script" :highlightManyougana="highlightManyougana" ref="InterfaceWR" />
     <q-dialog v-model="viewTutorial">
-      <q-card style="width: 600px;">
-        <q-card-section>
-          <div class="text-h6">Tutorial (Word Reader)</div>
-        </q-card-section>
-        <q-card-section>
-        Use <strong>Word Reader</strong> to become more fluent in reading Japanese letters of a given script.
-        <br/>
-        <br/>
-        First of all, choose a <strong>Script</strong> you want to use. Press the <strong>NEW WORD</strong> button or <strong>N</strong> on your keyboard to generate a question.
-        <br/><br/>
-        You will be shown a word spelled with Japanese letters of your desired script. in the <strong>Text Field (Enter solution)</strong>, type in the <strong><abbr title="One Latin Romanization of Japanese">Romaji</abbr></strong> of the word in <strong><abbr title="shi chi tsu fu, rather than si ti tu hu">Hepburn</abbr></strong>. Don't use any delimiters such as spaces ' ' or commas ','.
-        <br/><br/>
-        Hit the <strong>ENTER</strong> button or <strong>Enter</strong> on your keyboard to submit your solution.
-        <br/><br/>
-        You will be given corrective feedback and shown the <strong><abbr title="One Latin Romanization of Japanese">Romaji</abbr></strong> of each character. The correct solution will be displayed alongside your solution on the Feedback. You may proceed with generating new questions from now on.
-        <br/><br/>
-        <strong>Remarks:</strong> Your <strong>Skill Level</strong> determines how many of the 48 Japanese letters will be quizzed, which in turn determines the words and word length you will be asked.
-        <br/>
-        </q-card-section>
+      <q-card style="padding: 10px;">
+        <strong>Tip: </strong>After typing a word, use keyboard shortcut <strong style="color: blue;">Enter </strong> for ENTER and for NEW WORD.
       </q-card>
     </q-dialog>
     </q-card>
@@ -129,6 +111,31 @@ export default {
     }
   }
 }
+/**
+<q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
+<q-dialog v-model="viewTutorial">
+  <q-card style="width: 600px;">
+    <q-card-section>
+      <div class="text-h6">Tutorial (Word Reader)</div>
+    </q-card-section>
+    <q-card-section>
+    Use <strong>Word Reader</strong> to become more fluent in reading Japanese letters of a given script.
+    <br/>
+    <br/>
+    First of all, choose a <strong>Script</strong> you want to use. Press the <strong>NEW WORD</strong> button or <strong>N</strong> on your keyboard to generate a question.
+    <br/><br/>
+    You will be shown a word spelled with Japanese letters of your desired script. in the <strong>Text Field (Enter solution)</strong>, type in the <strong><abbr title="One Latin Romanization of Japanese">Romaji</abbr></strong> of the word in <strong><abbr title="shi chi tsu fu, rather than si ti tu hu">Hepburn</abbr></strong>. Don't use any delimiters such as spaces ' ' or commas ','.
+    <br/><br/>
+    Hit the <strong>ENTER</strong> button or <strong>Enter</strong> on your keyboard to submit your solution.
+    <br/><br/>
+    You will be given corrective feedback and shown the <strong><abbr title="One Latin Romanization of Japanese">Romaji</abbr></strong> of each character. The correct solution will be displayed alongside your solution on the Feedback. You may proceed with generating new questions from now on.
+    <br/><br/>
+    <strong>Remarks:</strong> Your <strong>Skill Level</strong> determines how many of the 48 Japanese letters will be quizzed, which in turn determines the words and word length you will be asked.
+    <br/>
+    </q-card-section>
+  </q-card>
+</q-dialog>
+**/
 </script>
 
 <style>

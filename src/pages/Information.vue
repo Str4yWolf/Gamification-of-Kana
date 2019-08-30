@@ -5,7 +5,6 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
       &nbsp;
       <strong style="font-size: 120%;">Information</strong>
-      <q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
       <!-- content -->
       <q-list bordered class="rounded-borders">
         <!-- General (Index 1) -->
@@ -20,18 +19,32 @@
           :header-inset-level="0.5"
           :content-inset-level="1"
           icon="receipt"
+          label="Goal"
+          group="general"
+        >
+          <q-card>
+            <q-card-section>
+              Use this app to learn Japanese scripts and become more fluent in using them.
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+        <!-- How to use (Index 1-2) -->
+        <q-expansion-item
+          :header-inset-level="0.5"
+          :content-inset-level="1"
+          icon="receipt"
           label="How to use this app"
           group="general"
         >
           <q-card>
             <q-card-section>
-              Learn how to read Japanese scripts with this app's different learning options.
-               Move through the tabs to find the learning modes that suit you best.
-               Try using the embedded game elements to gain experience points, hit new levels, and unlock achievements.
+              Start out with <strong>Menu -> Quest </strong> to walk through the incremental learning experience.
+               Play around with all menu items and all usable elements to learn, gain experience, and unlock new learning material.
+               Take the Final Exam to prove your knowledge.
             </q-card-section>
           </q-card>
         </q-expansion-item>
-        <!-- Progress and learning (Index 1-2) -->
+        <!-- Progress and learning (Index 1-3) -->
         <q-expansion-item
           :header-inset-level="0.5"
           :content-inset-level="1"
@@ -64,37 +77,16 @@
         >
           <q-card>
             <q-card-section>
-              <strong>Functions</strong><br />
-              As of 8/2/2019, you can use a simple flashcard function and a multiple choice quiz.<br />
-              There is also a WordCreator game to help you practice writing with Japanese scripts. <br />
-              Spaced repitition works, although parameters need some trial-and-error tuning.
-              User database interaction works. You can gain experience points and hit levels.<br />
-              Progress tracking of character in question and target scripts included.<br />
-              Inkblots serve as prospective in-game currency to help beat the prospective final game (exam) <br />
-              Reference as to what characters are in Romaji is given as tooltips by hovering over images (only when answer to question has been revealed in relevant cases). <br />
-              <br />
-              <strong>Scripts (48 glyphs)</strong><br />
-              [Hentaigana, Hiragana,] Katakana, Man'yougana-Katakana (also with katakana component highlighting)<br />
-              <br />
-              <strong>Text input</strong><br />
-              Latin alphabet (Romaji) in Hepburn script
-              <br />
-              colour highlighting
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <!-- Technical (Index 2-2) -->
-        <q-expansion-item
-          :header-inset-level="0.5"
-          :content-inset-level="1"
-          icon="receipt"
-          label="Technical"
-          group="details"
-        >
-          <q-card>
-            <q-card-section>
-              <strong>User account</strong><br />
-              For each user account, a database entry will be created in your computer's local storage. The name serves as the key (identification); hence a name can be taken only once. This app counts the number of times you see a question on a letter and with a script map between two scripts. It will also count how successful you are in answering questions, assigning mastery gradings to each such map. Time stamps help with spaced repetition.
+              <strong>Functionality: </strong>Smart Flashcard, Multiple Choice Quiz, Word Reader, Word Creator, Quest (guide), Final Exam (proof of knowledge), Character Reference, Settings
+              <br /><br/>
+              <strong>Elements: </strong>Level, Experience Points, Skill Level, Skill Level Points, Inkblots (in-game currency), Timer, Score
+              <br /><br/>
+              <strong>Scripts: </strong>Romaji, Katakana, Manyougana-Katakana, Hiragana, Hentaigana
+              <br /><br/>
+              <strong>Database: </strong>User object, progress tracking; Japanese letters, Japanese words
+              <br /><br/>
+              <strong>Design (Pragmatics): </strong>Spaced Repetition System, Gamification, Motivation; Manyougana highlight showcasing Katakana component, Info (Dialog, Tooltip); Flow (keyboard shortcuts, limited options)
+              <br /><br/>
             </q-card-section>
           </q-card>
         </q-expansion-item>
@@ -112,47 +104,34 @@
             <strong>Want to to</strong><br/>
             Achievements and its popup<br/>
             Design<br/>
-            Add full tutorial and information in about page<br/>
             Debugging<br/>
             <strong>Details / Debugging</strong><br />
-            Fix WordReader in Final Exam; remaining answers (need to be reset to '')<br/>
-            Revise final exam design<br/>
             Revise finalExamWords (no skipping questions or so)<br />
             make grey frame bigger on the background<br />
             make SVG greyscale?<br />
             (crop SVGs for faster loading)<br /><br />
             <strong>Requirements (9/10/2019)</strong><br />
-            (4) increase visual affordances and shorten tutorials / outsource to title<br />
             (4) walk through design and redesign<br />
             (15) clean up code<br />
             (8) vue-fy/quasar-fy<br/>
-            (2) bugs <br/>
-            (33)
+            (27)
             (6) user study questionnaire/planning<br/>
             (16) user study<br/>
-            (55) <br />
+            (49) <br />
             (50 / 100) BA text<br/>
             130/16 -> 8.125 h / day
             (4) achievements
             scalable SVGs<br />
-            design<br />
-            improve user flow<br />
-            write description of app<br />
-            separate different learning options<br />
             spaced repetition on characters of words<br />
-            still fewer options<br />
             BA task<br /><br />
             <strong>Core tasks</strong><br />
-              (0.5) about page
               (1) immersive/attractive feedback whatsoever<br />
               (3) animations<br />
-              (0:15) manyougana button<br />
               (2) badges (bronze,silver,gold,platinum) without design<br />
               (3) add inkblot design to badges
               (0:40) Custom words in word creator<br />
               (1:30) colour design<br />
               (6) app design <br />
-              (3) fancy tutorials - transfer to layout; add high z-index arrow overlays<br />
               (6) wrap learning page in a nice context<br />
               ((100+) Story mode)<br />
               (Varying Hentaigana)<br />
@@ -187,19 +166,44 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
+        <!-- About devs (Index 4) -->
+        <q-expansion-item
+            expand-separator
+            icon="book"
+            label="About us"
+            group="information"
+        >
+          <q-card>
+            <q-card-section>
+              <strong>Project: </strong>Gamification of Japanese Scripts (Former Working Title: "Gamification of the Historical Development of Kana")
+              <br /><br/>
+              <strong>Context: </strong>Bachelor Thesis Computer Science (University of Hamburg)
+              <br /><br/>
+              <strong>Developer: </strong>Michael W K Huang; contributions by Vinodh Rajan Sampath
+              <br /><br/>
+              <strong>Contact Email: </strong>michaelhuang@hotmail.de (add custom email soon)
+              <br /><br/>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
+        <!-- Terms of use (Index 5) -->
+        <q-expansion-item
+            expand-separator
+            icon="book"
+            label="Terms of Use"
+            group="information"
+        >
+          <q-card>
+            <q-card-section>
+              <strong>$1</strong> This app, in this phase, is intended for experimental purposes only. Any other use requires express knowledge and approval of the Developer. <br/>
+              <strong>$2</strong> Although the Developer tries to maximze the learning experience and minimize errors, complete functionality and correctness of learning resources is not guaranteed. <br/>
+              <strong>$3</strong> Data collected and stored by this app will use the Local Storage of your browser. Collected data will not be transmitted elsewhere. <br/>
+              <strong>$4</strong> The Developer cannot be held responsible for any damages or losses incurred by the use of this app.
+              <strong>$5</strong> By using this app, the user automatically agrees to these Terms of Use. <br/>
+            </q-card-section>
+          </q-card>
+        </q-expansion-item>
       </q-list>
-    <q-dialog v-model="viewTutorial">
-      <q-card style="width: 600px;">
-        <q-card-section>
-          <div class="text-h6">Tutorial (Information)</div>
-        </q-card-section>
-        <q-card-section>
-        Click on the menus to browse through this <strong>Information</strong> page and to view general, pedagogic, and technical details.
-        <br/><br/>
-        <strong>ToDo</strong> describes future extensions of this project which will likely be developed privately.
-        </q-card-section>
-      </q-card>
-    </q-dialog>
     </q-card>
   </q-page>
 </template>
@@ -213,6 +217,21 @@ export default {
     }
   }
 }
+/**
+<q-btn round dense flat icon="help" color="red" @click="viewTutorial=true" />
+<q-dialog v-model="viewTutorial">
+  <q-card style="width: 600px;">
+    <q-card-section>
+      <div class="text-h6">Tutorial (Information)</div>
+    </q-card-section>
+    <q-card-section>
+    Click on the menus to browse through this <strong>Information</strong> page and to view general, pedagogic, and technical details.
+    <br/><br/>
+    <strong>ToDo</strong> describes future extensions of this project which will likely be developed privately.
+    </q-card-section>
+  </q-card>
+</q-dialog>
+**/
 </script>
 
 <style>

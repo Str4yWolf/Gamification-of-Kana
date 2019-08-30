@@ -28,7 +28,6 @@
             </span>
             <span class="row">
               <span title="Achievements" style="width: 80px;"><q-icon name="star"/> {{achievementsFraction}}%</span>
-              <span title="Exam Tickets"><q-icon name="note"/> {{userObj.examTickets}}</span>
             </span>
           </span>
           <!-- final exam display -->
@@ -86,7 +85,7 @@
                 <q-item-section>Take Final Exam</q-item-section>
               </q-item>
               <q-item @click="showInformation()" clickable>
-                <q-item-section>App Info</q-item-section>
+                <q-item-section>About</q-item-section>
               </q-item>
               <q-item @click="showSettings()" clickable>
                 <q-item-section>Settings</q-item-section>
