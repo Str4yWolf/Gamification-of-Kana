@@ -48,41 +48,8 @@
           <!-- menu (pages) -->
           <q-menu transition-show="jump-down" transition-hide="jump-up">
             <q-list style="min-width: 100px">
-              <q-item @click="unhideGeneralLearning()" clickable>
-                <q-item-section>Quest</q-item-section>
-              </q-item>
-              <q-item clickable>
-                <q-item-section>Individual Tools</q-item-section>
-                <q-item-section side>
-                  <q-icon name="keyboard_arrow_right" />
-                </q-item-section>
-                <!-- submenu start -->
-                <q-menu transition-show="jump-right" transition-hide="jump-left" anchor="top right" auto-close>
-                  <q-list>
-                    <q-item @click="unhideFlipCard()" clickable>
-                      <q-item-section>Smart Flashcard</q-item-section>
-                    </q-item>
-                    <q-item @click="unhideMultipleChoiceQuiz()" clickable>
-                      <q-item-section>Multiple Choice</q-item-section>
-                    </q-item>
-                    <q-item @click="unhideWordCreator()" clickable>
-                      <q-item-section>Word Creator</q-item-section>
-                    </q-item>
-                    <q-item @click="unhideWordReader()" clickable>
-                      <q-item-section>Word Reader</q-item-section>
-                    </q-item>
-                  </q-list>
-                </q-menu>
-                <!-- submenu end -->
-              </q-item>
               <q-item v-if="userObj.unlockNewMapping" @click="unhideMappingSetup()" clickable>
                 <q-item-section>Learn New Mapping</q-item-section>
-              </q-item>
-              <q-item @click="unhideCharacterReference()" clickable>
-                <q-item-section>Character Reference</q-item-section>
-              </q-item>
-              <q-item @click="unhideFinalExam()" clickable>
-                <q-item-section>Take Final Exam</q-item-section>
               </q-item>
               <q-item @click="showInformation()" clickable>
                 <q-item-section>About</q-item-section>
@@ -180,9 +147,16 @@ export default {
     this.$root.$on('incrementTracking', this.incrementTracking)
     this.$root.$on('hideFlipCard', this.hideFlipCard)
     this.$root.$on('hideMultipleChoiceQuiz', this.hideMultipleChoiceQuiz)
-    this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideWordReader', this.hideWordReader)
+    this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
+    this.$root.$on('unhideFlipCard', this.unhideFlipCard)
+    this.$root.$on('unhideMultipleChoiceQuiz', this.unhideMultipleChoiceQuiz)
+    this.$root.$on('unhideWordReader', this.unhideWordReader)
+    this.$root.$on('unhideWordCreator', this.unhideWordCreator)
+    this.$root.$on('unhideGeneralLearning', this.unhideGeneralLearning)
+    this.$root.$on('unhideFinalExam', this.unhideFinalExam)
+    this.$root.$on('unhideCharacterReference', this.unhideCharacterReference)
     this.$root.$on('initializeGeneralLearningQuiz', this.initializeGeneralLearningQuiz)
     this.$root.$on('hideCharacterReference', this.hideCharacterReference)
     this.$root.$on('hideFinalExam', this.hideFinalExam)

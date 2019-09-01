@@ -1,10 +1,10 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
     <q-card v-if="activateQuiz" style="width: 840px; padding: 30px; height: 540px;">
-      <!-- header -->
-      <!-- back button -->
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
       &nbsp;
+      <!-- header -->
+      <!-- back button -->
       <strong style="font-size: 120%;">Quest</strong>
       &nbsp;
       &nbsp;
