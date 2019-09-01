@@ -13,68 +13,29 @@
           icon="book"
           label="General"
           group="information"
-      >
-        <!-- How to use (Index 1-1) -->
-        <q-expansion-item
-          :header-inset-level="0.5"
-          :content-inset-level="1"
-          icon="receipt"
-          label="Goal"
-          group="general"
-        >
+          >
           <q-card>
             <q-card-section>
+              <strong>Goal</strong><br/>
               Use this app to learn Japanese scripts and become more fluent in using them.
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <!-- How to use (Index 1-2) -->
-        <q-expansion-item
-          :header-inset-level="0.5"
-          :content-inset-level="1"
-          icon="receipt"
-          label="How to use this app"
-          group="general"
-        >
-          <q-card>
-            <q-card-section>
+              <br/><br/>
+              <strong>How to use this app</strong><br/>
               Start out with <strong>Menu -> Quest </strong> to walk through the incremental learning experience.
-               Play around with all menu items and all usable elements to learn, gain experience, and unlock new learning material.
+               Play around with all menu items and all usable elements to learn, gain experience, and unlock new learning material. <br/>
                Take the Final Exam to prove your knowledge.
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <!-- Progress and learning (Index 1-3) -->
-        <q-expansion-item
-          :header-inset-level="0.5"
-          :content-inset-level="1"
-          icon="receipt"
-          label="Progress and learning"
-          group="general"
-        >
-          <q-card>
-            <q-card-section>
+              <br/><br/>
+              <strong>Progress and learning</strong><br/>
               This app aims to maximize your learning benefit by giving corrective feedback and
                motivate you to practice by honouring your success with rewards.
             </q-card-section>
           </q-card>
         </q-expansion-item>
-      </q-expansion-item>
-      <!-- Details (Index 2) -->
-      <q-expansion-item
-          expand-separator
-          icon="book"
-          label="Details"
-          group="information"
-      >
-        <!-- supported actions (Index 2-1) -->
+        <!-- supported actions (Index 2) -->
         <q-expansion-item
-          :header-inset-level="0.5"
-          :content-inset-level="1"
-          icon="receipt"
+          icon="book"
           label="Supported actions"
-          group="details"
-        >
+          group="information"
+          >
           <q-card>
             <q-card-section>
               <strong>Functionality: </strong>Smart Flashcard, Multiple Choice Quiz, Word Reader, Word Creator, Quest (guide), Final Exam (proof of knowledge), Character Reference, Settings
@@ -90,119 +51,117 @@
             </q-card-section>
           </q-card>
         </q-expansion-item>
-      </q-expansion-item>
-      <!-- ToDo (Index 3) -->
-      <q-expansion-item
-          :content-inset-level="1"
-          expand-separator
-          icon="book"
-          label="ToDo"
-          group="information"
-      >
-        <q-card>
-          <q-card-section>
-            <strong>Want to to</strong><br/>
-            Achievements and its popup<br/>
-            Design<br/>
-            Debugging<br/>
-            <strong>Details / Debugging</strong><br />
-            Revise finalExamWords (no skipping questions or so)<br />
-            make grey frame bigger on the background<br />
-            make SVG greyscale?<br />
-            (crop SVGs for faster loading)<br /><br />
-            <strong>Requirements (9/10/2019)</strong><br />
-            (4) walk through design and redesign<br />
-            (15) clean up code<br />
-            (8) vue-fy/quasar-fy<br/>
-            (27)
-            (6) user study questionnaire/planning<br/>
-            (16) user study<br/>
-            (49) <br />
-            (50 / 100) BA text<br/>
-            130/16 -> 8.125 h / day
-            (4) achievements
-            scalable SVGs<br />
-            spaced repetition on characters of words<br />
-            BA task<br /><br />
-            <strong>Core tasks</strong><br />
-              (1) immersive/attractive feedback whatsoever<br />
-              (3) animations<br />
-              (2) badges (bronze,silver,gold,platinum) without design<br />
-              (3) add inkblot design to badges
-              (0:40) Custom words in word creator<br />
-              (1:30) colour design<br />
-              (6) app design <br />
-              (6) wrap learning page in a nice context<br />
-              ((100+) Story mode)<br />
-              (Varying Hentaigana)<br />
-              ((5) add commercial edge -> $0.05 / inklblot)<br/>
-              (0:20) encourage use of learning page<br/>
-              conflate script databases with only one image per letter<br/>
-              <br />
-              (4) refactor code -- mixin<br />
-              <br />
-              <br />
-              <strong>FINAL</strong><br/>
-              MCQ measurement 1.6 / word -> 0.8 / word<br />
-              WC kat measurement 5 / word -> 2.5<br />
-              WC man measurement 5.5 / word -> 2.5<br />
-              WR measurement 3 / word -> 1.5 / word<br />
-              <br/>
-              153.6s(96): MCQ(48) -> 38.4?s; WR(24) -> 36s; WC(24) -> 60s<br />
-              315.6s(+162s) MCQ: 53.6s(+28s); -> WR: 89s(+41s); WC: 173s(+93s)
-              <br/>
-              <strong>inkblots</strong><br/>
-              <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess);<br/>
-              <b>consume permanently: inkblots(2)</b><br/>
-              <b>get temporarily: no Japanese hints (10), no Manyougana highlight (5),</b><br/>
-              <b>consume temporarily: additional second (1)</b><br/>
-              <strong>Allocation: allocate points to tasks</strong><br/>
-              <br/>
-            <!-- <strong>Scripts (48 glyphs)</strong><br />
-              (Man'yougana-Hiragana), (kanbun)<br />
-              <br />
-            <strong>Text input</strong><br />
-              (Japanese/Chinese input) -->
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <!-- About devs (Index 4) -->
+        <!-- ToDo (Index 3) -->
         <q-expansion-item
             expand-separator
             icon="book"
-            label="About us"
+            label="ToDo"
             group="information"
         >
           <q-card>
             <q-card-section>
-              <strong>Project: </strong>Gamification of Japanese Scripts (Former Working Title: "Gamification of the Historical Development of Kana")
-              <br /><br/>
-              <strong>Context: </strong>Bachelor Thesis Computer Science (University of Hamburg)
-              <br /><br/>
-              <strong>Developer: </strong>Michael W K Huang; contributions by Vinodh Rajan Sampath
-              <br /><br/>
-              <strong>Contact Email: </strong>michaelhuang@hotmail.de (add custom email soon)
-              <br /><br/>
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
-        <!-- Terms of use (Index 5) -->
-        <q-expansion-item
-            expand-separator
-            icon="book"
-            label="Terms of Use"
-            group="information"
-        >
-          <q-card>
-            <q-card-section>
-              <strong>$1</strong> This app, in this phase, is intended for experimental purposes only. Any other use requires express knowledge and approval of the Developer. <br/>
-              <strong>$2</strong> Although the Developer tries to maximze the learning experience and minimize errors, complete functionality and correctness of learning resources is not guaranteed. <br/>
-              <strong>$3</strong> Data collected and stored by this app will use the Local Storage of your browser. Collected data will not be transmitted elsewhere. <br/>
-              <strong>$4</strong> The Developer cannot be held responsible for any damages or losses incurred by the use of this app.
-              <strong>$5</strong> By using this app, the user automatically agrees to these Terms of Use. <br/>
-            </q-card-section>
-          </q-card>
-        </q-expansion-item>
+              <strong>Want to to</strong><br/>
+              Achievements and its popup<br/>
+              Design<br/>
+              Debugging<br/>
+              <strong>Details / Debugging</strong><br />
+              Revise finalExamWords (no skipping questions or so)<br />
+              make grey frame bigger on the background<br />
+              make SVG greyscale?<br />
+              (crop SVGs for faster loading)<br /><br />
+              <strong>Requirements (9/10/2019)</strong><br />
+              (4) walk through design and redesign<br />
+              (15) clean up code<br />
+              (8) vue-fy/quasar-fy<br/>
+              (27)
+              (6) user study questionnaire/planning<br/>
+              (16) user study<br/>
+              (49) <br />
+              (50 / 100) BA text<br/>
+              130/16 -> 8.125 h / day
+              (4) achievements
+              scalable SVGs<br />
+              spaced repetition on characters of words<br />
+              BA task<br /><br />
+              <strong>Core tasks</strong><br />
+                (1) immersive/attractive feedback whatsoever<br />
+                (3) animations<br />
+                (2) badges (bronze,silver,gold,platinum) without design<br />
+                (3) add inkblot design to badges
+                (0:40) Custom words in word creator<br />
+                (1:30) colour design<br />
+                (6) app design <br />
+                (6) wrap learning page in a nice context<br />
+                ((100+) Story mode)<br />
+                (Varying Hentaigana)<br />
+                ((5) add commercial edge -> $0.05 / inklblot)<br/>
+                (0:20) encourage use of learning page<br/>
+                conflate script databases with only one image per letter<br/>
+                <br />
+                (4) refactor code -- mixin<br />
+                <br />
+                <br />
+                <strong>FINAL</strong><br/>
+                MCQ measurement 1.6 / word -> 0.8 / word<br />
+                WC kat measurement 5 / word -> 2.5<br />
+                WC man measurement 5.5 / word -> 2.5<br />
+                WR measurement 3 / word -> 1.5 / word<br />
+                <br/>
+                153.6s(96): MCQ(48) -> 38.4?s; WR(24) -> 36s; WC(24) -> 60s<br />
+                315.6s(+162s) MCQ: 53.6s(+28s); -> WR: 89s(+41s); WC: 173s(+93s)
+                <br/>
+                <strong>inkblots</strong><br/>
+                <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess);<br/>
+                <b>consume permanently: inkblots(2)</b><br/>
+                <b>get temporarily: no Japanese hints (10), no Manyougana highlight (5),</b><br/>
+                <b>consume temporarily: additional second (1)</b><br/>
+                <strong>Allocation: allocate points to tasks</strong><br/>
+                <br/>
+              <!-- <strong>Scripts (48 glyphs)</strong><br />
+                (Man'yougana-Hiragana), (kanbun)<br />
+                <br />
+              <strong>Text input</strong><br />
+                (Japanese/Chinese input) -->
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+          <!-- About devs (Index 4) -->
+          <q-expansion-item
+              expand-separator
+              icon="book"
+              label="About us"
+              group="information"
+          >
+            <q-card>
+              <q-card-section>
+                <strong>Project: </strong>Gamification of Japanese Scripts (Former Working Title: "Gamification of the Historical Development of Kana")
+                <br /><br/>
+                <strong>Context: </strong>Bachelor Thesis Computer Science (University of Hamburg)
+                <br /><br/>
+                <strong>Developer: </strong>Michael W K Huang; contributions by Vinodh Rajan Sampath
+                <br /><br/>
+                <strong>Contact Email: </strong>michaelhuang@hotmail.de (add custom email soon)
+                <br /><br/>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
+          <!-- Terms of use (Index 5) -->
+          <q-expansion-item
+              expand-separator
+              icon="book"
+              label="Terms of Use"
+              group="information"
+          >
+            <q-card>
+              <q-card-section>
+                <strong>$1</strong> This app, in this phase, is intended for experimental purposes only. Any other use requires express knowledge and approval of the Developer. <br/>
+                <strong>$2</strong> Although the Developer tries to maximze the learning experience and minimize errors, complete functionality and correctness of learning resources is not guaranteed. <br/>
+                <strong>$3</strong> Data collected and stored by this app will use the Local Storage of your browser. Collected data will not be transmitted elsewhere. <br/>
+                <strong>$4</strong> The Developer cannot be held responsible for any damages or losses incurred by the use of this app.
+                <strong>$5</strong> By using this app, the user automatically agrees to these Terms of Use. <br/>
+              </q-card-section>
+            </q-card>
+          </q-expansion-item>
       </q-list>
     </q-card>
   </q-page>
