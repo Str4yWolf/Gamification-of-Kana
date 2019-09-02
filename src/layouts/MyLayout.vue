@@ -334,6 +334,7 @@ export default {
     },
     hideFlipCard () {
       this.showFlipCard = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideMultipleChoiceQuiz () {
       if (this.isFinalExam) {
@@ -348,6 +349,7 @@ export default {
     },
     hideMultipleChoiceQuiz () {
       this.showMultipleChoiceQuiz = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideWordCreator () {
       if (this.isFinalExam) {
@@ -362,6 +364,7 @@ export default {
     },
     hideWordCreator () {
       this.showWordCreator = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideWordReader () {
       if (this.isFinalExam) {
@@ -376,6 +379,7 @@ export default {
     },
     hideWordReader () {
       this.showWordReader = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideGeneralLearning () {
       if (this.isFinalExam) {
@@ -391,6 +395,7 @@ export default {
     hideGeneralLearning () {
       console.log('called hideGeneralLearning')
       this.showGeneralLearning = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     initializeGeneralLearningQuiz () {
       this.hideGeneralLearning()
@@ -409,6 +414,7 @@ export default {
     },
     hideMappingSetup () {
       this.showMappingSetup = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideMappingSetup () {
       console.log('called unhideMappingSetup() from Layout')
@@ -417,6 +423,7 @@ export default {
     },
     hideCharacterReference () {
       this.showCharacterReference = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     unhideCharacterReference () {
       this.hideAllComponents()
@@ -424,6 +431,7 @@ export default {
     },
     hideFinalExam () {
       this.showFinalExam = false
+      setTimeout(this.setShowMenuTrue, 1)
     },
     hideAllComponents () {
       this.showFlipCard = false
@@ -541,7 +549,6 @@ export default {
           this.viewTutorial = true
           this.$root.$emit('updateDatabase')
         }
-        this.$root.$emit('setShowMenu', true)
       }
     },
     /**
@@ -555,6 +562,11 @@ export default {
       this.showAvatar = true
       this.hideMappingSetup()
       this.updateDatabase()
+      setTimeout(this.setShowMenuTrue, 1)
+    },
+    // needs timeout
+    setShowMenuTrue () {
+      this.$root.$emit('setShowMenu', true)
     },
     /**
     Logs out a user by adjusting display and resetting currently loaded user data.
