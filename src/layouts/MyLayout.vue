@@ -20,7 +20,7 @@
             </q-item-label>
           </q-item-section>
           &nbsp; &nbsp; &nbsp;
-          <!-- normal display -->
+          <!-- icons display (normal) -->
           <span v-if="!isFinalExam">
             <span class="row">
               <span title="Skill Level" style="width: 80px;"><q-icon name="school"/> {{userObj.skillLvl}}</span>
@@ -30,14 +30,13 @@
               <span title="Achievements" style="width: 80px;"><q-icon name="star"/> {{achievementsFraction}}%</span>
             </span>
           </span>
-          <!-- final exam display -->
+          <!-- icons display (final exam) -->
           <span v-if="isFinalExam">
             <span title="Questions"><q-icon name="casino"/> {{numberQuestions[0]}}/{{numberQuestions[1]}}</span> <br />
             <span title="Free Errors"><q-icon name="done_all"/> {{freeErrors}}</span>
           </span>
-          &nbsp; &nbsp; &nbsp;
-          &nbsp; &nbsp; &nbsp;
-          <!-- Timer display -->
+          &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+          <!-- timer display (final exam) -->
           <span v-if="showTimer">
             <q-item-label><strong>Time</strong> &nbsp; &nbsp; &nbsp; &nbsp;
              <strong></strong>{{timeActualFormatted}}s/{{timeMax}}s</q-item-label>
@@ -74,9 +73,6 @@
         &nbsp;
         <!-- register button -->
         <q-btn v-if="showRegisterBtn" color="purple" label="Register" @click="$router.push('/Register/')" />
-        <!-- <q-toolbar-title>
-          Kana Sensei
-        </q-toolbar-title> -->
       </q-toolbar>
     </q-header>
     <q-page-container>
@@ -89,6 +85,7 @@
       <mapping-setup :userObj="userObj" v-if="showMappingSetupPage" />
       <character-reference :userObj="userObj" v-if="showCharacterReferencePage" />
       <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
+      <!-- level up dialog -->
       <q-dialog v-model="hitSkillLvlUp">
       <q-card>
         <q-card-section>
@@ -105,6 +102,12 @@
           <span v-if="skillLvl4"> Also, the maximum word length has increased to 4!</span>
           <span v-if="skillLvl6"> Also, the maximum word length has increased to 5!</span>
         </q-card-section>
+      </q-card>
+    </q-dialog>
+    <!-- tutorial dialog -->
+    <q-dialog v-if="viewTutorial">
+      <q-card style="padding: 10px;">
+        <strong style="color: blue;">Click on your avatar</strong> (top left) to view the menu.
       </q-card>
     </q-dialog>
     </q-page-container>
@@ -205,7 +208,8 @@ export default {
       // final exam controller
       isFinalExam: false,
       numberQuestions: [0, 96],
-      freeErrors: 0
+      freeErrors: 0,
+      viewTutorial: false
     }
   },
   computed: {
@@ -219,7 +223,7 @@ export default {
       if (this.userObj.lvl !== 0) {
         value = (this.userObj.exp - this.lvlThreshold[this.userObj.lvl - 1]) / (this.lvlThreshold[this.userObj.lvl] - this.lvlThreshold[this.userObj.lvl - 1])
       } else {
-        value = this.userObj.exp / 5
+        value = this.userObj.exp / 10
       }
       return value
     },
@@ -497,6 +501,7 @@ export default {
         this.showSignInField = false
         this.showRegisterBtn = false
         this.$router.push('/')
+        this.$root.$emit('setShowMenu', true)
       } else {
         alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
       }
@@ -531,6 +536,12 @@ export default {
         this.userObj = this.initializeUserObj()
         this.unhideMappingSetup()
         this.updateDatabase()
+        if (this.userObj.viewedTutorial[8] === false) {
+          this.userObj.viewedTutorial[8] = true
+          this.viewTutorial = true
+          this.$root.$emit('updateDatabase')
+        }
+        this.$root.$emit('setShowMenu', true)
       }
     },
     /**
@@ -563,6 +574,7 @@ export default {
       this.username = ''
       this.hideAllComponents()
       this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false }
+      this.$root.$emit('setShowMenu', false)
     },
     /**
     Changes username to a new name if the new name doesn't already exists.

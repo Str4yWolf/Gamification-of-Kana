@@ -70,10 +70,9 @@
               make SVG greyscale?<br />
               (crop SVGs for faster loading)<br /><br />
               <strong>Requirements (9/10/2019)</strong><br />
-              (4) walk through design and redesign<br />
               (15) clean up code<br />
               (8) vue-fy/quasar-fy<br/>
-              (27)
+              (23)
               (6) user study questionnaire/planning<br/>
               (16) user study<br/>
               (49) <br />
