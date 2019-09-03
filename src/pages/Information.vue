@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <q-card style="width: 750px; padding: 30px;">
       <!-- header -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$router.push('../')" />
+      <q-btn round dense flat icon="keyboard_backspace" @click="hidePage()" />
       &nbsp;
       <strong style="font-size: 120%;">Information</strong>
       <!-- content -->
@@ -65,20 +65,19 @@
               Design<br/>
               Debugging<br/>
               <strong>Details / Debugging</strong><br />
-              Revise finalExamWords (no skipping questions or so)<br />
+              (patch only) Revise finalExamWords (no skipping questions or so)<br />
               make grey frame bigger on the background<br />
               make SVG greyscale?<br />
               (crop SVGs for faster loading)<br /><br />
               <strong>Requirements (9/10/2019)</strong><br />
               (15) clean up code<br />
               (8) vue-fy/quasar-fy<br/>
-              (23)
-              (6) user study questionnaire/planning<br/>
+              (23)<br/>
               (16) user study<br/>
-              (49) <br />
+              (43) <br />
               (50 / 100) BA text<br/>
               130/16 -> 8.125 h / day
-              (4) achievements
+              (4) achievements (1-37)
               scalable SVGs<br />
               spaced repetition on characters of words<br />
               BA task<br /><br />
@@ -172,6 +171,15 @@ export default {
   data () {
     return {
       viewTutorial: false
+    }
+  },
+  methods: {
+    hidePage () {
+      this.$router.push('../')
+      setTimeout(this.setShowMenuTrue, 1)
+    },
+    setShowMenuTrue () {
+      this.$root.$emit('setShowMenu', true)
     }
   }
 }

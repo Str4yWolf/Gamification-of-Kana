@@ -1,11 +1,12 @@
 <template>
   <q-page class="flex flex-center" ref="modal" tabindex="0" @keyup="validateKeyInput">
+    <q-btn style="position: absolute; top: 27px; left: 245px; z-index: 3;" round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
     <q-card v-if="activateQuiz" style="width: 840px; padding: 30px; height: 540px;">
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
+      <span v-if="a" style="padding: 0px 0px 0px 37px;"/>
       &nbsp;
       <!-- header -->
       <!-- back button -->
-      <strong style="font-size: 120%;">Quest</strong>
+      <strong style="font-size: 120%; ">Quest</strong>
       &nbsp;
       &nbsp;
       &nbsp;
@@ -52,7 +53,7 @@
     <q-card v-if="showIntro1" style="width: 840px; padding: 30px; height: 560px;">
       <!-- header -->
       <!-- back button -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
+      <span v-if="a" style="padding: 0px 0px 0px 37px;"/>
       &nbsp;
       <strong style="font-size: 120%;">Quest Preparation (1)</strong> &nbsp; &nbsp; &nbsp;
       <!-- manyougana highlight toggle -->
@@ -145,7 +146,7 @@
     <q-card v-if="showIntro2" style="width: 840px; padding: 30px; height: 560px;">
       <!-- header -->
       <!-- back button -->
-      <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideGeneralLearning')" />
+      <span v-if="a" style="padding: 0px 0px 0px 37px;"/>
       &nbsp;
       <strong style="font-size: 120%;">Quest Preparation (2)</strong><br/>
       <!-- back button -->
@@ -204,7 +205,8 @@ export default {
       showJapanese: false,
       //
       viewTutorial: false,
-      introFirstPage: true
+      introFirstPage: true,
+      a: true
     }
   },
   computed: {
@@ -425,6 +427,8 @@ export default {
     },
     randomizeNextQuestion () {
       console.log('called randomizeNextQuestion in GL')
+      this.userObj.timesGL += 1
+      this.$root.$emit('checkAchievements', 16)
       this.mode = Math.floor(Math.random() * this.userObj.learningMode)
       var script1Index = Math.floor(Math.random() * 2)
       var script2Index = (script1Index ? 0 : 1)

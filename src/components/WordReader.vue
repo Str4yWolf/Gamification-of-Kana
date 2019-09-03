@@ -205,6 +205,8 @@ export default {
     validateSolution () {
       console.log('called validateOption from WordReader')
       this.$root.$emit('stopTimer')
+      this.userObj.timesWR += 1
+      this.$root.$emit('checkAchievements', 14)
       if (this.showFeedbackMessage) {
         return
       }

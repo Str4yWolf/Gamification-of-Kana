@@ -27,7 +27,7 @@
               <span title="Inkblots"><q-icon name="whatshot"/> {{userObj.inkblots}}</span>
             </span>
             <span class="row">
-              <span title="Achievements" style="width: 80px;"><q-icon name="star"/> {{achievementsFraction}}%</span>
+              <span class="hoverable" style="width: 80px;" title="Achievements" @click="unhideAchievementsViewer"><q-icon name="star"/> {{achievementsFraction}}%</span>
             </span>
           </span>
           <!-- icons display (final exam) -->
@@ -85,6 +85,7 @@
       <mapping-setup :userObj="userObj" v-if="showMappingSetupPage" />
       <character-reference :userObj="userObj" v-if="showCharacterReferencePage" />
       <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
+      <achievements-viewer v-if="showAchievementsViewerPage" :userObj="userObj" :achievementsDatabase="achievementsDatabaseVar" />
       <!-- level up dialog -->
       <q-dialog v-model="hitSkillLvlUp">
       <q-card>
@@ -116,6 +117,7 @@
 
 <script>
 import userTracking from '../statics/svg/user_tracking.json'
+import achievementsDatabase from '../statics/achievements.json'
 import FlipCard from '../components/FlipCard.vue'
 import MultipleChoiceQuizInterface from '../components/MultipleChoiceQuizInterface.vue'
 import WordCreatorInterface from '../components/WordCreatorInterface.vue'
@@ -124,6 +126,7 @@ import GeneralLearning from '../components/GeneralLearning.vue'
 import FinalExam from '../components/FinalExam.vue'
 import MappingSetup from '../components/MappingSetup.vue'
 import CharacterReference from '../components/CharacterReference.vue'
+import AchievementsViewer from '../components/AchievementsViewer.vue'
 
 export default {
   name: 'MyLayout',
@@ -135,7 +138,8 @@ export default {
     GeneralLearning,
     FinalExam,
     MappingSetup,
-    CharacterReference
+    CharacterReference,
+    AchievementsViewer
   },
   created () {
     // listen to event calls from elsewhere
@@ -153,6 +157,7 @@ export default {
     this.$root.$on('hideWordReader', this.hideWordReader)
     this.$root.$on('hideWordCreator', this.hideWordCreator)
     this.$root.$on('hideGeneralLearning', this.hideGeneralLearning)
+    this.$root.$on('hideAchievementsViewer', this.hideAchievementsViewer)
     this.$root.$on('unhideFlipCard', this.unhideFlipCard)
     this.$root.$on('unhideMultipleChoiceQuiz', this.unhideMultipleChoiceQuiz)
     this.$root.$on('unhideWordReader', this.unhideWordReader)
@@ -160,6 +165,7 @@ export default {
     this.$root.$on('unhideGeneralLearning', this.unhideGeneralLearning)
     this.$root.$on('unhideFinalExam', this.unhideFinalExam)
     this.$root.$on('unhideCharacterReference', this.unhideCharacterReference)
+    this.$root.$on('unhideAchievementsViewer', this.unhideAchievementsViewer)
     this.$root.$on('initializeGeneralLearningQuiz', this.initializeGeneralLearningQuiz)
     this.$root.$on('hideCharacterReference', this.hideCharacterReference)
     this.$root.$on('hideFinalExam', this.hideFinalExam)
@@ -172,6 +178,7 @@ export default {
     this.$root.$on('setShowTimer', this.setShowTimer)
     this.$root.$on('setIsFinalExam', this.setIsFinalExam)
     this.$root.$on('setNewMapping', this.setNewMapping)
+    this.$root.$on('checkAchievements', this.checkAchievements)
   },
   data () {
     return {
@@ -184,6 +191,7 @@ export default {
       showFinalExam: false,
       showMappingSetup: false,
       showCharacterReference: false,
+      showAchievementsViewer: false,
       showAvatar: false,
       showSignInBtn: true,
       showRegisterBtn: true,
@@ -197,7 +205,6 @@ export default {
       hitSkillLvlUp: false,
       skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
-      achievements: [],
       // controls for timer
       showTimer: false,
       timeActual: 0,
@@ -209,7 +216,9 @@ export default {
       isFinalExam: false,
       numberQuestions: [0, 96],
       freeErrors: 0,
-      viewTutorial: false
+      viewTutorial: false,
+      //
+      achievementsDatabaseVar: achievementsDatabase
     }
   },
   computed: {
@@ -228,7 +237,7 @@ export default {
       return value
     },
     achievementsFraction () {
-      var temp = (this.achievements.length / 29) * 10000
+      var temp = (this.userObj.achievements.length / 29) * 10000
       return Math.floor(temp) / 100
     },
     timeFraction () {
@@ -265,8 +274,11 @@ export default {
     showCharacterReferencePage () {
       return (this.$route.path === '/' && this.showCharacterReference)
     },
+    showAchievementsViewerPage () {
+      return (this.$route.path === '/' && this.showAchievementsViewer)
+    },
     showRouterPage () {
-      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage || this.showMappingSetupPage || this.showCharacterReferencePage)
+      return !(this.showFlipCardPage || this.showMultipleChoiceQuizPage || this.showWordCreatorPage || this.showWordReaderPage || this.showGeneralLearningPage || this.showFinalExamPage || this.showMappingSetupPage || this.showCharacterReferencePage || this.showAchievementsViewerPage)
     },
     skillLvl0 () {
       return this.userObj.skillLvl === 0
@@ -412,6 +424,10 @@ export default {
       this.hideAllComponents()
       this.showFinalExam = true
     },
+    hideFinalExam () {
+      this.showFinalExam = false
+      setTimeout(this.setShowMenuTrue, 1)
+    },
     hideMappingSetup () {
       this.showMappingSetup = false
       setTimeout(this.setShowMenuTrue, 1)
@@ -429,8 +445,19 @@ export default {
       this.hideAllComponents()
       this.showCharacterReference = true
     },
-    hideFinalExam () {
-      this.showFinalExam = false
+    unhideAchievementsViewer () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.hideAllComponents()
+      this.showAchievementsViewer = true
+    },
+    hideAchievementsViewer () {
+      this.showAchievementsViewer = false
       setTimeout(this.setShowMenuTrue, 1)
     },
     hideAllComponents () {
@@ -441,6 +468,7 @@ export default {
       this.showGeneralLearning = false
       this.showFinalExam = false
       this.showCharacterReference = false
+      this.showAchievementsViewer = false
       this.$router.push('/')
     },
     unhideSignInField () {
@@ -518,7 +546,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false, achievements: [], timesExamPassed: 0, timesExamFailed: 0, timesMCQ: 0, timesWR: 0, timesWC: 0, timesGL: 0, wordsEncountered: [] }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -585,7 +613,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false }
+      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false, achievements: [], timesExamPassed: 0, timesExamFailed: 0, timesMCQ: 0, timesWR: 0, timesWC: 0, timesGL: 0, wordsEncountered: [] }
       this.$root.$emit('setShowMenu', false)
     },
     /**
@@ -747,7 +775,11 @@ export default {
       if (this.userObj.exp >= threshold) {
         this.userObj.lvl += 1 // increment level upon hitting threshold
         this.userObj.inkblots += this.userObj.lvl // get inkblots as rewards
-        this.$q.notify('Congratulations. You have reached level ' + this.userObj.lvl + '!')
+        this.$q.notify('Congratulations. You have reached level ' + this.userObj.lvl + '. Inkblots +' + this.userObj.lvl)
+        this.checkAchievements(1)
+        this.checkAchievements(2)
+        this.checkAchievements(3)
+        this.checkAchievements(4)
         this.updateLvl() // check whether more levels have been hit
       }
     },
@@ -762,6 +794,10 @@ export default {
       if (this.userObj.skillExp >= threshold) {
         this.userObj.skillLvl += 1
         this.$q.notify('Congratulations. You have reached skill level ' + this.userObj.skillLvl + '!')
+        this.checkAchievements(5)
+        this.checkAchievements(6)
+        this.checkAchievements(7)
+        this.checkAchievements(8)
         this.userObj.learningMode = 0
         this.userObj.learningExp = 0
         if (this.userObj.skillLvl !== 9) {
@@ -819,6 +855,262 @@ export default {
       this.freeErrors = n
     },
     /**
+    Check whether achievement no a:Integer is applicable.
+    Adds achievement to userObj if applicable.
+    **/
+    checkAchievements (a) {
+      if (this.userObj.achievements.includes(a)) {
+        return
+      }
+      var pushed = false
+      switch (a) {
+        case 1:
+          if (this.userObj.lvl >= 1) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 2:
+          if (this.userObj.lvl >= 10) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 3:
+          if (this.userObj.lvl >= 19) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 4:
+          if (this.userObj.lvl >= 28) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 5:
+          if (this.userObj.skillLvl >= 1) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 6:
+          if (this.userObj.skillLvl >= 4) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 7:
+          if (this.userObj.skillLvl >= 7) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 8:
+          if (this.userObj.skillLvl >= 10) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 9:
+          if (this.userObj.timesExamPassed >= 1) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 10:
+          if (this.userObj.timesExamPassed >= 5) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 11:
+          if (this.userObj.timesExamPassed >= 15) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 12:
+          if (this.userObj.timesExamPassed >= 50) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 13:
+          if (this.userObj.timesMCQ >= 1000) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 14:
+          if (this.userObj.timesWR >= 600) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 15:
+          if (this.userObj.timesWC >= 500) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 16:
+          if (this.userObj.timesGL >= 2000) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 17:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 18:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 19:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 20:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 21:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 22:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 23:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 24:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 25:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 26:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 27:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 28:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 29:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 30:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 31:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 32:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 33:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 34:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 35:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 36:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 37:
+          var containsAll36 = true
+          for (var i = 1; i < 37; i++) {
+            if (!this.userObj.achievements.includes(i)) {
+              containsAll36 = false
+            }
+          }
+          if (containsAll36) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 38:
+          if (this.userObj.wordsEncountered.length === 193) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 39:
+          if (this.userObj.inkblots >= 400) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 40:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 41:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 42:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 43:
+          if (this.userObj.timesExamFailed === 7 && this.userObj.timesExamPassed === 8) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        case 44:
+          this.userObj.achievements.push(a)
+          pushed = true
+          break
+        case 45:
+          var containsAll = true
+          for (var j = 1; j < 45; j++) {
+            if (!this.userObj.achievements.includes(j)) {
+              containsAll = false
+            }
+          }
+          if (containsAll) {
+            this.userObj.achievements.push(a)
+            pushed = true
+          }
+          break
+        default:
+          alert('Looks like we have too many achievements')
+          break
+      }
+      if (pushed) {
+        var currentAchievement = achievementsDatabase[a.toString()]
+        this.$q.notify('New Achievement: ' + currentAchievement[0] + ' Inkblots +' + currentAchievement[1])
+        this.userObj.inkblots += parseInt(currentAchievement[1])
+        this.updateDatabase()
+        this.checkAchievements(37)
+      }
+    },
+    /**
     Writes current userObj of user onto database
     **/
     updateDatabase () {
@@ -829,4 +1121,7 @@ export default {
 </script>
 
 <style>
+.hoverable:hover {
+  opacity: 80%;
+}
 </style>

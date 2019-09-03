@@ -465,6 +465,8 @@ export default {
     },
     endCreation () {
       this.$root.$emit('stopTimer')
+      this.userObj.timesWC += 1
+      this.$root.$emit('checkAchievements', 15)
       this.showFeedbackMessage = true
       this.setAnswerImages()
       console.log('this.userAnswerIndices: ' + Object.values(this.userAnswerIndices))

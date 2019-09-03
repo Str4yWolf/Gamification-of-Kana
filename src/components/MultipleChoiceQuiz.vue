@@ -302,6 +302,8 @@ export default {
     validateOption (event) {
       console.log('called validateOption from MultipleChoice')
       this.$root.$emit('stopTimer')
+      this.userObj.timesMCQ += 1
+      this.$root.$emit('checkAchievements', 13)
       // adjust controls
       this.hasAnsweredQuestion = true
       this.validationInProgress = true

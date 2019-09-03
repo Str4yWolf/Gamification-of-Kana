@@ -65,15 +65,16 @@
         &nbsp;
         &nbsp;
         <q-list>
-        <strong style="font-size: 120%;">Available Inkblots</strong>
+        <strong style="font-size: 120%;" title="Configure your available inkblots">Available Inkblots</strong>
         <br/><br/>
         <q-expansion-item
           expand-separator
           icon="bubble_chart"
           label="Available Inkblots"
+          title="Configure your available inkblots"
         >
         <!-- base inkblots -->
-        <span style="padding: 0px 109px 0px 57px;"><strong>Your Inkblots</strong></span>
+        <span style="padding: 0px 109px 0px 57px;" title="Inkblots you have collected"><strong>Your Inkblots</strong></span>
         <strong><q-icon name="whatshot" /> {{userObj.inkblots}}</strong>
         <br/>
         <br/>
@@ -119,13 +120,14 @@
         <br/>
         <br/>
         <!-- inkblot allocation -->
-        <strong style="font-size: 120%;">Allocate Inkblots</strong>
+        <strong style="font-size: 120%;" title="Allocate your inkblots for bonuses">Allocate Inkblots</strong>
         <br/><br/>
         <!-- total number of inkblots spent -->
         <q-expansion-item
           expand-separator
           icon="poll"
           label="Allocate Inkblots"
+          title="Allocate your inkblots for bonuses"
         >
         <!-- error tolerance -->
         <span class="row" title="How many errors you can make during the exam">
@@ -283,6 +285,7 @@ export default {
       setJapaneseHint: true,
       setManyouganaHighlight: true,
       freeErrors: 0,
+      originalFreeErrors: 0,
       mode1Inkblots: 0,
       mode2Inkblots: 0,
       mode3Inkblots: 0,
@@ -511,6 +514,7 @@ export default {
       this.setJapaneseHint = true
       this.setManyouganaHighlight = true
       this.freeErrors = 0
+      this.originalFreeErrors = 0
       this.mode1Inkblots = 0
       this.mode2Inkblots = 0
       this.mode3Inkblots = 0
@@ -540,6 +544,7 @@ export default {
     startExam () {
       this.setupInProgress = false
       this.userObj.inkblots -= 2
+      this.originalFreeErrors = this.freeErrors
       this.$root.$emit('updateDatabase')
       this.$root.$emit('setIsFinalExam', true)
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
@@ -553,11 +558,82 @@ export default {
       this.$q.notify('Finished. You have been awarded ' + reward.toString() + ' experience points.')
       this.resetSetup()
       this.mode = 3
+      if (this.hasFailedExam) {
+        this.userObj.timesExamFailed += 1
+      } else {
+        this.userObj.timesExamPassed += 1
+        // check all achievements
+        if (this.showHighlightManyougana && !this.highlightManyougana) {
+          this.$root.$emit('checkAchievements', 17)
+        }
+        if (!this.showJapanese) {
+          this.$root.$emit('checkAchievements', 18)
+        }
+        if (this.modeInkblots <= 150) {
+          this.$root.$emit('checkAchievements', 19)
+        }
+        if (this.modeInkblots <= 100) {
+          this.$root.$emit('checkAchievements', 20)
+        }
+        if (this.modeInkblots <= 60) {
+          this.$root.$emit('checkAchievements', 21)
+        }
+        if (this.modeInkblots <= 30) {
+          this.$root.$emit('checkAchievements', 22)
+        }
+        if (this.originalFreeErrors === 0) {
+          this.$root.$emit('checkAchievements', 23)
+        }
+        if (this.showHighlightManyougana && !this.highlightManyougana && !this.showJapanese) {
+          this.$root.$emit('checkAchievements', 24)
+        }
+        if (!this.highlightManyougana && !this.showJapanese && this.originalFreeErrors === 0 && this.modeInkblots === 0) {
+          this.$root.$emit('checkAchievements', 25)
+        }
+      }
       if (!this.hasFailedExam && this.userObj.unlockNewMapping === false) {
+        this.checkMappingAchievements()
         this.userObj.learnedMappings.push(this.scripts[0] + '_' + this.scripts[1])
+        if (this.userObj.learnedMappings.length === 10) {
+          this.$root.$emit('checkAchievements', 36)
+        }
         this.userObj.unlockNewMapping = true
         this.unlockNewMappingInfo = true
-        this.$root.$emit('updateDatabase')
+      }
+      this.$root.$emit('checkAchievements', 9)
+      this.$root.$emit('checkAchievements', 10)
+      this.$root.$emit('checkAchievements', 11)
+      this.$root.$emit('checkAchievements', 12)
+      this.$root.$emit('updateDatabase')
+    },
+    /**
+    systematically check whether any of the mapping achievements have been unlocked
+    **/
+    checkMappingAchievements () {
+      var s1 = this.scripts[0]
+      var s2 = this.scripts[1]
+      var xs = ['romaji', 'katakana', 'manyougana-katakana', 'hiragana', 'hentaigana']
+
+      if ((s1 === xs[1] & s2 === xs[0]) || (s1 === xs[0] & s2 === xs[1])) {
+        this.$root.$emit('checkAchievements', 26)
+      } else if ((s1 === xs[2] & s2 === xs[0]) || (s1 === xs[0] & s2 === xs[2])) {
+        this.$root.$emit('checkAchievements', 27)
+      } else if ((s1 === xs[3] & s2 === xs[0]) || (s1 === xs[0] & s2 === xs[3])) {
+        this.$root.$emit('checkAchievements', 28)
+      } else if ((s1 === xs[4] & s2 === xs[0]) || (s1 === xs[0] & s2 === xs[4])) {
+        this.$root.$emit('checkAchievements', 29)
+      } else if ((s1 === xs[2] & s2 === xs[1]) || (s1 === xs[1] & s2 === xs[2])) {
+        this.$root.$emit('checkAchievements', 30)
+      } else if ((s1 === xs[3] & s2 === xs[1]) || (s1 === xs[1] & s2 === xs[3])) {
+        this.$root.$emit('checkAchievements', 31)
+      } else if ((s1 === xs[4] & s2 === xs[1]) || (s1 === xs[1] & s2 === xs[4])) {
+        this.$root.$emit('checkAchievements', 32)
+      } else if ((s1 === xs[3] & s2 === xs[2]) || (s1 === xs[2] & s2 === xs[3])) {
+        this.$root.$emit('checkAchievements', 33)
+      } else if ((s1 === xs[4] & s2 === xs[2]) || (s1 === xs[2] & s2 === xs[4])) {
+        this.$root.$emit('checkAchievements', 34)
+      } else if ((s1 === xs[4] & s2 === xs[3]) || (s1 === xs[3] & s2 === xs[4])) {
+        this.$root.$emit('checkAchievements', 35)
       }
     },
     retakeExam () {
