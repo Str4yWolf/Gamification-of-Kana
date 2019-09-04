@@ -173,8 +173,8 @@ export default {
         this.currentWordEng = this.currentWordFinal
       }
       // check whether new achievement is applicable
-      if (!this.userObj.WordsEncountered.includes(this.currentWordEng)) {
-        this.userObj.WordsEncountered.push(this.currentWordEng)
+      if (!this.userObj.wordsEncountered.includes(this.currentWordEng)) {
+        this.userObj.wordsEncountered.push(this.currentWordEng)
         this.$root.$emit('updateDatabase')
         this.$root.$emit('checkAchievements', 38)
       }

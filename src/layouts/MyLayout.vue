@@ -16,6 +16,9 @@
                 <q-item v-if="userObj.unlockNewMapping" @click="unhideMappingSetup()" clickable>
                   <q-item-section>Learn New Mapping</q-item-section>
                 </q-item>
+                <q-item @click="showTutorial()" clickable>
+                  <q-item-section>Tutorial</q-item-section>
+                </q-item>
                 <q-item @click="showInformation()" clickable>
                   <q-item-section>About</q-item-section>
                 </q-item>
@@ -107,13 +110,13 @@
       </q-card>
     </q-dialog>
     <!-- tutorial dialog -->
-    <q-dialog v-if="viewTutorial">
+    <q-dialog v-model="viewTutorial">
       <q-card style="padding: 10px;">
         <strong style="color: blue;">Click on your avatar</strong> (top left) to view the menu.
       </q-card>
     </q-dialog>
     <!-- tutorial dialog -->
-    <q-dialog v-if="showDailyLoginDialog">
+    <q-dialog v-model="showDailyLoginDialog">
       <q-card style="padding: 10px;">
         <q-card-section>
           <div class="text-h6">Daily Login Bonus ({{userObj.loginDayStreak }} Day(s))</div>
@@ -343,7 +346,8 @@ export default {
       } else if (this.showFinalExamPage) {
         return 'background-color: #027be3;' // when on Final Exam page (think about intermediate colour)
       } else {
-        return 'background-color: #027be3;' // default
+        // return 'background-color: #027be3;' // default
+        return 'background-color: #027be3;'
       }
     },
     timerStyle () {
@@ -531,6 +535,16 @@ export default {
       }
       this.$router.push('/Shop/')
     },
+    showTutorial () {
+      if (this.isFinalExam) {
+        if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
+          this.$root.$emit('leavePageFinalExam')
+        } else {
+          return
+        }
+      }
+      this.$router.push('/Tutorial/')
+    },
     showInformation () {
       if (this.isFinalExam) {
         if (confirm('Are you sure you want to leave this page? Unless you have finished the all questions, your progress will be lost!')) {
@@ -605,16 +619,16 @@ export default {
       console.log('called checkDailyLoginReward in MyLayout')
       if ((this.userObj.loginDayStreak % 365) === 0) {
         this.dailyLoginReward = 12
-        this.$q.notify('Received year-long login reward. Inkblots +12')
+        // this.$q.notify('Received year-long login reward. Inkblots +12')
       } else if ((this.userObj.loginDayStreak % 30) === 0) {
         this.dailyLoginReward = 4
-        this.$q.notify('Received month-long login reward. Inkblots +4')
+        // this.$q.notify('Received month-long login reward. Inkblots +4')
       } else if ((this.userObj.loginDayStreak % 7) === 0) {
         this.dailyLoginReward = 2
-        this.$q.notify('Received week-long login reward. Inkblots +2')
+        // this.$q.notify('Received week-long login reward. Inkblots +2')
       } else {
         this.dailyLoginReward = 1
-        this.$q.notify('Received daily login reward. Inkblots +1')
+        // this.$q.notify('Received daily login reward. Inkblots +1')
       }
       this.showDailyLoginDialog = true
       this.userObj.inkblots += this.dailyLoginReward
@@ -689,6 +703,7 @@ export default {
       this.updateDatabase()
       setTimeout(this.setShowMenuTrue, 1)
       this.logDate()
+      this.$router.push('/Tutorial/')
     },
     // needs timeout
     setShowMenuTrue () {
