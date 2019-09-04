@@ -152,7 +152,7 @@ export default {
     Highlight or unhighlight the image according to the highlightManyougana state
     **/
     updateHighlight () {
-      console.log('called updateHighlight() from WordCreator')
+      console.log('called updateHighlight() from WordReader')
       // this.$refs.WROps.toggleHighlight()
       if (this.script === 'manyougana-katakana') {
         this.slot1Image = this.$refs.WROps.getLetters(this.$refs.WROps.getLetterFromPath(this.slot1Image), 'manyougana-katakana')[0]
@@ -171,6 +171,12 @@ export default {
         this.setRandomWord()
       } else {
         this.currentWordEng = this.currentWordFinal
+      }
+      // check whether new achievement is applicable
+      if (!this.userObj.WordsEncountered.includes(this.currentWordEng)) {
+        this.userObj.WordsEncountered.push(this.currentWordEng)
+        this.$root.$emit('updateDatabase')
+        this.$root.$emit('checkAchievements', 38)
       }
       if (this.currentWordLength > 0) {
         this.slot1Image = this.$refs.WROps.getLetters(this.currentWordJap[0], this.script)[0]

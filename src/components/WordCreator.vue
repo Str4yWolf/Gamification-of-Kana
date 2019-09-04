@@ -404,6 +404,12 @@ export default {
       } else {
         this.currentWordEng = this.currentWordFinal
       }
+      // check whether new achievement is applicable
+      if (!this.userObj.WordsEncountered.includes(this.currentWordEng)) {
+        this.userObj.WordsEncountered.push(this.currentWordEng)
+        this.$root.$emit('updateDatabase')
+        this.$root.$emit('checkAchievements', 38)
+      }
       this.$root.$emit('startTimer')
       // this.$q.notify('setNewCreation() with ' + this.script)
       /**

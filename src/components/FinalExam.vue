@@ -604,6 +604,7 @@ export default {
       this.$root.$emit('checkAchievements', 10)
       this.$root.$emit('checkAchievements', 11)
       this.$root.$emit('checkAchievements', 12)
+      this.$root.$emit('checkAchievements', 43)
       this.$root.$emit('updateDatabase')
     },
     /**

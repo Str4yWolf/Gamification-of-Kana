@@ -70,14 +70,14 @@
               make SVG greyscale?<br />
               (crop SVGs for faster loading)<br /><br />
               <strong>Requirements (9/10/2019)</strong><br />
-              (15) clean up code<br />
-              (8) vue-fy/quasar-fy<br/>
+              (14) clean up code<br />
+              (7) vue-fy/quasar-fy<br/>
               (23)<br/>
               (16) user study<br/>
-              (43) <br />
+              (41) <br />
               (50 / 100) BA text<br/>
               130/16 -> 8.125 h / day
-              (4) achievements (1-37)
+              achievements
               scalable SVGs<br />
               spaced repetition on characters of words<br />
               BA task<br /><br />
@@ -109,7 +109,7 @@
                 315.6s(+162s) MCQ: 53.6s(+28s); -> WR: 89s(+41s); WC: 173s(+93s)
                 <br/>
                 <strong>inkblots</strong><br/>
-                <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4); (lucky wheel; daily guess);<br/>
+                <b>get permanently: lvl up (lvl),</b> badge (1-4), daily login (1), week (2), month (4)<br/>
                 <b>consume permanently: inkblots(2)</b><br/>
                 <b>get temporarily: no Japanese hints (10), no Manyougana highlight (5),</b><br/>
                 <b>consume temporarily: additional second (1)</b><br/>

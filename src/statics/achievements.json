@@ -38,13 +38,10 @@
 	"37": ["master of Japanese scripts - got all achievements up to no 36", "50"],
 	"38": ["word explorer - encountered all in-game words", "5"],
 	"39": ["inkblot hoarder - owned 400 inkblots", "4"],
-	"40": ["???", "0"],
-	"41": ["???", "0"],
-	"42": ["???", "0"],
+	"40": ["patron (1) - logged in for 7 days in a row", "2"],
+	"41": ["patron (2) - logged in for 28 days in a row", "4"],
+	"42": ["antipatron - not logged in for 14 days", "1"],
 	"43": ["falling seven times, getting up eight times - fail exam 7x, pass 8x", "2"],
 	"44": ["over 9000 - be lucky", "9"],
-	"45": ["big achiever - got all achievements", "55"],
-	"140": ["patron (1) - logged in for 7 days in a row", "2"],
-	"141": ["patron (2) - logged in for 28 days in a row", "4"],
-	"142": ["antipatron - not logged in for 14 days", "1"]
+	"45": ["big achiever - got all achievements", "55"]
 }

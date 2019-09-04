@@ -45,6 +45,7 @@
             </span>
             <span class="row">
               <span class="hoverable" style="width: 80px;" title="Achievements" @click="unhideAchievementsViewer"><q-icon name="star"/> {{achievementsFraction}}%</span>
+              <span title="Login Day Streak"><q-icon name="gesture"/> {{userObj.loginDayStreak}}</span>
             </span>
           </span>
           <!-- icons display (final exam) -->
@@ -109,6 +110,17 @@
     <q-dialog v-if="viewTutorial">
       <q-card style="padding: 10px;">
         <strong style="color: blue;">Click on your avatar</strong> (top left) to view the menu.
+      </q-card>
+    </q-dialog>
+    <!-- tutorial dialog -->
+    <q-dialog v-if="showDailyLoginDialog">
+      <q-card style="padding: 10px;">
+        <q-card-section>
+          <div class="text-h6">Daily Login Bonus ({{userObj.loginDayStreak }} Day(s))</div>
+        </q-card-section>
+        <q-card-section>
+          Received {{dailyLoginReward}} inkblots
+        </q-card-section>
       </q-card>
     </q-dialog>
     </q-page-container>
@@ -219,7 +231,12 @@ export default {
       viewTutorial: false,
       //
       achievementsDatabaseVar: achievementsDatabase,
-      achievementsMax: 45
+      achievementsMax: 45,
+      //
+      dateObj: new Date(),
+      //
+      showDailyLoginDialog: false,
+      dailyLoginReward: 0
     }
   },
   computed: {
@@ -535,6 +552,75 @@ export default {
       this.$router.push('/Settings/')
     },
     /**
+    returns how many days d1 is earlier than d2
+    **/
+    daysEarlier (d1, d2) {
+      // correctness confirmed
+      var temp = d2 - d1
+      if (temp < 0) {
+        temp += 7
+      }
+      return temp
+    },
+    /**
+    log date to ensure user achievements
+    **/
+    logDate () {
+      console.log('called logDate in MyLayout')
+      var d = this.dateObj
+      var today = d.getDay()
+      var now = d.getTime()
+      var lastDay = this.userObj.lastLoginDay
+      var lastTime = this.userObj.lastLoginTime
+      var timeDiff = now - lastTime
+      console.log('Today: ' + today)
+      console.log('Last day: ' + lastDay)
+      console.log('if 1-1(): ' + (this.daysEarlier(lastDay, today) > 1))
+      console.log('if 1-2(): ' + (timeDiff > (1000 * 60 * 60 * 24 * 2)))
+      if (this.daysEarlier(lastDay, today) > 1 || timeDiff > (1000 * 60 * 60 * 24 * 2)) {
+        // confirmed correctness
+        this.userObj.loginDayStreak = 0 // skipped at least one day
+        if (timeDiff > (1000 * 60 * 60 * 24 * 14)) {
+          this.checkAchievements(42) // not logged in for 14 days
+        }
+      } else if (this.daysEarlier(lastDay, today) === 1 && timeDiff < (1000 * 60 * 60 * 24 * 3)) {
+        // confirmed correctness
+        this.userObj.loginDayStreak += 1 // logged in one day later (also regarding weeks)
+        this.checkDailyLoginReward()
+        if (this.userObj.loginDayStreak >= 7) {
+          this.checkAchievements(40) // logged in for 7 days in a row
+        }
+        if (this.userObj.loginDayStreak >= 28) {
+          this.checkAchievements(41) // logged in for 28 days in a row
+        }
+      }
+      this.userObj.lastLoginDay = today
+      this.userObj.lastLoginTime = now
+      this.updateDatabase()
+    },
+    /**
+    Day interval dependent login rewards
+    **/
+    checkDailyLoginReward () {
+      console.log('called checkDailyLoginReward in MyLayout')
+      if ((this.userObj.loginDayStreak % 365) === 0) {
+        this.dailyLoginReward = 12
+        this.$q.notify('Received year-long login reward. Inkblots +12')
+      } else if ((this.userObj.loginDayStreak % 30) === 0) {
+        this.dailyLoginReward = 4
+        this.$q.notify('Received month-long login reward. Inkblots +4')
+      } else if ((this.userObj.loginDayStreak % 7) === 0) {
+        this.dailyLoginReward = 2
+        this.$q.notify('Received week-long login reward. Inkblots +2')
+      } else {
+        this.dailyLoginReward = 1
+        this.$q.notify('Received daily login reward. Inkblots +1')
+      }
+      this.showDailyLoginDialog = true
+      this.userObj.inkblots += this.dailyLoginReward
+      this.updateDatabase()
+    },
+    /**
     Signs in a registered user by loading user data and setting display elements.
      Unregistered names will be prompted to the user.
     **/
@@ -548,6 +634,7 @@ export default {
         this.showRegisterBtn = false
         this.$router.push('/')
         this.$root.$emit('setShowMenu', true)
+        this.logDate()
       } else {
         alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
       }
@@ -556,7 +643,7 @@ export default {
     Returns an initialized userObj with current time stamp
     **/
     initializeUserObj () {
-      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false, achievements: [], timesExamPassed: 0, timesExamFailed: 0, timesMCQ: 0, timesWR: 0, timesWC: 0, timesGL: 0, wordsEncountered: [] }
+      var tmpObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false, achievements: [], timesExamPassed: 0, timesExamFailed: 0, timesMCQ: 0, timesWR: 0, timesWC: 0, timesGL: 0, wordsEncountered: [], lastLoginDay: this.dateObj.getDay(), lastLoginTime: this.dateObj.getTime(), loginDayStreak: 0 }
       var trackingKeys = Object.keys(tmpObj.tracking)
       var currentDate = Date.now()
       // initialize time stamp to current time for all user tracking maps
@@ -601,6 +688,7 @@ export default {
       this.hideMappingSetup()
       this.updateDatabase()
       setTimeout(this.setShowMenuTrue, 1)
+      this.logDate()
     },
     // needs timeout
     setShowMenuTrue () {
@@ -790,6 +878,7 @@ export default {
         this.checkAchievements(2)
         this.checkAchievements(3)
         this.checkAchievements(4)
+        this.checkAchievements(39)
         this.updateLvl() // check whether more levels have been hit
       }
     },
@@ -808,6 +897,7 @@ export default {
         this.checkAchievements(6)
         this.checkAchievements(7)
         this.checkAchievements(8)
+        this.checkAchievements(39)
         this.userObj.learningMode = 0
         this.userObj.learningExp = 0
         if (this.userObj.skillLvl !== 9) {
@@ -1114,10 +1204,17 @@ export default {
       }
       if (pushed) {
         var currentAchievement = achievementsDatabase[a.toString()]
-        this.$q.notify('New Achievement: ' + currentAchievement[0] + ' Inkblots +' + currentAchievement[1])
+        this.$q.notify('New Achievement: ' + currentAchievement[0] + '   Inkblots +' + currentAchievement[1])
         this.userObj.inkblots += parseInt(currentAchievement[1])
         this.updateDatabase()
         this.checkAchievements(37)
+        this.checkAchievements(39)
+      }
+      // luck generator p = 1:9002
+      var randInt = Math.floor(Math.random() * 9002)
+      if (randInt > 9000) {
+        this.$q.notify('It\'s over 9000!')
+        this.checkAchievements(44)
       }
     },
     /**
