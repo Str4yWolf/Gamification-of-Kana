@@ -10,6 +10,23 @@
               {{ username[0] }}
               <q-badge floating color="teal">LV {{userObj.lvl}}</q-badge>
             </q-avatar>
+            <!-- menu (pages) -->
+            <q-menu transition-show="jump-down" transition-hide="jump-up">
+              <q-list style="min-width: 100px">
+                <q-item v-if="userObj.unlockNewMapping" @click="unhideMappingSetup()" clickable>
+                  <q-item-section>Learn New Mapping</q-item-section>
+                </q-item>
+                <q-item @click="showInformation()" clickable>
+                  <q-item-section>About</q-item-section>
+                </q-item>
+                <q-item @click="showSettings()" clickable>
+                  <q-item-section>Settings</q-item-section>
+                </q-item>
+                <q-item @click="logOut()" clickable>
+                  <q-item-section>Log Out</q-item-section>
+                </q-item>
+              </q-list>
+            </q-menu>
           </q-item-section>
           <!-- User progress display -->
           <q-item-section>
@@ -44,23 +61,6 @@
               <q-linear-progress stripe rounded :style="timerStyle" :value="timeFraction" color="secondary" />
             </q-item-label>
           </span>
-          <!-- menu (pages) -->
-          <q-menu transition-show="jump-down" transition-hide="jump-up">
-            <q-list style="min-width: 100px">
-              <q-item v-if="userObj.unlockNewMapping" @click="unhideMappingSetup()" clickable>
-                <q-item-section>Learn New Mapping</q-item-section>
-              </q-item>
-              <q-item @click="showInformation()" clickable>
-                <q-item-section>About</q-item-section>
-              </q-item>
-              <q-item @click="showSettings()" clickable>
-                <q-item-section>Settings</q-item-section>
-              </q-item>
-              <q-item @click="logOut()" clickable>
-                <q-item-section>Log Out</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
         </q-item>
         <!-- sign in button -->
         <q-btn v-if="showSignInBtn" color="green" label="Sign In" @click="unhideSignInField()" />
@@ -85,7 +85,7 @@
       <mapping-setup :userObj="userObj" v-if="showMappingSetupPage" />
       <character-reference :userObj="userObj" v-if="showCharacterReferencePage" />
       <flip-card v-if="showFlipCardPage" :userObj="userObj" :isTutorial="false" />
-      <achievements-viewer v-if="showAchievementsViewerPage" :userObj="userObj" :achievementsDatabase="achievementsDatabaseVar" />
+      <achievements-viewer v-if="showAchievementsViewerPage" :userObj="userObj" :achievementsDatabase="achievementsDatabaseVar" :achievementsMax="achievementsMax" />
       <!-- level up dialog -->
       <q-dialog v-model="hitSkillLvlUp">
       <q-card>
@@ -97,7 +97,7 @@
           <span v-if="!showGeneralLearning"> &nbsp; Go to <strong>Quest</strong> to see which ones.</span>
           <br />
           <br />
-          <strong>{{skillWordsCounts[userObj.skillLvl][0]}}</strong> new words available! &nbsp; Total word count: <strong>{{skillWordsCounts[userObj.skillLvl][1]}}</strong>
+          <strong>{{skillWordsCounts[0]}}</strong> new words available! &nbsp; Total word count: <strong>{{skillWordsCounts[1]}}</strong>
           <br />
           <span v-if="skillLvl2"> Also, the maximum word length has increased to 3!</span>
           <span v-if="skillLvl4"> Also, the maximum word length has increased to 4!</span>
@@ -117,6 +117,7 @@
 
 <script>
 import userTracking from '../statics/svg/user_tracking.json'
+import wbs from '../statics/wordsBySkill.json'
 import achievementsDatabase from '../statics/achievements.json'
 import FlipCard from '../components/FlipCard.vue'
 import MultipleChoiceQuizInterface from '../components/MultipleChoiceQuizInterface.vue'
@@ -203,7 +204,6 @@ export default {
       username: '',
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 },
       hitSkillLvlUp: false,
-      skillWordsCounts: { 0: [11, 11], 1: [19, 30], 2: [23, 53], 3: [20, 73], 4: [20, 93], 5: [20, 113], 6: [21, 134], 7: [20, 154], 8: [20, 174], 9: [20, 194], 10: [20, 194], 11: [20, 194] },
       script: 'katakana',
       // controls for timer
       showTimer: false,
@@ -218,10 +218,20 @@ export default {
       freeErrors: 0,
       viewTutorial: false,
       //
-      achievementsDatabaseVar: achievementsDatabase
+      achievementsDatabaseVar: achievementsDatabase,
+      achievementsMax: 45
     }
   },
   computed: {
+    skillWordsCounts () {
+      var sl = this.userObj.skillLvl
+      var notKnown = Object.keys(wbs[sl]).length
+      var alreadyKnown = 0
+      for (var i = 0; i < sl; i++) {
+        alreadyKnown += Object.keys(wbs[i]).length
+      }
+      return [notKnown, notKnown + alreadyKnown]
+    },
     /**
     lvlProgress is fraction of how many experience points a user has within the current level,
      bounded by the threshold for the next level.
@@ -237,7 +247,7 @@ export default {
       return value
     },
     achievementsFraction () {
-      var temp = (this.userObj.achievements.length / 29) * 10000
+      var temp = (this.userObj.achievements.length / this.achievementsMax) * 10000
       return Math.floor(temp) / 100
     },
     timeFraction () {
@@ -613,7 +623,7 @@ export default {
       this.showRegisterBtn = true
       this.username = ''
       this.hideAllComponents()
-      this.userObj = { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, examTickets: 0, tracking: userTracking, learningMode: 0, learningExp: 0, currentMapping: ['', ''], learnedMappings: [], viewedTutorial: [false, false, false, false, false, false, false, false, false, false], unlockNewMapping: false, achievements: [], timesExamPassed: 0, timesExamFailed: 0, timesMCQ: 0, timesWR: 0, timesWC: 0, timesGL: 0, wordsEncountered: [] }
+      this.userObj = this.initializeUserObj()
       this.$root.$emit('setShowMenu', false)
     },
     /**

@@ -5,7 +5,7 @@
       <q-btn round dense flat icon="keyboard_backspace" @click="$root.$emit('hideAchievementsViewer')" />
       &nbsp;
       <strong style="font-size: 120%;">Achievements</strong>
-      <achievement-object v-for="a in 37" :key="'achievement-object_' + a" :index="a" :achievement="achievementsDatabase[a.toString()]" :userAchievements="userObj.achievements" />
+      <achievement-object v-for="a in achievementsMax" :key="'achievement-object_' + a" :index="a" :achievement="achievementsDatabase[a.toString()]" :userAchievements="userObj.achievements" />
     </q-card>
   </q-page>
 </template>
@@ -24,7 +24,8 @@ export default {
   },
   props: {
     userObj: Object,
-    achievementsDatabase: Object
+    achievementsDatabase: Object,
+    achievementsMax: Number
   },
   computed: {
   }
