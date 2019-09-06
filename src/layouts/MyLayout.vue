@@ -286,7 +286,7 @@ export default {
       var base = 15 // base exp for one of three categories
       var upper = 10 // 10 skill levels
       for (var i = 1; i < upper; i++) {
-        thresholds.push(thresholds[i - 1] + (base + i * 3) * 3)
+        thresholds.push(thresholds[i - 1] + (base + i * 2) * 3)
       }
       thresholds.push(1500000)
       return thresholds
@@ -973,11 +973,11 @@ export default {
     learning mode depends on how many experience points a user has gained within a skill level
     **/
     updateLearningMode () {
-      if (this.userObj.learningExp >= (15 + (this.userObj.skillLvl * 3)) && this.userObj.learningMode === 1) {
+      if (this.userObj.learningExp >= (15 + (this.userObj.skillLvl * 2)) && this.userObj.learningMode === 1) {
         this.$q.notify('You have unlocked Word Reader for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
         this.userObj.learningMode = 2
       }
-      if (this.userObj.learningExp >= (30 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 2) {
+      if (this.userObj.learningExp >= (30 + (this.userObj.skillLvl * 2)) && this.userObj.learningMode === 2) {
         this.$q.notify('You have unlocked Word Creator for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
         this.userObj.learningMode = 3
       }
