@@ -68,12 +68,19 @@
       <span style="padding-left:10px; position: absolute; left: 700px; top: 33px;">
           <q-btn color="green" label="Next" @click="introFirstPage = false" />
       </span>
-      <span style="position: relative; padding: 40px;"/>
-      <p>Here are the characters you will need to know to rise to <strong>Skill Level {{'' + (userObj.skillLvl + 1)}}</strong>.
+      <span v-if="!skillLvl10" style="position: relative; padding: 40px;">
+        <p>Here are the characters you will need to know to rise to <strong>Skill Level {{'' + (userObj.skillLvl + 1)}}</strong>.
+          <br/>
+          <br/>
+          <strong><span style="color: blue;">Hover your mouse over the images</span> to familiarize yourself.</strong>
+        </p>
+      </span>
+      <span v-if="skillLvl10" style="position: relative; padding: 40px;">
         <br/>
         <br/>
-        <strong><span style="color: blue;">Hover your mouse over the images</span> to familiarize yourself.</strong>
-      </p>
+        <p><strong>Congratulations.</strong> You have learned all characters. Here you can strengthen your knowledge.
+        </p>
+      </span>
       <span v-if="skillLvl0" class="row">
         <character-info :letter="'a'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
         <character-info :letter="'i'" :highlight="highlightManyougana" :sourceScript="userObj.currentMapping[0]" :scripts="userObj.currentMapping" />
@@ -296,6 +303,9 @@ export default {
     },
     skillLvl9 () {
       return this.userObj.skillLvl === 9
+    },
+    skillLvl10 () {
+      return this.userObj.skillLvl > 9
     }
   },
   props: {

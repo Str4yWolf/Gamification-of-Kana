@@ -109,6 +109,19 @@
         </q-card-section>
       </q-card>
     </q-dialog>
+    <!-- skillLvl 10 dialog -->
+    <q-dialog v-model="skillLvl10Dialog">
+      <q-card>
+        <q-card-section>
+          <div class="text-h6">New Skill Level ({{userObj.skillLvl}})</div>
+        </q-card-section>
+        <q-card-section>
+          Congratulations! You have completed all skill levels for your chosen scripts. <br/>
+          <br/>
+          If you feel ready, you should go to the <strong>Final</strong> Exam to test your knowledge. Otherwise, you can continue on this page.
+        </q-card-section>
+      </q-card>
+    </q-dialog>
     <!-- tutorial dialog -->
     <q-dialog v-model="viewTutorial">
       <q-card style="padding: 10px;">
@@ -193,6 +206,7 @@ export default {
     this.$root.$on('stopTimer', this.stopTimer)
     this.$root.$on('setShowTimer', this.setShowTimer)
     this.$root.$on('setIsFinalExam', this.setIsFinalExam)
+    this.$root.$on('freezeTimer', this.freezeTimer)
     this.$root.$on('setNewMapping', this.setNewMapping)
     this.$root.$on('checkAchievements', this.checkAchievements)
   },
@@ -212,13 +226,11 @@ export default {
       showSignInBtn: true,
       showRegisterBtn: true,
       showSignInField: false,
-      // level control 45 529
-      lvlThreshold: { 0: 10, 1: 25, 2: 50, 3: 86, 4: 135, 5: 199, 6: 280, 7: 380, 8: 501, 9: 645, 10: 814, 11: 1010, 12: 1235, 13: 1491, 14: 1780, 15: 2104, 16: 2465, 17: 2865, 18: 3306, 19: 3790, 20: 4319, 21: 4895, 22: 5520, 23: 6196, 24: 6925, 25: 7709, 26: 8550, 27: 9450, 28: 10000000 },
-      skillLvlThreshold: { 0: 80, 1: 168, 2: 264, 3: 368, 4: 480, 5: 600, 6: 728, 7: 864, 8: 1008, 9: 1160, 10: 1500000 },
       // user data
       username: '',
       userObj: { lvl: 0, exp: 0, skillLvl: 0, skillExp: 0, inkblots: 0, tracking: 0 },
       hitSkillLvlUp: false,
+      skillLvl10Dialog: false,
       script: 'katakana',
       // controls for timer
       showTimer: false,
@@ -227,6 +239,7 @@ export default {
       runTimer: false,
       highlight: false,
       currentTime: 0,
+      freezeTimerBoolean: false,
       // final exam controller
       isFinalExam: false,
       numberQuestions: [0, 96],
@@ -251,6 +264,32 @@ export default {
         alreadyKnown += Object.keys(wbs[i]).length
       }
       return [notKnown, notKnown + alreadyKnown]
+    },
+    /**
+    returns an array with values at index i corresponding to experience points needed to get to level i + 1
+    **/
+    lvlThreshold () {
+      var thresholds = [10] // lvl 0
+      var base = 3 // starts at base + 1
+      var upper = 28 // maximum level
+      for (var i = 1; i < upper; i++) {
+        thresholds.push(thresholds[i - 1] + (base + i) ** 2)
+      }
+      thresholds.push(10000000) // exp for maximum level
+      return thresholds
+    },
+    /**
+    returns an array with values at index i corresponding to skillExp needed to get to skillLvl i + 1
+    **/
+    skillLvlThreshold () {
+      var thresholds = [45] // skillLvl 0
+      var base = 15 // base exp for one of three categories
+      var upper = 10 // 10 skill levels
+      for (var i = 1; i < upper; i++) {
+        thresholds.push(thresholds[i - 1] + (base + i * 3) * 3)
+      }
+      thresholds.push(1500000)
+      return thresholds
     },
     /**
     lvlProgress is fraction of how many experience points a user has within the current level,
@@ -777,10 +816,16 @@ export default {
       // this.currentTime = Date.now()
       setTimeout(this.reduceTime, 91)
     },
+    freezeTimer (freeze) {
+      this.freezeTimerBoolean = freeze
+    },
     reduceTime () {
       // console.log('called reduceTime() in MyLayout; timeActual: ' + this.timeActual)
       // console.log('timeActual: ' + this.timeActual)
       // console.log('this.runTimer: ' + this.runTimer)
+      if (this.freezeTimerBoolean) {
+        return
+      }
       if ((this.timeActual > 0) && this.runTimer) {
         var temp = (this.timeActual * 10) - 1 // avoid float imprecision
         this.timeActual = (temp / 10)
@@ -915,8 +960,10 @@ export default {
         this.checkAchievements(39)
         this.userObj.learningMode = 0
         this.userObj.learningExp = 0
-        if (this.userObj.skillLvl !== 9) {
+        if (this.userObj.skillLvl < 10) {
           this.hitSkillLvlUp = true
+        } else {
+          this.skillLvl10Dialog = true
         }
         this.updateSkillLvl()
       }
@@ -926,12 +973,12 @@ export default {
     learning mode depends on how many experience points a user has gained within a skill level
     **/
     updateLearningMode () {
-      if (this.userObj.learningExp >= (20 + (this.userObj.skillLvl * 4)) && this.userObj.learningMode === 1) {
-        this.$q.notify('You have unlocked Word Creator for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
+      if (this.userObj.learningExp >= (15 + (this.userObj.skillLvl * 3)) && this.userObj.learningMode === 1) {
+        this.$q.notify('You have unlocked Word Reader for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
         this.userObj.learningMode = 2
       }
-      if (this.userObj.learningExp >= (50 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 2) {
-        this.$q.notify('You have unlocked Word Reader for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
+      if (this.userObj.learningExp >= (30 + (this.userObj.skillLvl * 6)) && this.userObj.learningMode === 2) {
+        this.$q.notify('You have unlocked Word Creator for learning Skill Level ' + (this.userObj.skillLvl + 1) + '.')
         this.userObj.learningMode = 3
       }
     },

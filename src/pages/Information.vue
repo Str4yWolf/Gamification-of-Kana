@@ -52,6 +52,7 @@
           </q-card>
         </q-expansion-item>
         <!-- ToDo (Index 3) -->
+        <!--
         <q-expansion-item
             expand-separator
             icon="book"
@@ -77,7 +78,6 @@
               (41) <br />
               (50 / 100) BA text<br/>
               130/16 -> 8.125 h / day
-              achievements
               scalable SVGs<br />
               spaced repetition on characters of words<br />
               BA task<br /><br />
@@ -96,7 +96,7 @@
                 (0:20) encourage use of learning page<br/>
                 conflate script databases with only one image per letter<br/>
                 <br />
-                (4) refactor code -- mixin<br />
+                (4) refactor code - mixin<br />
                 <br />
                 <br />
                 <strong>FINAL</strong><br/>
@@ -115,14 +115,17 @@
                 <b>consume temporarily: additional second (1)</b><br/>
                 <strong>Allocation: allocate points to tasks</strong><br/>
                 <br/>
+              -->
               <!-- <strong>Scripts (48 glyphs)</strong><br />
                 (Man'yougana-Hiragana), (kanbun)<br />
                 <br />
               <strong>Text input</strong><br />
                 (Japanese/Chinese input) -->
+                <!--
               </q-card-section>
             </q-card>
           </q-expansion-item>
+          -->
           <!-- About devs (Index 4) -->
           <q-expansion-item
               expand-separator
@@ -136,9 +139,9 @@
                 <br /><br/>
                 <strong>Context: </strong>Bachelor Thesis Computer Science (University of Hamburg)
                 <br /><br/>
-                <strong>Developer: </strong>Michael W K Huang; contributions by Vinodh Rajan Sampath
+                <strong>Developer: </strong>Michael W K Huang; contributions by 1st Superviser
                 <br /><br/>
-                <strong>Contact Email: </strong>michaelhuang@hotmail.de (add custom email soon)
+                <strong>Contact Email: </strong>kanasensei@outlook.com
                 <br /><br/>
               </q-card-section>
             </q-card>
@@ -152,11 +155,10 @@
           >
             <q-card>
               <q-card-section>
-                <strong>$1</strong> This app, in this phase, is intended for experimental purposes only. Any other use requires express knowledge and approval of the Developer. <br/>
-                <strong>$2</strong> Although the Developer tries to maximze the learning experience and minimize errors, complete functionality and correctness of learning resources is not guaranteed. <br/>
+                <strong>$1</strong> Right now, this app is intended for experimental purposes only. Any other use requires express knowledge and approval of the Developer. <br/>
+                <strong>$2</strong> Although the Developer tries to maximize the learning experience and avoid errors, complete functionality and correctness of learning resources is not guaranteed. <br/>
                 <strong>$3</strong> Data collected and stored by this app will use the Local Storage of your browser. Collected data will not be transmitted elsewhere. <br/>
-                <strong>$4</strong> The Developer cannot be held responsible for any damages or losses incurred by the use of this app.
-                <strong>$5</strong> By using this app, the user automatically agrees to these Terms of Use. <br/>
+                <strong>$4</strong> The Developer cannot be held responsible for any damage or losses incurred by the use of this app.<br/>
               </q-card-section>
             </q-card>
           </q-expansion-item>

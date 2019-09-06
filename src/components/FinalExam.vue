@@ -29,11 +29,14 @@
         <span style="padding: 0px 28px 0px 57px;">
           Reward:
         </span>
-        <strong>{{examPoints}}</strong> x 1.35
+        <strong>{{examPoints}}</strong>
+        <span v-if="!getFreezeBoost">x 1.35</span>
+        <span v-if="getFreezeBoost">x 4.35</span>
         <br/>
         <span style="padding: 0px 143px 0px 57px;">
         </span>
-        <strong>= {{Math.ceil(examPoints * 1.35)}}</strong>
+        <span v-if="!getFreezeBoost"><strong>= {{Math.ceil(examPoints * 1.35)}}</strong></span>
+        <span v-if="getFreezeBoost"><strong>= {{Math.ceil(examPoints * 4.35)}}</strong></span>
         <br>
         <br>
         <span style="font-size: 150%; font-weight: bold;">
@@ -131,7 +134,7 @@
         >
         <!-- error tolerance -->
         <span class="row" title="How many errors you can make during the exam">
-          <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong>Free Errors (<q-icon name="done_all"/>)</strong> (<strong>5 <q-icon name="whatshot" /> each</strong>)</span>
+          <span style="top: 20px; padding: 0px 0px 0px 18px; position: relative;"><strong>Free Errors (<q-icon name="done_all"/>)</strong> (<strong>10 <q-icon name="whatshot" /> each</strong>)</span>
           &nbsp; &nbsp; &nbsp;
           <q-input
             v-model.number="freeErrors"
@@ -153,11 +156,11 @@
           &nbsp; &nbsp; &nbsp; &nbsp;
           <q-input
             v-model.number="mode1Inkblots"
-            label="38.4s"
+            label="48s"
             type="number"
             max-length="2"
             style="max-width: 120px;"
-            title="38.4s + your bonus for 48 questions"
+            title="48s + your bonus for 48 questions"
             :rules="
               [val => !(val < 0) || 'invalid input']">
             <template v-slot:hint>
@@ -167,11 +170,11 @@
           &nbsp; &nbsp;
           <q-input
             v-model.number="mode2Inkblots"
-            label="36s"
+            label="60s"
             type="number"
             max-length="2"
             style="max-width: 120px;"
-            title="36s + your bonus for 24 questions"
+            title="60s + your bonus for 24 questions"
             :rules="
               [val => !(val < 0) || 'invalid input']">
             <template v-slot:hint>
@@ -181,11 +184,11 @@
           &nbsp; &nbsp;
           <q-input
             v-model.number="mode3Inkblots"
-            label="60s"
+            label="100s"
             type="number"
             max-length="2"
             style="max-width: 120px;"
-            title="60s + your bonus for 24 questions"
+            title="100s + your bonus for 24 questions"
             :rules="
               [val => !(val < 0) || 'invalid input']">
             <template v-slot:hint>
@@ -202,6 +205,17 @@
         <strong><q-icon name="whatshot" /> -{{allocatedInkblots}}</strong>
       </span>
       </q-list>
+      <br/>
+      <br/>
+      <!-- Freeze Timer -->
+        <span title="If not activated, get an additional Exp boost of 300% when passing the exam">
+          <q-toggle
+            v-model="freezeTimer"
+            color="blue"
+            label="Freeze Timer"
+            style="width: 250px;"
+          />
+        </span>
       <br/>
       <br/>
       <q-checkbox v-if="userObj.inkblots" v-model="paidExamFee" label="Pay 2 inkblots" title="2 inkblots will be consumed" />
@@ -314,6 +328,7 @@ export default {
       hasFailedExamTime: false,
       numberQuestionsAnswered: 0,
       questionsPerCategory: 32,
+      freezeTimer: true,
       //
       viewTutorial: false,
       unlockNewMappingInfo: false
@@ -339,6 +354,9 @@ export default {
     hasFailedExam () {
       return (this.hasFailedExamErrors || this.hasFailedExamTime)
     },
+    getFreezeBoost () {
+      return !this.freezeTimer && !this.hasFailedExam
+    },
     activateMCQ () {
       return !this.setupInProgress && this.mode === 0
     },
@@ -354,7 +372,7 @@ export default {
     pageStyle () {
       var constant = 'width: 840px; padding: 30px;'
       if (this.setupInProgress) {
-        return constant + ' height: 895px;'
+        return constant + ' height: 955px;'
       } else {
         return constant + ' height: 540px;'
       }
@@ -401,7 +419,7 @@ export default {
       return this.userObj.inkblots + this.extraInkblots1 + this.extraInkblots2
     },
     errorInkblots () {
-      return this.freeErrors * 5
+      return this.freeErrors * 10
     },
     modeInkblots () {
       return (this.mode1Inkblots + this.mode2Inkblots + this.mode3Inkblots)
@@ -549,14 +567,19 @@ export default {
       this.$root.$emit('setIsFinalExam', true)
       this.$root.$emit('updateNumberFreeErrors', this.freeErrors)
       this.$root.$emit('setShowTimer', true)
-      this.$root.$emit('setTimer', 38.4 + this.mode1Inkblots)
+      this.$root.$emit('setTimer', 48 + this.mode1Inkblots)
+      if (this.freezeTimer) {
+        this.$root.$emit('freezeTimer', true)
+      } else {
+        this.$root.$emit('freezeTimer', false)
+      }
       this.nextQuestion()
     },
     endExam () {
       var reward = Math.ceil(this.examPoints * 1.35)
+      reward += (this.getFreezeBoost ? this.examPoints * 3 : 0)
       this.$root.$emit('addExp', reward)
       this.$q.notify('Finished. You have been awarded ' + reward.toString() + ' experience points.')
-      this.resetSetup()
       this.mode = 3
       if (this.hasFailedExam) {
         this.userObj.timesExamFailed += 1
@@ -606,6 +629,7 @@ export default {
       this.$root.$emit('checkAchievements', 12)
       this.$root.$emit('checkAchievements', 43)
       this.$root.$emit('updateDatabase')
+      this.resetSetup()
     },
     /**
     systematically check whether any of the mapping achievements have been unlocked
@@ -715,11 +739,11 @@ export default {
       if (this.numberQuestionsAnswered === 48) {
         this.mode = 2
         this.$root.$emit('stopTimer')
-        this.$root.$emit('setTimer', 36 + this.mode2Inkblots)
+        this.$root.$emit('setTimer', 60 + this.mode2Inkblots)
       } else if (this.numberQuestionsAnswered === 72) {
         this.mode = 1
         this.$root.$emit('stopTimer')
-        this.$root.$emit('setTimer', 60 + this.mode3Inkblots)
+        this.$root.$emit('setTimer', 100 + this.mode3Inkblots)
       }
       console.log('CurrentKeyScript: ' + this.currentKey + ' ' + this.script1)
       switch (this.mode) {

@@ -94,7 +94,7 @@ export default {
       flipped: true,
       currentKeyIndex: 0,
       highlightManyougana: false,
-      autoflip: false,
+      autoflip: true,
       randomizedNextLetter: false,
       showOptions: false
     }
