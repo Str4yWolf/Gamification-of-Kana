@@ -13,11 +13,22 @@
           position: relative;
           display: inline-block;
         " />
+      <!--
+      <div style="width: 80%">
+        <object id="character-flashcard-image" type="image/svg+xml" v-bind:data="imgSrcSVG" :title="imgLetter"
+          style="
+            top: 22px;
+            left: 22px;
+            position: relative;
+            "
+          />
+      </div>
+      -->
       <span v-if="isNormal">
         <span v-if="showTitle"
           style="
             width: 100px;
-            top: -35px;
+            top: 40px;
             position: relative;
             display: inline-block;
             ">
@@ -26,7 +37,7 @@
         <span v-if="showScript"
           style="
             width: 100px;
-            top: -166px;
+            top: -91px;
             position: relative;
             display: inline-block;
           ">

@@ -262,10 +262,12 @@
     <q-dialog v-model="viewTutorial">
       <q-card>
         <q-card-section>
+        <strong>How to pass: </strong> <strong>Free Errors<q-icon name="done_all"/></strong> must not go below 0. <strong>Timer</strong> must not hit 0.
+        <br/><br/>
         Allocate your available inkblots to help you pass this Final Exam. <strong style="color: blue;">Hover over elements </strong>for more info.
         <br/>
         <br/>
-        <strong>Exp boost: 1.35x</strong>
+        <strong>Normal Exp Boost: 1.35x</strong>
         <span v-if="!userObj.unlockNewMapping">
           <br/>
           <br/>

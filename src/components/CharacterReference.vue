@@ -13,7 +13,7 @@
           <q-select v-model="script" :options="userObj.currentMapping" label="Script" style="width:200px;" />
         </span>
         <!-- manyougana highlight toggle -->
-        <span v-if="howHighlightManyougana" style="padding: 0px 0px 0px 10px;">
+        <span v-if="showHighlightManyougana" style="padding: 0px 0px 0px 10px;">
           <q-toggle
             v-model="highlight"
             color="red"
