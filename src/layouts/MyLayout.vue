@@ -686,7 +686,7 @@ export default {
         this.showSignInField = false
         this.showRegisterBtn = false
         this.$router.push('/')
-        this.$root.$emit('setShowMenu', true)
+        setTimeout(this.setShowMenuTrue, 1)
         this.logDate()
       } else {
         alert('The username ' + this.username + ' doesn\'t exist. Please try registering it.')
