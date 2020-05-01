@@ -1,3 +1,3 @@
-# Quasar App
+# Gamification of Japanese Scripts with Kana Sensei - Quasar App
 
-> WIP
+Bachelor's project. You can find a basic prototype under my repos.
