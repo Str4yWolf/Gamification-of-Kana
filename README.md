@@ -4,4 +4,5 @@ A gamified web app to learn the Japanese phonetic script (Kana). A Bachelor's pr
 
 ## Links
 [Prototype](https://str4ywolf.github.io/#/ "Link to web prototype")
+
 [More Info](https://kanasensei.wordpress.com/ "More info on WordPress experiment page")
